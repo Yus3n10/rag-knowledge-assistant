@@ -84,11 +84,11 @@ def test_records_source_urls_for_subpart_and_its_sections(tmp_path):
     assert payload["sections"][0]["source_url"] == f"{base}/1910.147"
 
 
-def test_discovers_sections_when_subpart_config_has_an_index(tmp_path):
+def test_builds_a_multi_section_subpart_in_listed_order(tmp_path):
     subpart = {
-        "subpart": "Subpart D",
-        "subpart_name": "Walking-Working Surfaces",
-        "slug": "subpart-d-walking-working-surfaces",
+        "subpart": "Subpart I",
+        "subpart_name": "Personal Protective Equipment",
+        "slug": "subpart-i-personal-protective-equipment",
         "sections": ["1910.134", "1910.147"],
     }
 
