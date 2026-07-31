@@ -17,29 +17,51 @@ from pathlib import Path
 #   conditional     Turns on scoped or exception language ("when does X apply").
 #   negative        Not answerable from this corpus. Tests refusal, not recall.
 #   near_miss       Deliberately similar phrasing to another passage, written to
-#                   bait the wrong answer. A question that names its own
-#                   disambiguating context is NOT a near_miss.
+#                   bait the wrong answer. The exclusion is for DISJOINT SCOPE,
+#                   not for a shared template with swapped nouns:
+#                     - 1910.23(b)(2)(i) names "elevator shafts" - a genuinely
+#                       separable setting, so the question disambiguates itself.
+#                       Not a near_miss.
+#                     - 1910.29(b)(3) vs (b)(5) are different components of the
+#                       SAME assembly in a near-verbatim template differing by
+#                       one noun and one number. Naming "midrails" does not
+#                       resolve a source-text-level collision. Near_miss.
 CATEGORIES = {"numeric_lookup", "procedural", "conditional", "negative", "near_miss"}
 
 # Questions whose real answer spans several child paragraphs (a step sequence,
 # not a single fact) may cite expected_citation.paragraph_ids instead of a lone
-# paragraph_id. citation_match says whether retrieval must surface all of them
-# (a true multi-step answer) or any one of them (several independently-correct
-# sources). Restricted to categories where a multi-paragraph answer is the
-# point - numeric_lookup is a single-passage value by definition.
+# paragraph_id - retrieval must surface all of them. Restricted to categories
+# where a multi-paragraph answer is the point - numeric_lookup is a single-
+# passage value by definition.
 #
-# When to include a parent paragraph in paragraph_ids (the fragment rule):
-# a child that is a complete freestanding sentence does not need its parent;
-# a child that is a list-fragment continuing the parent's clause does. Cited
-# in isolation, "An employee is required to remove or bypass a guard; or"
-# never establishes that it is one of only two coverage triggers - that lives
-# in the parent's "is covered by this standard only if:".
+# There is no "any one of these" mode. One was built and later removed: every
+# real multi-citation question that looked like an "any" candidate turned out,
+# on inspection, to need all of its sources for a complete answer - "what are
+# the acceptable alternatives" has to state every alternative, not confirm
+# retrieval found one. It was also untested against real data before removal.
+# If a genuine "any" case ever shows up, rebuild it against that case, not in
+# the abstract.
+#
+# When to include a parent paragraph in paragraph_ids: the test is SEMANTIC
+# self-containment, not grammatical completeness. Ask whether the paragraph
+# states what its own condition is FOR - subject, condition, and consequence.
+#
+#   1910.147(a)(2)(ii)(A) "An employee is required to remove or bypass a
+#     guard...; or" is a grammatically complete sentence but NOT self-
+#     contained: required for what consequence lives only in the parent's
+#     "is covered by this standard only if:". Parent required.
+#   1910.134(c)(2)(i) "An employer may provide respirators... if the employer
+#     determines that such use will not in itself create a hazard" carries its
+#     own subject, condition, and consequence. Its trailing "; and" is just
+#     OSHA's connector to the next sibling. No parent needed.
+#
+# Grammatical completeness alone is not sufficient - it happens to agree with
+# self-containment often, but not always.
 #
 # Separately: cite the paragraph that answers the question ASKED. A "when does
 # this apply" question is answered by the condition, not by the steps that
 # follow it, even when those steps are the same paragraph's children.
 MULTI_CITATION_CATEGORIES = {"procedural", "conditional"}
-CITATION_MATCH_MODES = {"all", "any"}
 
 TARGET_COMPOSITION = {
     "numeric_lookup": 0.35,
@@ -138,10 +160,10 @@ def validate(questions, corpus_index, *, check_composition=False):
             if not isinstance(paragraph_ids, list) or not paragraph_ids:
                 errors.append(f"{qid}: paragraph_ids must be a non-empty list")
                 continue
-            citation_match = citation.get("citation_match")
-            if citation_match not in CITATION_MATCH_MODES:
+            if "citation_match" in citation:
                 errors.append(
-                    f"{qid}: citation_match must be one of {sorted(CITATION_MATCH_MODES)}")
+                    f"{qid}: citation_match was removed - paragraph_ids always means "
+                    f"'all required', drop the field")
                 continue
             for pid in paragraph_ids:
                 record = corpus_index.get(pid)

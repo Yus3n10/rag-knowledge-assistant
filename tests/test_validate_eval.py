@@ -180,7 +180,6 @@ def test_accepts_valid_paragraph_ids_citation_on_procedural_question():
              expected_citation={
                  "subpart": "Subpart J", "section_id": "1910.147",
                  "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(ii)"],
-                 "citation_match": "all",
              })
 
     assert validate([q], KNOWN) == []
@@ -192,7 +191,6 @@ def test_rejects_paragraph_ids_on_numeric_lookup():
              expected_citation={
                  "subpart": "Subpart J", "section_id": "1910.147",
                  "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(ii)"],
-                 "citation_match": "all",
              })
 
     errors = validate([q], KNOWN)
@@ -200,16 +198,17 @@ def test_rejects_paragraph_ids_on_numeric_lookup():
     assert any("paragraph_ids is only allowed for" in e for e in errors)
 
 
-def test_rejects_paragraph_ids_missing_citation_match():
+def test_rejects_paragraph_ids_carrying_a_stale_citation_match():
     q = good(id="loto-008", category="procedural",
              expected_citation={
                  "subpart": "Subpart J", "section_id": "1910.147",
                  "paragraph_ids": ["1910.147(f)(1)(i)"],
+                 "citation_match": "all",
              })
 
     errors = validate([q], KNOWN)
 
-    assert any("citation_match must be one of" in e for e in errors)
+    assert any("citation_match was removed" in e for e in errors)
 
 
 def test_rejects_paragraph_ids_referencing_missing_corpus_entry():
@@ -217,7 +216,6 @@ def test_rejects_paragraph_ids_referencing_missing_corpus_entry():
              expected_citation={
                  "subpart": "Subpart J", "section_id": "1910.147",
                  "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(zz)"],
-                 "citation_match": "all",
              })
 
     errors = validate([q], KNOWN)
@@ -231,7 +229,6 @@ def test_rejects_both_paragraph_id_and_paragraph_ids_together():
                  "subpart": "Subpart J", "section_id": "1910.147",
                  "paragraph_id": "1910.147(e)(3)",
                  "paragraph_ids": ["1910.147(f)(1)(i)"],
-                 "citation_match": "all",
              })
 
     errors = validate([q], KNOWN)
