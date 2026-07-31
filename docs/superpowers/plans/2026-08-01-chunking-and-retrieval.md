@@ -555,7 +555,9 @@ Negative questions - retrieved chunks for hand review:
 - [ ] **Step 3: Run it.** Report all three numbers and the weakest questions.
 - [ ] **Step 4: Check `resp-001` specifically — assert on the retrieved TEXT, not the paragraph id.**
 
-Its answer (APF 50) exists only in `1910.134(d)(3)(i)(A)`'s table. Under Rule 2 that paragraph produces two chunks — prose and table — and both map back to the same paragraph id. So paragraph-level scoring reports a full hit when only the **prose** chunk ("Employers must use the assigned protection factors listed in Table 1…") was retrieved, even though the number 50 never was. The canary would pass green having caught nothing.
+Its answer (APF 50) exists only in `1910.134(d)(3)(i)(A)`'s table. Under Rule 2 that paragraph produces **three** chunks — one table and two prose — and all three map back to the same paragraph id. Measured: `"50"` appears in the table chunk only, in neither prose chunk. So paragraph-level scoring reports a full hit when only a **prose** chunk ("Employers must use the assigned protection factors listed in Table 1…") was retrieved, even though the number 50 never was. The canary would pass green having caught nothing.
+
+`resp-001` is the only one of the 45 questions whose cited paragraph splits into multiple chunks — verified against all 45 citations — so this is an isolated case warranting a targeted assertion, not a redesign of per-paragraph recall. Paragraph-level granularity remains correct for the other 44.
 
 Assert that the concatenated text of `resp-001`'s retrieved chunks contains `50`, and report the `kind` of each retrieved chunk. If the table chunk is not retrieved, **report that rather than working around it** — it means table content is not reachable by a natural-language query about its subject, which is exactly the failure this question was planted to expose.
 - [ ] **Step 5: Commit** the runner and the first result file.
