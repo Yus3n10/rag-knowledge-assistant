@@ -46,6 +46,8 @@ def resolve_sections(subpart, data_dir, *, session, delay):
 def build_corpus(subpart, data_dir, *, session=None, delay=1.0):
     data_dir = Path(data_dir)
     section_ids = resolve_sections(subpart, data_dir, session=session, delay=delay)
+    if not section_ids:
+        raise ValueError(f"no sections resolved for {subpart['subpart']}")
 
     sections = []
     for section_id in section_ids:
@@ -61,10 +63,15 @@ def build_corpus(subpart, data_dir, *, session=None, delay=1.0):
             "records": records,
         })
 
+    if "index" in subpart:
+        subpart_url = f"{BASE_URL}/{subpart['index']}"
+    else:
+        subpart_url = f"{BASE_URL}/{section_ids[0]}"
+
     payload = {
         "subpart": subpart["subpart"],
         "subpart_name": subpart["subpart_name"],
-        "source_url": f"{BASE_URL}/{subpart.get('index', section_ids[0])}",
+        "source_url": subpart_url,
         "sections": sections,
     }
 

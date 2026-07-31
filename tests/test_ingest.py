@@ -60,3 +60,33 @@ def test_writes_json_and_markdown_and_caches_raw_html(tmp_path):
 def test_subpart_j_is_scoped_to_lockout_tagout_only():
     subpart_j = next(s for s in SUBPARTS if s["subpart"] == "Subpart J")
     assert subpart_j["sections"] == ["1910.147"]
+
+
+def test_records_source_urls_for_subpart_and_its_sections(tmp_path):
+    subpart = {
+        "subpart": "Subpart J",
+        "subpart_name": "General Environmental Controls",
+        "slug": "subpart-j-lockout-tagout",
+        "sections": ["1910.147"],
+    }
+
+    payload = build_corpus(subpart, tmp_path, session=StubSession(), delay=0)
+
+    base = "https://www.osha.gov/laws-regs/regulations/standardnumber/1910"
+    assert payload["source_url"] == f"{base}/1910.147"
+    assert payload["sections"][0]["source_url"] == f"{base}/1910.147"
+
+
+def test_discovers_sections_when_subpart_config_has_an_index(tmp_path):
+    subpart = {
+        "subpart": "Subpart D",
+        "subpart_name": "Walking-Working Surfaces",
+        "slug": "subpart-d-walking-working-surfaces",
+        "index": "1910SubpartD",
+    }
+
+    payload = build_corpus(subpart, tmp_path, session=StubSession(), delay=0)
+
+    # StubSession serves the real Subpart D index, which lists 1910.21-1910.30
+    assert len(payload["sections"]) == 10
+    assert payload["source_url"].endswith("/1910SubpartD")
