@@ -6,6 +6,19 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+# Categories track QUESTION SHAPE, not subject matter or unit type.
+#
+#   numeric_lookup  One specific extractable value living in a single passage.
+#                   Dimension, force, count, or duration - the unit does not
+#                   matter. Tests whether the pipeline returns the exact value
+#                   without drifting to a nearby wrong one.
+#   procedural      Genuinely multi-step or sequential, where order or
+#                   completeness across several clauses is what is being tested.
+#   conditional     Turns on scoped or exception language ("when does X apply").
+#   negative        Not answerable from this corpus. Tests refusal, not recall.
+#   near_miss       Deliberately similar phrasing to another passage, written to
+#                   bait the wrong answer. A question that names its own
+#                   disambiguating context is NOT a near_miss.
 CATEGORIES = {"numeric_lookup", "procedural", "conditional", "negative", "near_miss"}
 
 TARGET_COMPOSITION = {
