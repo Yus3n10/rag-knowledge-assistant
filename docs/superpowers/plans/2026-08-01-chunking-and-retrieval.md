@@ -316,9 +316,24 @@ git commit -m "feat: add Postgres with pgvector via Docker Compose"
 - Test: `tests/test_embed.py`
 
 **Interfaces:**
-- Produces: `embed_texts(texts, *, model, url, session=None) -> list[list[float]]`
+- Produces: `embed_texts(texts, *, model, url, session=None, batch_size=32) -> list[list[float]]`
+- Produces: `embed_texts` also returns token accounting — signature is
+  `embed_texts(...) -> tuple[list[list[float]], int]` where the int is summed `prompt_eval_count`.
 
-Use the endpoint, request key, and response key confirmed in Task 0 Step 3. The code below assumes the newer `/api/embed` shape — **adjust it to what Task 0 actually found** rather than forcing the API to match this snippet.
+**Task 0 findings — these are measured, not assumed:**
+
+| Finding | Value |
+|---|---|
+| Ollama version | 0.32.5 |
+| Working endpoint | `POST /api/embed` (newer shape). Legacy `/api/embeddings` also responds. |
+| Request | `{"model": ..., "input": [...]}` — **accepts a list** |
+| Response | `{"embeddings": [[...]], "prompt_eval_count": N}` |
+| Embedding dimension | **768** — matches the schema's `vector(768)` |
+| Model context length | 2048 tokens (≈8000 chars), so `MAX_CHARS = 2000` is comfortably within |
+
+**Batch, don't loop.** `/api/embed` accepts a list of inputs and returns one vector per input. Embedding ~1000 chunks one request at a time is ~1000 round trips; batching at 32 is ~32. Use `batch_size=32` and preserve input order in the returned list — a reordering bug here would silently attach every chunk to the wrong vector, which no test downstream would obviously catch. Add a test that pins order across a batch boundary.
+
+**Capture `prompt_eval_count`.** Ollama returns token counts per request for free. The Phase 3 cost/latency dashboard needs exactly this, and threading it through now costs one return value versus retrofitting it through every call site later.
 
 Follow the Phase 1 fetch-layer pattern: accept an injectable `session` so tests run with zero network.
 
