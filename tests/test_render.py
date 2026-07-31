@@ -19,6 +19,22 @@ def test_renders_section_headings_and_visible_paragraph_ids():
     assert "Rungs spaced 10 inches." in markdown
 
 
+def test_each_paragraph_id_is_adjacent_to_its_own_text():
+    sections = [{
+        "section_id": "1910.23",
+        "section_heading": "Ladders.",
+        "records": [
+            {"paragraph_id": "1910.23(b)(1)", "text": "First requirement.", "tables": []},
+            {"paragraph_id": "1910.23(b)(2)", "text": "Second requirement.", "tables": []},
+        ],
+    }]
+
+    markdown = render_subpart_markdown("Subpart D - Walking-Working Surfaces", sections)
+
+    assert "**1910.23(b)(1)**\n\nFirst requirement." in markdown
+    assert "**1910.23(b)(2)**\n\nSecond requirement." in markdown
+
+
 def test_includes_tables_below_their_paragraph():
     sections = [{
         "section_id": "1910.134",
