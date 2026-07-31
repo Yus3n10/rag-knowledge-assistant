@@ -212,7 +212,15 @@ Expected: 3 passed
 
 - [ ] **Step 5: Sanity-check against the real corpus**
 
-Run a throwaway script that chunks all three corpus files and prints: total chunks, how many paragraphs split, the largest chunk length, and the chunk containing `1910.134(d)(3)(i)(A)`. Confirm that last one contains the string `50`. Report the numbers; delete the script.
+Run a throwaway script that chunks all three corpus files and prints: total chunks, how many paragraphs split, the largest chunk length, and the chunk containing `1910.134(d)(3)(i)(A)`. Confirm that last one contains the string `50`. Report the numbers.
+
+- [ ] **Step 5b: Hand-check the definitions-blob splits — this has no automated tripwire**
+
+`resp-001` exists so a bad table-append decision fails loudly in Task 7. **The definitions-blob split has no equivalent.** Zero of the 45 eval questions cite `1910.140(b)` or `1910.21(b)`, and the eval set is locked at 45 — a 46th question cannot be added to cover it. So this check is manual, by the same hand-verification discipline used throughout the project.
+
+Using the same throwaway script, print every chunk produced from `1910.140(b)` and `1910.21(b)`, and read the boundaries. Confirm no cut lands mid-definition — each piece should start at a defined term (`X means ...`), not partway through one. Report the piece count for each blob and quote the first 80 characters of each piece so the boundaries can be eyeballed.
+
+If cuts land mid-definition, say so rather than proceeding — splitting on defined-term boundaries instead of sentence boundaries is the fix, and it is cheaper now than after the index is built. Delete the script afterwards.
 
 - [ ] **Step 6: Commit**
 
@@ -527,3 +535,7 @@ Negative questions - retrieved chunks for hand review:
 The first score will probably be mediocre. That is the harness working — it is reporting the truth about an untuned pipeline, which is the entire reason it was built before the pipeline was.
 
 Do not tune by editing questions, loosening a metric, or excluding hard cases. Tune the pipeline: chunk size, whether the heading trail helps or dilutes, k, the embedding model. Re-run after each change and keep the timestamped results — the trend line is the deliverable, not any single number.
+
+**If `strict_completeness@k` comes back weak, check this first — it is a known concrete risk, not a guess.** `1910.147(f)(1)(iii)` (and its four siblings) carry a `parent_headings` trail containing `(f)(1)`'s full ~230-character sentence: *"Testing or positioning of machines... the following sequence of actions shall be followed:"*. All five LOTO release-sequence steps therefore embed with a near-identical several-hundred-character shared prefix, while each step's own distinctive content is a ten-word imperative (*"Clear the machine..."*, *"Remove employees..."*). Those five paragraphs are exactly the golds behind `loto-010`, the hardest multi-paragraph question in the set.
+
+If that is the failure, the fix to test is truncating or omitting long parent sentences from the trail (keep the section heading and short parent headings, drop parents over ~100 characters) — and re-run, rather than assuming the trail is helping because it seemed reasonable.
