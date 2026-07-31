@@ -21,6 +21,26 @@ from pathlib import Path
 #                   disambiguating context is NOT a near_miss.
 CATEGORIES = {"numeric_lookup", "procedural", "conditional", "negative", "near_miss"}
 
+# Questions whose real answer spans several child paragraphs (a step sequence,
+# not a single fact) may cite expected_citation.paragraph_ids instead of a lone
+# paragraph_id. citation_match says whether retrieval must surface all of them
+# (a true multi-step answer) or any one of them (several independently-correct
+# sources). Restricted to categories where a multi-paragraph answer is the
+# point - numeric_lookup is a single-passage value by definition.
+#
+# When to include a parent paragraph in paragraph_ids (the fragment rule):
+# a child that is a complete freestanding sentence does not need its parent;
+# a child that is a list-fragment continuing the parent's clause does. Cited
+# in isolation, "An employee is required to remove or bypass a guard; or"
+# never establishes that it is one of only two coverage triggers - that lives
+# in the parent's "is covered by this standard only if:".
+#
+# Separately: cite the paragraph that answers the question ASKED. A "when does
+# this apply" question is answered by the condition, not by the steps that
+# follow it, even when those steps are the same paragraph's children.
+MULTI_CITATION_CATEGORIES = {"procedural", "conditional"}
+CITATION_MATCH_MODES = {"all", "any"}
+
 TARGET_COMPOSITION = {
     "numeric_lookup": 0.35,
     "procedural": 0.25,
@@ -101,7 +121,43 @@ def validate(questions, corpus_index, *, check_composition=False):
         if not citation:
             errors.append(f"{qid}: missing expected_citation")
             continue
+
         paragraph_id = citation.get("paragraph_id")
+        paragraph_ids = citation.get("paragraph_ids")
+
+        if paragraph_id and paragraph_ids:
+            errors.append(f"{qid}: expected_citation must not set both paragraph_id and paragraph_ids")
+            continue
+
+        if paragraph_ids is not None:
+            if category not in MULTI_CITATION_CATEGORIES:
+                errors.append(
+                    f"{qid}: paragraph_ids is only allowed for "
+                    f"{sorted(MULTI_CITATION_CATEGORIES)}, not {category!r}")
+                continue
+            if not isinstance(paragraph_ids, list) or not paragraph_ids:
+                errors.append(f"{qid}: paragraph_ids must be a non-empty list")
+                continue
+            citation_match = citation.get("citation_match")
+            if citation_match not in CITATION_MATCH_MODES:
+                errors.append(
+                    f"{qid}: citation_match must be one of {sorted(CITATION_MATCH_MODES)}")
+                continue
+            for pid in paragraph_ids:
+                record = corpus_index.get(pid)
+                if record is None:
+                    errors.append(f"{qid}: citation {pid} not found in corpus")
+                    continue
+                if citation.get("section_id") and citation["section_id"] != record["section_id"]:
+                    errors.append(
+                        f"{qid}: citation says section {citation['section_id']} "
+                        f"but {pid} is in {record['section_id']}")
+                if citation.get("subpart") and citation["subpart"] != record["subpart"]:
+                    errors.append(
+                        f"{qid}: citation says {citation['subpart']} "
+                        f"but {pid} is in {record['subpart']}")
+            continue
+
         if not paragraph_id:
             errors.append(f"{qid}: expected_citation is missing paragraph_id")
             continue

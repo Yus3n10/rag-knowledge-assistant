@@ -13,6 +13,14 @@ KNOWN = {
         "section_id": "1910.23",
         "text": "Ladder rungs are spaced not less than 10 inches and not more than 14 inches apart.",
     },
+    "1910.147(f)(1)(i)": {
+        "subpart": "Subpart J", "section_id": "1910.147",
+        "text": "Clear the machine or equipment of tools and materials.",
+    },
+    "1910.147(f)(1)(ii)": {
+        "subpart": "Subpart J", "section_id": "1910.147",
+        "text": "Remove employees from the machine or equipment area.",
+    },
 }
 
 
@@ -165,6 +173,70 @@ def test_real_question_set_validates_against_the_real_corpus():
     corpus_index = load_corpus_index(root / "data" / "corpus")
 
     assert validate(questions, corpus_index) == []
+
+
+def test_accepts_valid_paragraph_ids_citation_on_procedural_question():
+    q = good(id="loto-007", category="procedural",
+             expected_citation={
+                 "subpart": "Subpart J", "section_id": "1910.147",
+                 "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(ii)"],
+                 "citation_match": "all",
+             })
+
+    assert validate([q], KNOWN) == []
+
+
+def test_rejects_paragraph_ids_on_numeric_lookup():
+    q = good(id="fall-999", category="numeric_lookup",
+             expected_answer="5,000 pounds.",
+             expected_citation={
+                 "subpart": "Subpart J", "section_id": "1910.147",
+                 "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(ii)"],
+                 "citation_match": "all",
+             })
+
+    errors = validate([q], KNOWN)
+
+    assert any("paragraph_ids is only allowed for" in e for e in errors)
+
+
+def test_rejects_paragraph_ids_missing_citation_match():
+    q = good(id="loto-008", category="procedural",
+             expected_citation={
+                 "subpart": "Subpart J", "section_id": "1910.147",
+                 "paragraph_ids": ["1910.147(f)(1)(i)"],
+             })
+
+    errors = validate([q], KNOWN)
+
+    assert any("citation_match must be one of" in e for e in errors)
+
+
+def test_rejects_paragraph_ids_referencing_missing_corpus_entry():
+    q = good(id="loto-009", category="procedural",
+             expected_citation={
+                 "subpart": "Subpart J", "section_id": "1910.147",
+                 "paragraph_ids": ["1910.147(f)(1)(i)", "1910.147(f)(1)(zz)"],
+                 "citation_match": "all",
+             })
+
+    errors = validate([q], KNOWN)
+
+    assert any("1910.147(f)(1)(zz)" in e and "not found in corpus" in e for e in errors)
+
+
+def test_rejects_both_paragraph_id_and_paragraph_ids_together():
+    q = good(id="loto-010", category="procedural",
+             expected_citation={
+                 "subpart": "Subpart J", "section_id": "1910.147",
+                 "paragraph_id": "1910.147(e)(3)",
+                 "paragraph_ids": ["1910.147(f)(1)(i)"],
+                 "citation_match": "all",
+             })
+
+    errors = validate([q], KNOWN)
+
+    assert any("must not set both paragraph_id and paragraph_ids" in e for e in errors)
 
 
 def test_malformed_jsonl_names_the_offending_line(tmp_path):

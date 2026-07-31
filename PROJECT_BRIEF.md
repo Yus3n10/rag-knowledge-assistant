@@ -89,6 +89,12 @@ rag-knowledge-assistant/
 - **`data/raw/` and `data/corpus/` are committed, not gitignored.** Public-domain text, tiny volume — committing makes the repo reproducible and demoable with zero network dependency on osha.gov staying unchanged, which matters more here than in a typical repo since this project needs to be a clickable, working demo for anyone who clones it.
 - `eval/questions.jsonl`: ~45 hand-verified questions, schema `{id, question, category, expected_answer, expected_citation: {subpart, section_id, paragraph_id}, notes}`. `category` ∈ `numeric_lookup | procedural | conditional | negative | near_miss`. Negative questions carry a `notes` field stating what topic is absent and why, so "not covered" is a documented claim, not a guess.
 
+### Known issues carried into Phase 2 (chunking/retrieval)
+
+- **Definitions blobs need per-term splitting.** `1910.140(b)` is a single 11,720-character paragraph containing ~40 defined terms; `1910.21(b)` is similar. Median record is 127 characters. Generic chunking will either pull the whole blob (wasting context and diluting relevance for a query about one term) or cut it at an arbitrary window boundary mid-definition. These need special-case handling — split by defined term, each with its own identifier. Note the ingestion parser is already written and the corpus already built, so this is either a targeted re-ingest or a chunking-time split; decide which when Phase 2 starts.
+- **Table content lives outside `record["text"]`.** Tables are stored separately in `record["tables"]`. A chunker embedding `text` alone makes all table-bearing records unretrievable — precisely the `numeric_lookup` targets.
+- Full triaged list: `.superpowers/sdd/progress.md`.
+
 ## Target shape
 
 | | |
