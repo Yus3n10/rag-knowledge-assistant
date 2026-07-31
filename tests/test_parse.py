@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from scripts.osha.parse import parse_section
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -43,3 +45,8 @@ def test_tables_are_extracted_as_markdown_not_flattened_into_text():
     assert "| --- |" in markdown
     # the table's numbers must NOT have leaked into the prose text
     assert "Quarter mask" not in with_tables[0]["text"]
+
+
+def test_rejects_html_without_a_title():
+    with pytest.raises(ValueError, match="no <title>"):
+        parse_section("<html><body><p>not a section page</p></body></html>")

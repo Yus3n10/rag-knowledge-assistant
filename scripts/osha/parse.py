@@ -27,6 +27,8 @@ def table_to_markdown(table):
 def parse_section(html):
     soup = BeautifulSoup(html, "html.parser")
 
+    if soup.title is None:
+        raise ValueError("page has no <title>; cannot determine section id")
     title = soup.title.get_text(strip=True).split("|")[0].strip()
     section_id, _, section_heading = title.partition(" - ")
     section_id = section_id.strip()
