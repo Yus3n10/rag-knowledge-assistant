@@ -1,20 +1,27 @@
 import json
 from pathlib import Path
 
-from scripts.ingest_osha import SUBPARTS, build_corpus
+from scripts.ingest_osha import SUBPARTS, build_corpus, resolve_sections
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class StubSession:
-    """Serves the subpart index and one section page from fixtures."""
+    """Serves fixtures matched by exact URL suffix; errors on anything else."""
 
     def __init__(self):
         self.calls = []
 
     def get(self, url, timeout=None, headers=None):
         self.calls.append(url)
-        name = "1910SubpartD.html" if "SubpartD" in url else "1910.147.html"
+        if url.endswith("SubpartD"):
+            name = "1910SubpartD.html"
+        elif url.endswith("1910.134"):
+            name = "1910.134.html"
+        elif url.endswith("1910.147"):
+            name = "1910.147.html"
+        else:
+            raise ValueError(f"StubSession has no fixture for {url}")
         return type("R", (), {
             "text": (FIXTURES / name).read_text(encoding="utf-8"),
             "raise_for_status": lambda self: None,
@@ -82,11 +89,24 @@ def test_discovers_sections_when_subpart_config_has_an_index(tmp_path):
         "subpart": "Subpart D",
         "subpart_name": "Walking-Working Surfaces",
         "slug": "subpart-d-walking-working-surfaces",
-        "index": "1910SubpartD",
+        "sections": ["1910.134", "1910.147"],
     }
 
     payload = build_corpus(subpart, tmp_path, session=StubSession(), delay=0)
 
-    # StubSession serves the real Subpart D index, which lists 1910.21-1910.30
-    assert len(payload["sections"]) == 10
-    assert payload["source_url"].endswith("/1910SubpartD")
+    assert len(payload["sections"]) == 2
+    assert [s["section_id"] for s in payload["sections"]] == ["1910.134", "1910.147"]
+
+
+def test_resolve_sections_discovers_ids_from_index(tmp_path):
+    subpart = {
+        "subpart": "Subpart D",
+        "subpart_name": "Walking-Working Surfaces",
+        "slug": "subpart-d-walking-working-surfaces",
+        "index": "1910SubpartD",
+    }
+
+    section_ids = resolve_sections(subpart, tmp_path, session=StubSession(), delay=0)
+
+    # The real Subpart D index fixture lists 1910.21-1910.30
+    assert len(section_ids) == 10

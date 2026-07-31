@@ -55,6 +55,9 @@ def build_corpus(subpart, data_dir, *, session=None, delay=1.0):
         html = fetch_html(url, data_dir / "raw" / f"{section_id}.html",
                           session=session, delay=delay)
         parsed_id, heading, records = parse_section(html)
+        if parsed_id != section_id:
+            raise ValueError(
+                f"requested {section_id} but page reports {parsed_id} ({url})")
         attach_parent_headings(records)
         sections.append({
             "section_id": parsed_id,
@@ -62,6 +65,10 @@ def build_corpus(subpart, data_dir, *, session=None, delay=1.0):
             "source_url": url,
             "records": records,
         })
+
+    if not any(section["records"] for section in sections):
+        raise ValueError(
+            f"{subpart['subpart']}: parsed 0 paragraphs from {len(sections)} sections")
 
     if "index" in subpart:
         subpart_url = f"{BASE_URL}/{subpart['index']}"

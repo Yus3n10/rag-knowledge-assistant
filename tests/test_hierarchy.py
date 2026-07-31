@@ -29,11 +29,12 @@ def test_attaches_only_resolvable_ancestors_outermost_first():
 
 
 def test_truncates_long_heading_text():
+    long_text = "START" + "x" * 400
     records = [
-        {"paragraph_id": "1910.147(a)", "text": "x" * 300},
+        {"paragraph_id": "1910.147(a)", "text": long_text},
         {"paragraph_id": "1910.147(a)(1)", "text": "child"},
     ]
 
     result = attach_parent_headings(records)
 
-    assert len(result[1]["parent_headings"][0]["text"]) == 120
+    assert result[1]["parent_headings"][0]["text"] == long_text[:120]

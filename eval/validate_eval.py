@@ -1,6 +1,7 @@
 """Validate the hand-authored eval question set against the corpus."""
 
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -16,31 +17,56 @@ TARGET_COMPOSITION = {
 }
 COMPOSITION_TOLERANCE = 0.05
 
+NUMBER_PATTERN = re.compile(r"\d+(?:\.\d+)?")
 
-def load_corpus_paragraph_ids(corpus_dir):
-    ids = set()
-    for path in Path(corpus_dir).glob("*.json"):
+
+def numbers_in(text):
+    """Numeric tokens in text, comma separators removed so 1,000 reads as 1000."""
+    return set(NUMBER_PATTERN.findall(text.replace(",", "")))
+
+
+def load_corpus_index(corpus_dir):
+    """Map every corpus paragraph_id to its subpart, section, and full text."""
+    index = {}
+    for path in sorted(Path(corpus_dir).glob("*.json")):
         payload = json.loads(path.read_text(encoding="utf-8"))
         for section in payload["sections"]:
             for record in section["records"]:
-                ids.add(record["paragraph_id"])
-    return ids
+                index[record["paragraph_id"]] = {
+                    "subpart": payload["subpart"],
+                    "section_id": section["section_id"],
+                    "text": " ".join([record["text"]] + record["tables"]),
+                }
+    return index
 
 
 def load_questions(path):
+    questions = []
     lines = Path(path).read_text(encoding="utf-8").splitlines()
-    return [json.loads(line) for line in lines if line.strip()]
+    for lineno, line in enumerate(lines, start=1):
+        if not line.strip():
+            continue
+        try:
+            questions.append(json.loads(line))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"{path}:{lineno}: invalid JSON - {exc}") from exc
+    return questions
 
 
-def validate(questions, known_paragraph_ids, *, check_composition=False):
+def validate(questions, corpus_index, *, check_composition=False):
     errors = []
 
     seen = set()
     for q in questions:
         qid = q.get("id")
-        if qid in seen:
+        if not qid:
+            errors.append("question is missing an id")
+        elif qid in seen:
             errors.append(f"duplicate id: {qid}")
         seen.add(qid)
+
+        if not (q.get("question") or "").strip():
+            errors.append(f"{qid}: question text must not be empty")
 
         category = q.get("category")
         if category not in CATEGORIES:
@@ -53,16 +79,40 @@ def validate(questions, known_paragraph_ids, *, check_composition=False):
                 errors.append(f"{qid}: negative questions must have expected_citation null")
             if not (q.get("notes") or "").strip():
                 errors.append(f"{qid}: negative questions require notes naming the absent topic")
-        else:
-            if not (q.get("expected_answer") or "").strip():
-                errors.append(f"{qid}: expected_answer must not be empty")
-            if not citation:
-                errors.append(f"{qid}: missing expected_citation")
-            elif not citation.get("paragraph_id"):
-                errors.append(f"{qid}: expected_citation is missing paragraph_id")
-            elif citation["paragraph_id"] not in known_paragraph_ids:
+            continue
+
+        answer = (q.get("expected_answer") or "").strip()
+        if not answer:
+            errors.append(f"{qid}: expected_answer must not be empty")
+
+        if not citation:
+            errors.append(f"{qid}: missing expected_citation")
+            continue
+        paragraph_id = citation.get("paragraph_id")
+        if not paragraph_id:
+            errors.append(f"{qid}: expected_citation is missing paragraph_id")
+            continue
+
+        record = corpus_index.get(paragraph_id)
+        if record is None:
+            errors.append(f"{qid}: citation {paragraph_id} not found in corpus")
+            continue
+
+        if citation.get("section_id") and citation["section_id"] != record["section_id"]:
+            errors.append(
+                f"{qid}: citation says section {citation['section_id']} "
+                f"but {paragraph_id} is in {record['section_id']}")
+        if citation.get("subpart") and citation["subpart"] != record["subpart"]:
+            errors.append(
+                f"{qid}: citation says {citation['subpart']} "
+                f"but {paragraph_id} is in {record['subpart']}")
+
+        if category == "numeric_lookup" and answer:
+            missing = sorted(numbers_in(answer) - numbers_in(record["text"]))
+            if missing:
                 errors.append(
-                    f"{qid}: citation {citation['paragraph_id']} not found in corpus")
+                    f"{qid}: numbers {missing} in expected_answer "
+                    f"do not appear in {paragraph_id}")
 
     if check_composition and questions:
         counts = Counter(q.get("category") for q in questions)
@@ -80,9 +130,9 @@ def validate(questions, known_paragraph_ids, *, check_composition=False):
 def main():
     root = Path(__file__).resolve().parent.parent
     questions = load_questions(root / "eval" / "questions.jsonl")
-    known = load_corpus_paragraph_ids(root / "data" / "corpus")
+    corpus_index = load_corpus_index(root / "data" / "corpus")
 
-    errors = validate(questions, known, check_composition=len(questions) >= 40)
+    errors = validate(questions, corpus_index, check_composition=len(questions) >= 40)
     for error in errors:
         print(error)
 

@@ -3,6 +3,10 @@ def render_subpart_markdown(subpart_name, sections):
     for section in sections:
         lines.append(f"## {section['section_id']} - {section['section_heading']}")
         lines.append("")
+        source_url = section.get("source_url")
+        if source_url:
+            lines.append(f"Source: {source_url}")
+            lines.append("")
         for record in section["records"]:
             lines.append(f"**{record['paragraph_id']}**")
             lines.append("")

@@ -50,3 +50,16 @@ def test_includes_tables_below_their_paragraph():
 
     assert "| A | B |" in markdown
     assert markdown.index("assigned protection factors") < markdown.index("| A | B |")
+
+
+def test_includes_section_source_url_when_present():
+    sections = [{
+        "section_id": "1910.147",
+        "section_heading": "The control of hazardous energy (lockout/tagout).",
+        "source_url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147",
+        "records": [],
+    }]
+
+    markdown = render_subpart_markdown("Subpart J", sections)
+
+    assert "Source: https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147" in markdown
