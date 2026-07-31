@@ -70,3 +70,24 @@ def test_composition_check_flags_skewed_mix():
     errors = validate(questions, KNOWN, check_composition=True)
 
     assert any("composition" in e.lower() for e in errors)
+
+
+def test_reports_citation_missing_paragraph_id_instead_of_crashing():
+    q = good(expected_citation={"subpart": "Subpart J", "section_id": "1910.147"})
+
+    errors = validate([q], KNOWN)
+
+    assert any("missing paragraph_id" in e for e in errors)
+
+
+def test_rejects_empty_expected_answer_on_non_negative_question():
+    errors = validate([good(expected_answer="   ")], KNOWN)
+
+    assert any("expected_answer" in e for e in errors)
+
+
+def test_allows_empty_expected_answer_on_negative_question():
+    q = good(id="neg-010", category="negative", expected_citation=None,
+             expected_answer="", notes="Forklift training lives in 1910.178, out of corpus.")
+
+    assert validate([q], KNOWN) == []

@@ -54,8 +54,12 @@ def validate(questions, known_paragraph_ids, *, check_composition=False):
             if not (q.get("notes") or "").strip():
                 errors.append(f"{qid}: negative questions require notes naming the absent topic")
         else:
+            if not (q.get("expected_answer") or "").strip():
+                errors.append(f"{qid}: expected_answer must not be empty")
             if not citation:
                 errors.append(f"{qid}: missing expected_citation")
+            elif not citation.get("paragraph_id"):
+                errors.append(f"{qid}: expected_citation is missing paragraph_id")
             elif citation["paragraph_id"] not in known_paragraph_ids:
                 errors.append(
                     f"{qid}: citation {citation['paragraph_id']} not found in corpus")
@@ -81,6 +85,13 @@ def main():
     errors = validate(questions, known, check_composition=len(questions) >= 40)
     for error in errors:
         print(error)
+
+    if questions:
+        counts = Counter(q.get("category") for q in questions)
+        print("\ncomposition (target in parentheses):")
+        for category, target in TARGET_COMPOSITION.items():
+            actual = counts[category] / len(questions)
+            print(f"  {category:<14} {counts[category]:>3}  {actual:>4.0%}  ({target:.0%})")
 
     print(f"\n{len(questions)} questions, {len(errors)} errors")
     return 1 if errors else 0
