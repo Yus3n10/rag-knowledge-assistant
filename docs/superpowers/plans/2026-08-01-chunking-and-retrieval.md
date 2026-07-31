@@ -86,9 +86,20 @@ Report: Docker version, Ollama version, working endpoint, response key, embeddin
 
 **Design (settled):**
 - One chunk per paragraph. Paragraph IDs are already real regulatory citations — keep them as the retrieval unit so citations stay exact.
-- Chunk text = heading trail + paragraph text + any tables appended. The trail gives a 127-character median paragraph enough context to embed meaningfully; this is what `parent_headings` exists for.
-- **Tables append to their paragraph's chunk, not a separate index.** A separate table index means a second retrieval path to build, tune, and merge-rank for exactly one table-bearing paragraph type. `resp-001` is the judge: it asks for an APF value that lives only in `record["tables"]`. If appending works, it passes. Only split tables out if a second table-heavy pattern appears AND this demonstrably fails.
-- Oversized paragraphs split on sentence boundaries with the heading trail repeated on each part.
+- Chunk text = heading trail + content. The trail gives a 127-character median paragraph enough context to embed meaningfully; this is what `parent_headings` exists for.
+- Every chunk carries `kind`: `"prose"` or `"table"`. Diagnostic, and needed by Task 7's `resp-001` check.
+
+**Rule 1 — definition-aware splitting, both formats.** The corpus uses two definition styles and a single pattern covers neither alone:
+- `Term means ...` — `1910.21(b)` (60 occurrences), `1910.134(b)` (35), `1910.140(b)` (28)
+- `Term . Definition` — `1910.147(b)`. It contains 3 occurrences of "means", all ordinary usage ("a positive means such as a lock", "a means of attachment"), **zero** in `Term means` form. A means-based pattern fixes nothing here.
+
+Split definitions-style paragraphs before each defined term under either format. Verified defects this fixes: `1910.21(b)` piece 4 opens mid-"Rope descent system"; `1910.147(b)` pieces 1 and 2 open mid-"Hot tap" and mid-"Tagout device".
+
+**Rule 2 — tables are atomic, ONE CHUNK PER TABLE.** Never split inside a markdown table. `1910.137(c)(2)(xii)` currently severs a voltage-rating table so one chunk holds rows with no header — actively misleading, not merely unhelpful.
+
+Emit **one chunk per table**, not one chunk holding all of a paragraph's tables. `1910.137(c)(2)(xii)` carries five separate tables; bundling them fixes the header severing but creates a precision problem underneath it, since a query about Class 2 glove proof-test voltage would retrieve the same undifferentiated chunk as rubber-sleeve retest scheduling. One chunk per retrievable unit.
+
+- Oversized prose splits on sentence boundaries with the heading trail repeated on each part.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -218,7 +229,9 @@ Run a throwaway script that chunks all three corpus files and prints: total chun
 
 `resp-001` exists so a bad table-append decision fails loudly in Task 7. **The definitions-blob split has no equivalent.** Zero of the 45 eval questions cite `1910.140(b)` or `1910.21(b)`, and the eval set is locked at 45 — a 46th question cannot be added to cover it. So this check is manual, by the same hand-verification discipline used throughout the project.
 
-Using the same throwaway script, print every chunk produced from `1910.140(b)` and `1910.21(b)`, and read the boundaries. Confirm no cut lands mid-definition — each piece should start at a defined term (`X means ...`), not partway through one. Report the piece count for each blob and quote the first 80 characters of each piece so the boundaries can be eyeballed.
+Check **every paragraph that splits into more than one chunk**, not a named list. An earlier version of this step named only `1910.140(b)` and `1910.21(b)` — following it literally missed `1910.147(b)` and `1910.137(c)(2)(xii)` entirely, because neither is a "definitions blob" under the name the step used. The generalization is the point: audit what the code actually splits, not what you remember being large.
+
+Using the same throwaway script, print every piece of every multi-chunk paragraph and read the boundaries. Confirm no cut lands mid-definition — each piece should start at a defined term (`X means ...`), not partway through one. Report the piece count for each blob and quote the first 80 characters of each piece so the boundaries can be eyeballed.
 
 If cuts land mid-definition, say so rather than proceeding — splitting on defined-term boundaries instead of sentence boundaries is the fix, and it is cheaper now than after the index is built. Delete the script afterwards.
 
@@ -540,7 +553,11 @@ Negative questions - retrieved chunks for hand review:
 
 - [ ] **Step 2:** Save results as JSON with a timestamp, the k used, the embedding model, per-question recall, and a null `refusal_accuracy` field to be filled in after hand review. Never auto-fill it.
 - [ ] **Step 3: Run it.** Report all three numbers and the weakest questions.
-- [ ] **Step 4: Check `resp-001` specifically.** Its answer (APF 50) exists only in `record["tables"]`. It is a planted regression test for exactly this phase. If it scores 0, the table-append decision failed and tables need rethinking — **report that rather than working around it**.
+- [ ] **Step 4: Check `resp-001` specifically — assert on the retrieved TEXT, not the paragraph id.**
+
+Its answer (APF 50) exists only in `1910.134(d)(3)(i)(A)`'s table. Under Rule 2 that paragraph produces two chunks — prose and table — and both map back to the same paragraph id. So paragraph-level scoring reports a full hit when only the **prose** chunk ("Employers must use the assigned protection factors listed in Table 1…") was retrieved, even though the number 50 never was. The canary would pass green having caught nothing.
+
+Assert that the concatenated text of `resp-001`'s retrieved chunks contains `50`, and report the `kind` of each retrieved chunk. If the table chunk is not retrieved, **report that rather than working around it** — it means table content is not reachable by a natural-language query about its subject, which is exactly the failure this question was planted to expose.
 - [ ] **Step 5: Commit** the runner and the first result file.
 
 ---
