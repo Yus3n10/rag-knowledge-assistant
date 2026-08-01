@@ -51,14 +51,27 @@ def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragra
     raw_chunks = search(question, k=k * OVERFETCH_FACTOR, conn=conn, embedder=embedder)
     chunks = _dedupe_chunks_by_paragraph(raw_chunks, k)
 
-    messages = build_messages(question, chunks)
+    # Paragraph dedup above only decides WHICH k paragraphs are in scope (for
+    # the "retrieved" metadata and citation validation). It must NOT decide
+    # which of a paragraph's chunks the model gets to see: a split paragraph's
+    # prose and table chunks carry different content, and dropping one as a
+    # "duplicate" can silently discard the chunk holding the answer. So the
+    # prompt context gets every raw chunk belonging to a selected paragraph,
+    # not just the first-seen one.
+    selected_paragraph_ids = {chunk["paragraph_id"] for chunk in chunks}
+    context_chunks = [c for c in raw_chunks if c["paragraph_id"] in selected_paragraph_ids]
+
+    messages = build_messages(question, context_chunks)
     answer, stats = generator(messages)
 
     citations = extract_citations(answer)
     retrieved_paragraph_ids = [chunk["paragraph_id"] for chunk in chunks]
     citation_report = validate_citations(citations, retrieved_paragraph_ids, corpus_paragraph_ids)
 
-    retrieved_text = "\n\n".join(chunk["text"] for chunk in chunks)
+    # Matches what the model was actually shown (context_chunks), not the
+    # paragraph-deduped set -- otherwise an answer legitimately drawn from a
+    # chunk that dedup treated as a "duplicate" would be flagged ungrounded.
+    retrieved_text = "\n\n".join(chunk["text"] for chunk in context_chunks)
 
     return {
         "answer": answer,

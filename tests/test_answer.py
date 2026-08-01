@@ -192,6 +192,24 @@ def test_no_distance_gate_low_and_high_distance_both_reach_the_generator():
     assert len(generator.calls) == 1
 
 
+def test_all_chunks_of_a_shared_paragraph_reach_the_generator():
+    # Pinned regression: two chunks of one paragraph (e.g. a prose chunk and
+    # a table chunk) must BOTH reach the prompt context. Paragraph dedup
+    # previously dropped the second chunk as a "duplicate", silently
+    # starving the model of an answer that only lived in the table chunk.
+    rows = [
+        ("c1", "P1", "Prose chunk with no distinctive value.", 0.10),
+        ("c2", "P1", "Table chunk containing UNIQUE-MARKER-XYZ.", 0.15),
+    ]
+    conn = StubConnection(rows)
+    generator = StubGenerator()
+
+    answer_question("q", k=1, conn=conn, embedder=StubEmbedder(), generator=generator)
+
+    user_content = generator.calls[0][-1]["content"]
+    assert "UNIQUE-MARKER-XYZ" in user_content
+
+
 def test_retrieved_text_is_exposed_for_callers_needing_the_raw_context():
     # eval/run_answers.py needs this for the resp-001 canary check (whether the
     # retrieved context contained the target number at all).
