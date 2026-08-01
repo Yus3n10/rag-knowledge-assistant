@@ -1,0 +1,3100 @@
+{
+  "timestamp": "2026-08-01T15:41:23.284607+00:00",
+  "k": 10,
+  "prompt_version": "p3-v1",
+  "generation_model": "llama3.1:8b",
+  "embedding_model": "nomic-embed-text",
+  "answerable_count": 38,
+  "numeric_lookup_count": 15,
+  "negative_count": 7,
+  "metrics": {
+    "citation_validity_rate": 1.0,
+    "gold_citation_rate": 0.9473684210526315,
+    "ungrounded_number_rate": 0.0,
+    "fabricated_citation_count": 0,
+    "refusal_accuracy": null
+  },
+  "resp001_detail": {
+    "answer_contains_50": false,
+    "cited_expected_paragraph": true,
+    "context_contains_50": false
+  },
+  "total_prompt_tokens": 50077,
+  "total_completion_tokens": 3014,
+  "mean_latency_s": 5.053822222222678,
+  "per_question": [
+    {
+      "id": "loto-001",
+      "category": "procedural",
+      "question": "Who is responsible for removing a lockout or tagout device from an energy isolating device?",
+      "answer": "[1910.147(e)(3)] Each lockout or tagout device shall be removed from each energy isolating device by the employee who applied the device, except when the authorized employee who applied the lockout or tagout device is not available to remove it, in which case the employer may direct another employee to remove it under specific procedures and training.",
+      "citations": [
+        "1910.147(e)(3)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(e)(3)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(e)(3)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(e)(3)(ii)",
+          "distance": 0.12603482579352143
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(i)",
+          "distance": 0.1280285548993556
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(iii)",
+          "distance": 0.13355106309478026
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.14282209533854284
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.14613666626530453
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)",
+          "distance": 0.14978820689145667
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(i)",
+          "distance": 0.1551513117010611
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)",
+          "distance": 0.15537039977531442
+        },
+        {
+          "paragraph_id": "1910.147(b)",
+          "distance": 0.15543839011287675
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.15741412286084988
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1093,
+        "completion_tokens": 73,
+        "latency_s": 6.60999999998603,
+        "load_duration_s": 0.3067279
+      }
+    },
+    {
+      "id": "loto-002",
+      "category": "numeric_lookup",
+      "question": "What is the minimum unlocking strength required for a tagout device's means of attachment?",
+      "answer": "The minimum unlocking strength required for a tagout device's means of attachment is no less than 50 pounds [1910.147(c)(5)(ii)(C)(2)].",
+      "citations": [
+        "1910.147(c)(5)(ii)(C)(2)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(5)(ii)(C)(2)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(5)(ii)(C)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(C)(2)",
+          "distance": 0.2735308630509441
+        },
+        {
+          "paragraph_id": "1910.147(b)",
+          "distance": 0.3159940100927402
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(A)(2)",
+          "distance": 0.32226347824306556
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(F)",
+          "distance": 0.32829544746397754
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(A)(1)",
+          "distance": 0.33153251865925226
+        },
+        {
+          "paragraph_id": "1910.147(c)(3)(i)",
+          "distance": 0.33242891261816865
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(D)",
+          "distance": 0.33366157621969383
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(A)",
+          "distance": 0.3358804783749866
+        },
+        {
+          "paragraph_id": "1910.147(f)(3)(ii)(D)",
+          "distance": 0.3414877267908617
+        },
+        {
+          "paragraph_id": "1910.147(d)(4)(iii)(A)",
+          "distance": 0.34230841684746016
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1193,
+        "completion_tokens": 37,
+        "latency_s": 3.8910000000032596,
+        "load_duration_s": 0.3906317
+      }
+    },
+    {
+      "id": "loto-003",
+      "category": "negative",
+      "question": "What training must a powered industrial truck (forklift) operator complete before operating the equipment?",
+      "answer": "The provided text does not contain information about training requirements for powered industrial truck operators.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.30(b)(1)",
+          "distance": 0.25722870489191263
+        },
+        {
+          "paragraph_id": "1910.30(b)(4)",
+          "distance": 0.2627810992468046
+        },
+        {
+          "paragraph_id": "1910.30(b)(2)",
+          "distance": 0.2789776061746605
+        },
+        {
+          "paragraph_id": "1910.30(b)(3)",
+          "distance": 0.28086548841344616
+        },
+        {
+          "paragraph_id": "1910.30(c)(3)",
+          "distance": 0.28536328666040034
+        },
+        {
+          "paragraph_id": "1910.30(c)(2)",
+          "distance": 0.29193121675758327
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iv)",
+          "distance": 0.2943079156601065
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(ii)",
+          "distance": 0.2955702190911308
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iii)",
+          "distance": 0.2958845252853066
+        },
+        {
+          "paragraph_id": "1910.132(f)(3)(iii)",
+          "distance": 0.2978133445230644
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 762,
+        "completion_tokens": 17,
+        "latency_s": 1.812999999994645,
+        "load_duration_s": 0.3075849
+      }
+    },
+    {
+      "id": "ladder-001",
+      "category": "numeric_lookup",
+      "question": "What is the required spacing between ladder rungs, steps, and cleats?",
+      "answer": "The employer must ensure that ladder rungs, steps, and cleats are spaced not less than 10 inches (25 cm) and not more than 14 inches (36 cm) apart [1910.23(b)(2)]. However, there are exceptions for fixed ladders on telecommunication towers [1910.23(b)(2)(ii)], elevator shafts [1910.23(b)(2)(i)], and side-step ladders [1910.23(d)(12)(ii)].",
+      "citations": [
+        "1910.23(b)(2)",
+        "1910.23(b)(2)(ii)",
+        "1910.23(b)(2)(i)",
+        "1910.23(d)(12)(ii)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.23(b)(2)",
+          "1910.23(b)(2)(ii)",
+          "1910.23(b)(2)(i)",
+          "1910.23(d)(12)(ii)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.23(b)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.23(b)(2)",
+          "distance": 0.17389681028084358
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)(ii)",
+          "distance": 0.20381252629308388
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)(i)",
+          "distance": 0.21578864486623028
+        },
+        {
+          "paragraph_id": "1910.23(b)(1)",
+          "distance": 0.23646075399570032
+        },
+        {
+          "paragraph_id": "1910.23(b)(3)",
+          "distance": 0.23969837308827258
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(ii)",
+          "distance": 0.24149580654675662
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)",
+          "distance": 0.24198485672011694
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(i)",
+          "distance": 0.24233639422979492
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(i)",
+          "distance": 0.24673414308210773
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)",
+          "distance": 0.24944263709959102
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 983,
+        "completion_tokens": 102,
+        "latency_s": 6.25,
+        "load_duration_s": 0.3217389
+      }
+    },
+    {
+      "id": "ladder-002",
+      "category": "numeric_lookup",
+      "question": "What is the minimum clear width for rungs and steps on portable versus fixed ladders?",
+      "answer": "According to [1910.23(b)(4)], the minimum clear width for rungs, steps, and cleats on portable ladders is 11.5 inches (29 cm), while for fixed ladders it is 16 inches (41 cm) measured before installation of ladder safety systems.",
+      "citations": [
+        "1910.23(b)(4)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.23(b)(4)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.23(b)(4)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.23(b)(4)(i)",
+          "distance": 0.14953533260626517
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)",
+          "distance": 0.16270050891338284
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(iv)",
+          "distance": 0.17674938371027682
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(iii)",
+          "distance": 0.17734960632159624
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(ii)",
+          "distance": 0.1837814511471202
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)",
+          "distance": 0.2357649226469961
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)(ii)",
+          "distance": 0.2373683538405007
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(ii)",
+          "distance": 0.24521433633344736
+        },
+        {
+          "paragraph_id": "1910.23(d)(2)",
+          "distance": 0.24857685710716104
+        },
+        {
+          "paragraph_id": "1910.23(e)(1)(i)",
+          "distance": 0.25149916906627556
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1038,
+        "completion_tokens": 61,
+        "latency_s": 4.562000000005355,
+        "load_duration_s": 0.3284991
+      }
+    },
+    {
+      "id": "ladder-003",
+      "category": "numeric_lookup",
+      "question": "How far apart must steps on a stepstool be spaced?",
+      "answer": "Steps on stepstools are spaced not less than 8 inches (20 cm) apart and not more than 12 inches (30 cm) apart, as measured between the centerlines of the steps; [1910.23(b)(3)]",
+      "citations": [
+        "1910.23(b)(3)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.23(b)(3)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.23(b)(3)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.23(b)(3)",
+          "distance": 0.23794865320888703
+        },
+        {
+          "paragraph_id": "1910.24(a)(3)",
+          "distance": 0.2446279909491781
+        },
+        {
+          "paragraph_id": "1910.24(a)(5)",
+          "distance": 0.2474148863351061
+        },
+        {
+          "paragraph_id": "1910.24(b)(2)(iv)",
+          "distance": 0.26901565710501785
+        },
+        {
+          "paragraph_id": "1910.25(f)(2)",
+          "distance": 0.2951940757730266
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)",
+          "distance": 0.29934003017722743
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(ii)",
+          "distance": 0.3040272438484861
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(i)",
+          "distance": 0.3058956654636511
+        },
+        {
+          "paragraph_id": "1910.24(b)(2)(v)",
+          "distance": 0.3131858279087807
+        },
+        {
+          "paragraph_id": "1910.24(a)(4)",
+          "distance": 0.320165591279408
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 904,
+        "completion_tokens": 51,
+        "latency_s": 3.8280000000086147,
+        "load_duration_s": 0.324796
+      }
+    },
+    {
+      "id": "fall-001",
+      "category": "numeric_lookup",
+      "question": "What is the minimum breaking strength required for lanyards and vertical lifelines?",
+      "answer": "[1910.140(c)(4)] Lanyards and vertical lifelines must have a minimum breaking strength of 5,000 pounds (22.2 kN).",
+      "citations": [
+        "1910.140(c)(4)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(c)(4)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(4)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(4)",
+          "distance": 0.20051822679338016
+        },
+        {
+          "paragraph_id": "1910.140(c)(5)",
+          "distance": 0.23765064702335736
+        },
+        {
+          "paragraph_id": "1910.140(c)(6)",
+          "distance": 0.2676348921173728
+        },
+        {
+          "paragraph_id": "1910.140(d)(2)(i)",
+          "distance": 0.283230721950531
+        },
+        {
+          "paragraph_id": "1910.140(c)(8)",
+          "distance": 0.2905317794642661
+        },
+        {
+          "paragraph_id": "1910.140(c)(15)",
+          "distance": 0.2916245733572447
+        },
+        {
+          "paragraph_id": "1910.140(c)(3)",
+          "distance": 0.2948642548837801
+        },
+        {
+          "paragraph_id": "1910.29(f)(7)",
+          "distance": 0.2974022272345699
+        },
+        {
+          "paragraph_id": "1910.140(b)",
+          "distance": 0.3042524456977844
+        },
+        {
+          "paragraph_id": "1910.140(c)(7)",
+          "distance": 0.304257398082472
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1357,
+        "completion_tokens": 36,
+        "latency_s": 3.3280000000086147,
+        "load_duration_s": 0.3043337
+      }
+    },
+    {
+      "id": "ladder-004",
+      "category": "numeric_lookup",
+      "question": "How must ladder rungs and steps be spaced in elevator shafts?",
+      "answer": "Ladder rungs and steps in elevator shafts must be spaced not less than 6 inches (15 cm) apart and not more than 16.5 inches (42 cm) apart, as measured along the ladder side rails; [1910.23(b)(2)(i)]",
+      "citations": [
+        "1910.23(b)(2)(i)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.23(b)(2)(i)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.23(b)(2)(i)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.23(b)(2)(i)",
+          "distance": 0.19853141334087632
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)(ii)",
+          "distance": 0.22857357944719114
+        },
+        {
+          "paragraph_id": "1910.23(b)(2)",
+          "distance": 0.23170460215346844
+        },
+        {
+          "paragraph_id": "1910.23(b)(3)",
+          "distance": 0.24961961055094128
+        },
+        {
+          "paragraph_id": "1910.23(b)(1)",
+          "distance": 0.2535566020211516
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)",
+          "distance": 0.2594431087698982
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(i)",
+          "distance": 0.27060340222098844
+        },
+        {
+          "paragraph_id": "1910.23(d)(12)(ii)",
+          "distance": 0.27594673014952553
+        },
+        {
+          "paragraph_id": "1910.23(d)(2)",
+          "distance": 0.27643005392371134
+        },
+        {
+          "paragraph_id": "1910.23(d)(10)",
+          "distance": 0.28532962290466934
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 935,
+        "completion_tokens": 59,
+        "latency_s": 4.297000000020489,
+        "load_duration_s": 0.3188346
+      }
+    },
+    {
+      "id": "fall-002",
+      "category": "numeric_lookup",
+      "question": "To what tensile load must D-rings, snaphooks, and carabiners be proof tested?",
+      "answer": "D-rings, snaphooks, and carabiners must be proof tested to a minimum tensile load of 3,600 pounds (16 kN) without cracking, breaking, or incurring permanent deformation. [1910.140(c)(8)]",
+      "citations": [
+        "1910.140(c)(8)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(c)(8)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(8)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(8)",
+          "distance": 0.2179866249609087
+        },
+        {
+          "paragraph_id": "1910.140(c)(7)",
+          "distance": 0.27720934507456796
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(iii)",
+          "distance": 0.2969981561905729
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(v)",
+          "distance": 0.3236307536491989
+        },
+        {
+          "paragraph_id": "1910.137(a)(2)(i)(A)",
+          "distance": 0.33367266253554584
+        },
+        {
+          "paragraph_id": "1910.137(a)(2)(ii)",
+          "distance": 0.3344327801528548
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(i)",
+          "distance": 0.3344476423333239
+        },
+        {
+          "paragraph_id": "1910.137(a)(2)(ii)(A)",
+          "distance": 0.3347513670618366
+        },
+        {
+          "paragraph_id": "1910.137(a)(2)(i)(B)",
+          "distance": 0.3395907856497292
+        },
+        {
+          "paragraph_id": "1910.140(c)(9)",
+          "distance": 0.34281758241232374
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1079,
+        "completion_tokens": 54,
+        "latency_s": 4.062000000005355,
+        "load_duration_s": 0.3192436
+      }
+    },
+    {
+      "id": "fall-003",
+      "category": "near_miss",
+      "question": "What minimum tensile load must D-rings, snaphooks, and carabiners be capable of sustaining?",
+      "answer": "According to [1910.140(c)(7)], D-rings, snaphooks, and carabiners must be capable of sustaining a minimum tensile load of 5,000 pounds (22.2 kN).",
+      "citations": [
+        "1910.140(c)(7)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(c)(7)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(7)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(8)",
+          "distance": 0.22952415415212601
+        },
+        {
+          "paragraph_id": "1910.140(c)(7)",
+          "distance": 0.24937266126330293
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(iii)",
+          "distance": 0.29315859797741084
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(v)",
+          "distance": 0.31521576966957277
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(i)",
+          "distance": 0.3288857524913855
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(ii)",
+          "distance": 0.3358718948516971
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)",
+          "distance": 0.33798245561227347
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(iv)",
+          "distance": 0.339982948299115
+        },
+        {
+          "paragraph_id": "1910.27(b)(2)(vii)",
+          "distance": 0.3421941603537788
+        },
+        {
+          "paragraph_id": "1910.140(c)(9)",
+          "distance": 0.3430220280276508
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1000,
+        "completion_tokens": 47,
+        "latency_s": 3.327999999979511,
+        "load_duration_s": 0.3567499
+      }
+    },
+    {
+      "id": "fall-004",
+      "category": "numeric_lookup",
+      "question": "What type of snaphooks and carabiners are required, and how many movements must opening them take?",
+      "answer": "Automatic-locking type [1910.140(b)]. Opening an automatic-locking type snaphook or carabiner requires at least two separate, consecutive movements to open [1910.140(c)(9)].",
+      "citations": [
+        "1910.140(b)",
+        "1910.140(c)(9)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(b)",
+          "1910.140(c)(9)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(9)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(9)",
+          "distance": 0.2830158472061157
+        },
+        {
+          "paragraph_id": "1910.140(b)",
+          "distance": 0.2912063123742866
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(v)",
+          "distance": 0.31330665191332185
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(iii)",
+          "distance": 0.3187757350473671
+        },
+        {
+          "paragraph_id": "1910.140(c)(8)",
+          "distance": 0.3202862357751993
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(i)",
+          "distance": 0.3452358093280754
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(ii)",
+          "distance": 0.3500306397658194
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)",
+          "distance": 0.3508397340774536
+        },
+        {
+          "paragraph_id": "1910.140(c)(10)(iv)",
+          "distance": 0.3636323105192827
+        },
+        {
+          "paragraph_id": "1910.140(c)(7)",
+          "distance": 0.3782821813317113
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1261,
+        "completion_tokens": 44,
+        "latency_s": 3.8280000000086147,
+        "load_duration_s": 0.3138512
+      }
+    },
+    {
+      "id": "fall-005",
+      "category": "numeric_lookup",
+      "question": "For self-retracting lifelines that limit free fall to 2 feet or less, what tensile load must components sustain?",
+      "answer": "Components capable of sustaining a minimum tensile load of 3,000 pounds (13.3 kN) applied to the device with the lifeline or lanyard in the fully extended position [1910.140(c)(5)].",
+      "citations": [
+        "1910.140(c)(5)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(c)(5)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(5)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(5)",
+          "distance": 0.20526061152111352
+        },
+        {
+          "paragraph_id": "1910.140(c)(14)",
+          "distance": 0.27253958314180693
+        },
+        {
+          "paragraph_id": "1910.140(c)(4)",
+          "distance": 0.2728944150631337
+        },
+        {
+          "paragraph_id": "1910.140(b)",
+          "distance": 0.2762089104901394
+        },
+        {
+          "paragraph_id": "1910.140(c)(3)",
+          "distance": 0.28321682510676705
+        },
+        {
+          "paragraph_id": "1910.140(c)(15)",
+          "distance": 0.28424221215816103
+        },
+        {
+          "paragraph_id": "1910.140(c)(7)",
+          "distance": 0.28497008770879384
+        },
+        {
+          "paragraph_id": "1910.29(i)(2)",
+          "distance": 0.2935310356057874
+        },
+        {
+          "paragraph_id": "1910.140(c)(8)",
+          "distance": 0.296629011630992
+        },
+        {
+          "paragraph_id": "1910.140(c)(11)(ii)",
+          "distance": 0.2967943870294303
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1241,
+        "completion_tokens": 49,
+        "latency_s": 3.9530000000086147,
+        "load_duration_s": 0.3180364
+      }
+    },
+    {
+      "id": "loto-004",
+      "category": "procedural",
+      "question": "What does the energy control procedure require regarding the order of steps?",
+      "answer": "The established procedures for the application of energy control (the lockout or tagout procedures) shall cover the following elements and actions and shall be done in the following sequence [1910.147(d)].",
+      "citations": [
+        "1910.147(d)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(d)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(d)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(A)",
+          "distance": 0.29132805142781726
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)",
+          "distance": 0.2942584191925669
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(C)",
+          "distance": 0.2956484908638135
+        },
+        {
+          "paragraph_id": "1910.147(d)",
+          "distance": 0.3002907246264447
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(D)",
+          "distance": 0.30138133159986025
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(B)",
+          "distance": 0.30145935977474214
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)",
+          "distance": 0.3054692281410448
+        },
+        {
+          "paragraph_id": "1910.147(d)(1)",
+          "distance": 0.32439782248740445
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(i)",
+          "distance": 0.329865574216589
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(B)",
+          "distance": 0.3358564970621545
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1080,
+        "completion_tokens": 41,
+        "latency_s": 3.3280000000086147,
+        "load_duration_s": 0.3116084
+      }
+    },
+    {
+      "id": "loto-005",
+      "category": "procedural",
+      "question": "When must affected employees be notified about lockout devices?",
+      "answer": "Affected employees shall be notified by the employer or authorized employee of the application and removal of lockout devices before the controls are applied [1910.147(c)(9)].",
+      "citations": [
+        "1910.147(c)(9)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(9)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(9)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(9)",
+          "distance": 0.1695842742919922
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.23441073484292263
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(i)",
+          "distance": 0.26603868412509823
+        },
+        {
+          "paragraph_id": "1910.147(f)(4)",
+          "distance": 0.2665998180747128
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(D)",
+          "distance": 0.26970226042322476
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)",
+          "distance": 0.2730335863788569
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.2734302878379822
+        },
+        {
+          "paragraph_id": "1910.147(f)(3)(ii)(D)",
+          "distance": 0.273760053367616
+        },
+        {
+          "paragraph_id": "1910.147(c)(3)(i)",
+          "distance": 0.2754086463181582
+        },
+        {
+          "paragraph_id": "1910.147(c)(3)(ii)",
+          "distance": 0.27675341284104094
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1215,
+        "completion_tokens": 35,
+        "latency_s": 3.0309999999881256,
+        "load_duration_s": 0.3179228
+      }
+    },
+    {
+      "id": "loto-006",
+      "category": "procedural",
+      "question": "What is required when shutting down a machine for servicing?",
+      "answer": "The machine or equipment shall be turned off or shut down using the procedures established for the machine or equipment. An orderly shutdown must be utilized to avoid any additional or increased hazard(s) to employees as a result of the equipment stoppage. [1910.147(d)(2)]",
+      "citations": [
+        "1910.147(d)(2)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(d)(2)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(d)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(d)(2)",
+          "distance": 0.2722671141146801
+        },
+        {
+          "paragraph_id": "1910.147(d)(1)",
+          "distance": 0.3020928890136668
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(i)",
+          "distance": 0.3069749610363901
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)",
+          "distance": 0.3299620544865006
+        },
+        {
+          "paragraph_id": "1910.147(a)(2)(ii)(B)",
+          "distance": 0.3308238983154249
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.33231121319927814
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.3323694073052874
+        },
+        {
+          "paragraph_id": "1910.147(a)(1)(i)",
+          "distance": 0.33330957094969804
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(B)",
+          "distance": 0.3385007372199159
+        },
+        {
+          "paragraph_id": "1910.147(d)(6)",
+          "distance": 0.33902498018443816
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1327,
+        "completion_tokens": 57,
+        "latency_s": 4.75,
+        "load_duration_s": 0.3309694
+      }
+    },
+    {
+      "id": "fall-006",
+      "category": "near_miss",
+      "question": "Where must the attachment point of a body harness be located?",
+      "answer": "The attachment point of a body harness must be located in the center of the employee's back near shoulder level [1910.140(c)(22)]. The attachment point may also be located in the pre-sternal position if the free fall distance is limited to 2 feet (0.6 m) or less [1910.140(c)(22)].",
+      "citations": [
+        "1910.140(c)(22)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.140(c)(22)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.140(c)(22)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(c)(22)",
+          "distance": 0.30487211375665235
+        },
+        {
+          "paragraph_id": "1910.140(b)",
+          "distance": 0.35712437118580553
+        },
+        {
+          "paragraph_id": "1910.29(i)(2)",
+          "distance": 0.36451915714030403
+        },
+        {
+          "paragraph_id": "1910.140(c)(12)",
+          "distance": 0.3759373274073444
+        },
+        {
+          "paragraph_id": "1910.140(d)(3)",
+          "distance": 0.39105463544021435
+        },
+        {
+          "paragraph_id": "1910.29(j)",
+          "distance": 0.39675548153984563
+        },
+        {
+          "paragraph_id": "1910.140(c)(19)",
+          "distance": 0.39725719739367904
+        },
+        {
+          "paragraph_id": "1910.27(b)(1)(ii)",
+          "distance": 0.4054626097447963
+        },
+        {
+          "paragraph_id": "1910.140(c)(6)",
+          "distance": 0.4059243296700269
+        },
+        {
+          "paragraph_id": "1910.21(b)",
+          "distance": 0.4070736259510622
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1476,
+        "completion_tokens": 72,
+        "latency_s": 5.51600000000326,
+        "load_duration_s": 0.3378473
+      }
+    },
+    {
+      "id": "loto-007",
+      "category": "conditional",
+      "question": "Under what circumstances may lockout devices be temporarily removed while servicing is still underway?",
+      "answer": "The provided text does not contain this information.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(f)(1)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.25916697139539835
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)",
+          "distance": 0.27544529887704605
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(ii)",
+          "distance": 0.27561091344550526
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(iii)",
+          "distance": 0.2769848805095919
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.28306142788753064
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.2835463196419934
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(iii)",
+          "distance": 0.28414270249005114
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(i)",
+          "distance": 0.28460580981855654
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(i)",
+          "distance": 0.2935624893642642
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)",
+          "distance": 0.29589186759896313
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1127,
+        "completion_tokens": 10,
+        "latency_s": 1.6559999999881256,
+        "load_duration_s": 0.3018173
+      }
+    },
+    {
+      "id": "loto-008",
+      "category": "conditional",
+      "question": "When is servicing that takes place during normal production operations covered by the lockout/tagout standard?",
+      "answer": "Servicing and/or maintenance which takes place during normal production operations is covered by this standard only if it requires an employee to place any part of his or her body into an area on a machine or piece of equipment where work is actually performed upon the material being processed (point of operation) or where an associated danger zone exists during a machine operating cycle [1910.147(a)(2)(ii)].",
+      "citations": [
+        "1910.147(a)(2)(ii)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(a)(2)(ii)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(a)(2)(ii)",
+        "1910.147(a)(2)(ii)(A)",
+        "1910.147(a)(2)(ii)(B)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(a)(2)(ii)",
+          "distance": 0.20408465789234653
+        },
+        {
+          "paragraph_id": "1910.147(a)(2)(ii)(B)",
+          "distance": 0.211401271140487
+        },
+        {
+          "paragraph_id": "1910.147(f)(2)(i)",
+          "distance": 0.23924182163026053
+        },
+        {
+          "paragraph_id": "1910.147(a)(2)(ii)(A)",
+          "distance": 0.24556332932392855
+        },
+        {
+          "paragraph_id": "1910.147(f)(3)(i)",
+          "distance": 0.25093755873848955
+        },
+        {
+          "paragraph_id": "1910.147(a)(1)(i)",
+          "distance": 0.2596140790445658
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(iii)",
+          "distance": 0.2609819121446818
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.2645945233589927
+        },
+        {
+          "paragraph_id": "1910.147(a)(2)(i)",
+          "distance": 0.26551399426201305
+        },
+        {
+          "paragraph_id": "1910.147(c)(8)",
+          "distance": 0.2681356029187195
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1014,
+        "completion_tokens": 81,
+        "latency_s": 5.405999999988126,
+        "load_duration_s": 0.3072424
+      }
+    },
+    {
+      "id": "loto-009",
+      "category": "conditional",
+      "question": "Does the lockout/tagout standard apply to work on cord-and-plug connected electric equipment?",
+      "answer": "[1910.147(a)(2)(iii)(A)] This standard does not apply to work on cord and plug connected electric equipment for which exposure to the hazards of unexpected energization or start up of the equipment is controlled by the unplugging of the equipment from the energy source and by the plug being under the exclusive control of the employee performing the servicing or maintenance.",
+      "citations": [
+        "1910.147(a)(2)(iii)(A)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(a)(2)(iii)(A)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(a)(2)(iii)",
+        "1910.147(a)(2)(iii)(A)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(a)(2)(iii)(A)",
+          "distance": 0.2098248990796172
+        },
+        {
+          "paragraph_id": "1910.147(c)(3)(i)",
+          "distance": 0.2147386520155088
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(i)",
+          "distance": 0.22128847216356506
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(ii)",
+          "distance": 0.22652906015150776
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(C)(2)",
+          "distance": 0.22842778893387727
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(F)",
+          "distance": 0.2294969231321553
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(D)",
+          "distance": 0.23086833957696884
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(iii)",
+          "distance": 0.23152915773667648
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(A)",
+          "distance": 0.2328972636873543
+        },
+        {
+          "paragraph_id": "1910.147(f)(3)(ii)(D)",
+          "distance": 0.2331910460805715
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1152,
+        "completion_tokens": 75,
+        "latency_s": 5.469000000011874,
+        "load_duration_s": 0.3409045
+      }
+    },
+    {
+      "id": "neg-001",
+      "category": "negative",
+      "question": "What must an entry permit for a permit-required confined space contain?",
+      "answer": "The provided text does not contain information about what an entry permit for a permit-required confined space must contain.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.22(c)",
+          "distance": 0.36550124102816095
+        },
+        {
+          "paragraph_id": "1910.147(f)(2)",
+          "distance": 0.37260260067574125
+        },
+        {
+          "paragraph_id": "1910.147(f)(2)(ii)",
+          "distance": 0.3730661530891063
+        },
+        {
+          "paragraph_id": "1910.147(f)(2)(i)",
+          "distance": 0.37486734983138614
+        },
+        {
+          "paragraph_id": "1910.25(b)(5)",
+          "distance": 0.3817628751952743
+        },
+        {
+          "paragraph_id": "1910.22(a)(1)",
+          "distance": 0.3831361988945069
+        },
+        {
+          "paragraph_id": "1910.147(f)",
+          "distance": 0.3840446929984743
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(A)",
+          "distance": 0.3844469510189976
+        },
+        {
+          "paragraph_id": "1910.147(f)(3)(ii)",
+          "distance": 0.38544779084066205
+        },
+        {
+          "paragraph_id": "1910.25(c)(4)",
+          "distance": 0.39091031443001856
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 799,
+        "completion_tokens": 22,
+        "latency_s": 2.2969999999913853,
+        "load_duration_s": 0.3205109
+      }
+    },
+    {
+      "id": "neg-002",
+      "category": "negative",
+      "question": "What is the maximum travel distance an employee should have to walk to reach a fire extinguisher?",
+      "answer": "The provided text does not contain this information.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.140(e)(1)(iv)(C)",
+          "distance": 0.31901466846466064
+        },
+        {
+          "paragraph_id": "1910.140(b)",
+          "distance": 0.32047605514526367
+        },
+        {
+          "paragraph_id": "1910.24(a)(5)",
+          "distance": 0.33459281932647134
+        },
+        {
+          "paragraph_id": "1910.22(c)",
+          "distance": 0.33975241543338086
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(3)",
+          "distance": 0.3434246814577212
+        },
+        {
+          "paragraph_id": "1910.136(a)",
+          "distance": 0.35038524866104126
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(1)",
+          "distance": 0.35324931144714355
+        },
+        {
+          "paragraph_id": "1910.21(b)",
+          "distance": 0.3551181805415401
+        },
+        {
+          "paragraph_id": "1910.23(d)(2)",
+          "distance": 0.3555571609071255
+        },
+        {
+          "paragraph_id": "1910.140(e)(2)(xii)(B)",
+          "distance": 0.3561616752244029
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1581,
+        "completion_tokens": 10,
+        "latency_s": 2.2030000000086147,
+        "load_duration_s": 0.3117235
+      }
+    },
+    {
+      "id": "neg-003",
+      "category": "negative",
+      "question": "At what noise exposure level must an employer implement a hearing conservation program?",
+      "answer": "The provided text does not contain information about noise exposure levels or hearing conservation programs.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(3)",
+          "distance": 0.34047172743473253
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(1)",
+          "distance": 0.34089962663947393
+        },
+        {
+          "paragraph_id": "1910.135(a)(1)",
+          "distance": 0.34188207117945757
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)(iii)",
+          "distance": 0.34442084928563854
+        },
+        {
+          "paragraph_id": "1910.133(a)(1)",
+          "distance": 0.35448638661165166
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)",
+          "distance": 0.35663533627426225
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(2)",
+          "distance": 0.35669870683873517
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(i)",
+          "distance": 0.35867271443116544
+        },
+        {
+          "paragraph_id": "1910.134(i)(3)",
+          "distance": 0.358927688534718
+        },
+        {
+          "paragraph_id": "1910.134(l)",
+          "distance": 0.36000782012868826
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1053,
+        "completion_tokens": 17,
+        "latency_s": 2.0940000000118744,
+        "load_duration_s": 0.3087361
+      }
+    },
+    {
+      "id": "loto-010",
+      "category": "procedural",
+      "question": "What sequence of actions must be followed when temporarily removing lockout devices to test or position equipment?",
+      "answer": "According to [1910.147(f)(1)], the following sequence of actions shall be followed:\n\nRemove the lockout or tagout devices as specified in paragraph (e)(3) of this section; \nEnergize and proceed with testing or positioning; \n\nThis is stated in [1910.147(f)(1)(iii)] and [1910.147(f)(1)(iv)].",
+      "citations": [
+        "1910.147(f)(1)",
+        "1910.147(f)(1)(iii)",
+        "1910.147(f)(1)(iv)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(f)(1)",
+          "1910.147(f)(1)(iii)",
+          "1910.147(f)(1)(iv)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(f)(1)(i)",
+        "1910.147(f)(1)(ii)",
+        "1910.147(f)(1)(iii)",
+        "1910.147(f)(1)(iv)",
+        "1910.147(f)(1)(v)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(f)(1)",
+          "distance": 0.22510619687268407
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(iii)",
+          "distance": 0.26393395994518054
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(iv)",
+          "distance": 0.2656932533657541
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.2696567234703766
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(ii)",
+          "distance": 0.2719032330455323
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.2722583792286625
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(i)",
+          "distance": 0.2722702241749033
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)",
+          "distance": 0.2787957836274022
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(v)",
+          "distance": 0.2789112613313961
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.281430692374238
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1035,
+        "completion_tokens": 81,
+        "latency_s": 5.609000000025844,
+        "load_duration_s": 0.3097028
+      }
+    },
+    {
+      "id": "resp-001",
+      "category": "numeric_lookup",
+      "question": "What is the assigned protection factor for a full facepiece air-purifying respirator?",
+      "answer": "[1910.134(d)(3)(i)(A)] This APF category includes filtering facepieces, and half masks with elastomeric facepieces. [Note 3] The assigned protection factors in Table 1 are only effective when the employer implements a continuing, effective respirator program as required by this section (29 CFR 1910.134), including training, fit testing, maintenance, and use requirements.\n\nHowever, since the question specifically asks about a full facepiece air-purifying respirator, I must refer to [1910.134(d)(3)(iv)(C)] which states that for contaminants consisting primarily of particles with mass median aerodynamic diameters (MMAD) of at least 2 micrometers, an air-purifying respirator equipped with any filter certified for particulates by NIOSH is required.\n\nUnfortunately, the provided text does not specify the assigned protection factor for a full facepiece air-purifying respirator.",
+      "citations": [
+        "1910.134(d)(3)(i)(A)",
+        "1910.134(d)(3)(iv)(C)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.134(d)(3)(i)(A)",
+          "1910.134(d)(3)(iv)(C)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.134(d)(3)(i)(A)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(A)",
+          "distance": 0.22719288682725491
+        },
+        {
+          "paragraph_id": "1910.134(b)",
+          "distance": 0.23380707418554436
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iv)(C)",
+          "distance": 0.2391687579959615
+        },
+        {
+          "paragraph_id": "1910.134(d)",
+          "distance": 0.2421314264613904
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iv)(B)",
+          "distance": 0.24652688060332184
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iii)(B)",
+          "distance": 0.24771791642138818
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)",
+          "distance": 0.25380014752750435
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)(i)",
+          "distance": 0.255574868126178
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iv)",
+          "distance": 0.2599025523604155
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iii)(B)(1)",
+          "distance": 0.2606584545540779
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1721,
+        "completion_tokens": 197,
+        "latency_s": 13.375,
+        "load_duration_s": 0.3368769
+      }
+    },
+    {
+      "id": "resp-002",
+      "category": "numeric_lookup",
+      "question": "Above what oxygen concentration must equipment be specifically designed for oxygen service?",
+      "answer": "The employer shall ensure that oxygen concentrations greater than 23.5% are used only in equipment designed for oxygen service or distribution. [1910.134(i)(3)]",
+      "citations": [
+        "1910.134(i)(3)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.134(i)(3)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.134(i)(3)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(i)(3)",
+          "distance": 0.25745535753001836
+        },
+        {
+          "paragraph_id": "1910.134(b)",
+          "distance": 0.2760958404655215
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(3)",
+          "distance": 0.2877701701021803
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(1)",
+          "distance": 0.31251028925302604
+        },
+        {
+          "paragraph_id": "1910.137(a)(1)(ii)(H)",
+          "distance": 0.3153650980752152
+        },
+        {
+          "paragraph_id": "1910.134(d)(2)(iii)",
+          "distance": 0.3207542896270559
+        },
+        {
+          "paragraph_id": "1910.137(b)(2)(i)",
+          "distance": 0.3218566967163393
+        },
+        {
+          "paragraph_id": "1910.137(a)(2)(iv)",
+          "distance": 0.32217830419538473
+        },
+        {
+          "paragraph_id": "1910.134(i)(1)(ii)(A)",
+          "distance": 0.3226089862118895
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(2)",
+          "distance": 0.3252764552501658
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1479,
+        "completion_tokens": 36,
+        "latency_s": 3.6410000000032596,
+        "load_duration_s": 0.3609631
+      }
+    },
+    {
+      "id": "resp-003",
+      "category": "conditional",
+      "question": "When must an employer provide a medical evaluation for respirator use?",
+      "answer": "The employer shall provide a medical evaluation to determine the employee's ability to use a respirator, before the employee is fit tested or required to use the respirator in the workplace. [1910.134(e)(1)]",
+      "citations": [
+        "1910.134(e)(1)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.134(e)(1)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.134(e)(1)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(e)(1)",
+          "distance": 0.08884978958976242
+        },
+        {
+          "paragraph_id": "1910.134(e)",
+          "distance": 0.10727051962541201
+        },
+        {
+          "paragraph_id": "1910.134(e)(7)(i)",
+          "distance": 0.11100913422918524
+        },
+        {
+          "paragraph_id": "1910.134(e)(6)",
+          "distance": 0.1126315056650612
+        },
+        {
+          "paragraph_id": "1910.134(e)(7)",
+          "distance": 0.11740037280308602
+        },
+        {
+          "paragraph_id": "1910.134(e)(7)(iii)",
+          "distance": 0.11871400625369277
+        },
+        {
+          "paragraph_id": "1910.134(e)(7)(ii)",
+          "distance": 0.11977893595535716
+        },
+        {
+          "paragraph_id": "1910.134(e)(6)(ii)",
+          "distance": 0.12468022123326239
+        },
+        {
+          "paragraph_id": "1910.134(e)(6)(i)(B)",
+          "distance": 0.12553245215964093
+        },
+        {
+          "paragraph_id": "1910.134(e)(2)(i)",
+          "distance": 0.12703329227767357
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1050,
+        "completion_tokens": 46,
+        "latency_s": 3.6719999999913853,
+        "load_duration_s": 0.3141959
+      }
+    },
+    {
+      "id": "resp-004",
+      "category": "conditional",
+      "question": "When must an employee using a tight-fitting facepiece respirator be fit tested?",
+      "answer": "The employer shall ensure that an employee using a tight-fitting facepiece respirator is fit tested prior to initial use of the respirator, whenever a different respirator facepiece (size, style, model or make) is used, and at least annually thereafter. [1910.134(f)(2)]",
+      "citations": [
+        "1910.134(f)(2)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.134(f)(2)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.134(f)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(f)(2)",
+          "distance": 0.0909530303589644
+        },
+        {
+          "paragraph_id": "1910.134(f)",
+          "distance": 0.120806751034786
+        },
+        {
+          "paragraph_id": "1910.134(f)(8)(iii)",
+          "distance": 0.12690040847345208
+        },
+        {
+          "paragraph_id": "1910.134(f)(1)",
+          "distance": 0.13893641861184036
+        },
+        {
+          "paragraph_id": "1910.134(f)(8)(ii)",
+          "distance": 0.14132964674784199
+        },
+        {
+          "paragraph_id": "1910.134(f)(8)(i)",
+          "distance": 0.15623479896470227
+        },
+        {
+          "paragraph_id": "1910.134(f)(4)",
+          "distance": 0.16000492572633895
+        },
+        {
+          "paragraph_id": "1910.134(f)(3)",
+          "distance": 0.16465557148216192
+        },
+        {
+          "paragraph_id": "1910.134(f)(7)",
+          "distance": 0.16762029091463926
+        },
+        {
+          "paragraph_id": "1910.134(f)(6)",
+          "distance": 0.18386079938726319
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1212,
+        "completion_tokens": 63,
+        "latency_s": 4.907000000006519,
+        "load_duration_s": 0.3487605
+      }
+    },
+    {
+      "id": "resp-005",
+      "category": "conditional",
+      "question": "Under what conditions may an employer permit voluntary respirator use?",
+      "answer": "An employer may provide respirators at the request of employees or permit employees to use their own respirators, if the employer determines that such respirator use will not in itself create a hazard. [1910.134(c)(2)(i)]",
+      "citations": [
+        "1910.134(c)(2)(i)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.134(c)(2)(i)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.134(c)(2)(i)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(c)(2)(i)",
+          "distance": 0.18023813948736944
+        },
+        {
+          "paragraph_id": "1910.134(a)(2)",
+          "distance": 0.18877418141594982
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)",
+          "distance": 0.19635686863529378
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(1)",
+          "distance": 0.1970937613136996
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)",
+          "distance": 0.19778149141182266
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(2)",
+          "distance": 0.19910751613109157
+        },
+        {
+          "paragraph_id": "1910.134(e)(6)",
+          "distance": 0.2039595708991575
+        },
+        {
+          "paragraph_id": "1910.134(e)(6)(i)(A)",
+          "distance": 0.20417628425165546
+        },
+        {
+          "paragraph_id": "1910.134(g)(3)(v)",
+          "distance": 0.20462164823750306
+        },
+        {
+          "paragraph_id": "1910.134(g)(3)",
+          "distance": 0.20589346745169934
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1156,
+        "completion_tokens": 50,
+        "latency_s": 4.10899999999674,
+        "load_duration_s": 0.3162075
+      }
+    },
+    {
+      "id": "guard-001",
+      "category": "numeric_lookup",
+      "question": "What is the required top edge height of guardrail top rails above the walking-working surface?",
+      "answer": "The top edge height of top rails, or equivalent guardrail system members, are 42 inches (107 cm), plus or minus 3 inches (8 cm), above the walking-working surface. [1910.29(b)(1)]",
+      "citations": [
+        "1910.29(b)(1)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.29(b)(1)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.29(b)(1)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.29(b)(1)",
+          "distance": 0.18217637060839975
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)",
+          "distance": 0.24801614951505047
+        },
+        {
+          "paragraph_id": "1910.29(b)(4)",
+          "distance": 0.24995484201073992
+        },
+        {
+          "paragraph_id": "1910.29(b)(15)",
+          "distance": 0.2536193417479484
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.26702048391710953
+        },
+        {
+          "paragraph_id": "1910.29(f)(1)(ii)(B)",
+          "distance": 0.2725997729658932
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(i)",
+          "distance": 0.2729189070559799
+        },
+        {
+          "paragraph_id": "1910.29(b)(3)",
+          "distance": 0.27397775650024414
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(ii)",
+          "distance": 0.27648798963499
+        },
+        {
+          "paragraph_id": "1910.29(f)(1)(iii)(A)",
+          "distance": 0.27733842865595515
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1258,
+        "completion_tokens": 49,
+        "latency_s": 3.98499999998603,
+        "load_duration_s": 0.3266461
+      }
+    },
+    {
+      "id": "guard-002",
+      "category": "numeric_lookup",
+      "question": "What force must a guardrail system withstand at the top rail?",
+      "answer": "A force of at least 200 pounds (890 N) applied in a downward or outward direction within 2 inches (5 cm) of the top edge, at any point along the top rail. [1910.29(b)(3)]",
+      "citations": [
+        "1910.29(b)(3)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.29(b)(3)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.29(b)(3)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.29(b)(3)",
+          "distance": 0.1772383874030803
+        },
+        {
+          "paragraph_id": "1910.29(b)(5)",
+          "distance": 0.20087137232672492
+        },
+        {
+          "paragraph_id": "1910.29(b)(4)",
+          "distance": 0.20491265395255265
+        },
+        {
+          "paragraph_id": "1910.29(b)(1)",
+          "distance": 0.21181936862853934
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)",
+          "distance": 0.2225380274606722
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.22283071312167613
+        },
+        {
+          "paragraph_id": "1910.29(b)(15)",
+          "distance": 0.23113420830543585
+        },
+        {
+          "paragraph_id": "1910.29(b)(8)",
+          "distance": 0.2318324766357397
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(ii)",
+          "distance": 0.23356912736337254
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(i)",
+          "distance": 0.23681166610851967
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1184,
+        "completion_tokens": 50,
+        "latency_s": 4.219000000011874,
+        "load_duration_s": 0.3407682
+      }
+    },
+    {
+      "id": "guard-003",
+      "category": "near_miss",
+      "question": "What force must midrails and other intermediate members withstand?",
+      "answer": "[1910.29(b)(5)] Midrails, screens, mesh, intermediate vertical members, solid panels, and other equivalent intermediate members are capable of withstanding, without failure, a force of at least 150 pounds (667 N) applied in any downward or outward direction at any point along the intermediate member.",
+      "citations": [
+        "1910.29(b)(5)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.29(b)(5)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.29(b)(5)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.29(b)(5)",
+          "distance": 0.2704748462498554
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(iv)",
+          "distance": 0.3029194031535166
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(iii)",
+          "distance": 0.30721583747391656
+        },
+        {
+          "paragraph_id": "1910.29(f)(7)",
+          "distance": 0.3079176407056712
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(i)",
+          "distance": 0.3090196111155483
+        },
+        {
+          "paragraph_id": "1910.29(b)(3)",
+          "distance": 0.3097353804426882
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)",
+          "distance": 0.3131026920782408
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(ii)",
+          "distance": 0.31327003599344916
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.325602887678604
+        },
+        {
+          "paragraph_id": "1910.29(b)(15)",
+          "distance": 0.32799037552336907
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1267,
+        "completion_tokens": 65,
+        "latency_s": 4.905999999988126,
+        "load_duration_s": 0.3142904
+      }
+    },
+    {
+      "id": "edge-001",
+      "category": "numeric_lookup",
+      "question": "At what height above a lower level must an employee on an unprotected side or edge be protected from falling?",
+      "answer": "The employer must ensure that each employee on a walking-working surface with an unprotected side or edge that is 4 feet (1.2 m) or more above a lower level is protected from falling [1910.28(b)(1)(i)].",
+      "citations": [
+        "1910.28(b)(1)(i)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.28(b)(1)(i)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.28(b)(1)(i)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.28(b)(1)(i)",
+          "distance": 0.14745003672240242
+        },
+        {
+          "paragraph_id": "1910.28(b)(7)",
+          "distance": 0.17856982882518446
+        },
+        {
+          "paragraph_id": "1910.28(b)(11)(i)",
+          "distance": 0.18830637227626856
+        },
+        {
+          "paragraph_id": "1910.28(b)(3)(ii)",
+          "distance": 0.1935291674909475
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(i)",
+          "distance": 0.1950985207859981
+        },
+        {
+          "paragraph_id": "1910.28(b)(13)(ii)",
+          "distance": 0.1968689443546464
+        },
+        {
+          "paragraph_id": "1910.28(b)(15)",
+          "distance": 0.19795365321348413
+        },
+        {
+          "paragraph_id": "1910.28(b)(13)(iii)(A)",
+          "distance": 0.20064249027204117
+        },
+        {
+          "paragraph_id": "1910.28(b)(13)(iii)(B)",
+          "distance": 0.20171833012720675
+        },
+        {
+          "paragraph_id": "1910.28(b)(6)(i)",
+          "distance": 0.20291684805098475
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1115,
+        "completion_tokens": 51,
+        "latency_s": 3.9839999999967404,
+        "load_duration_s": 0.3087425
+      }
+    },
+    {
+      "id": "guard-004",
+      "category": "conditional",
+      "question": "When are midrails or equivalent intermediate members required in a guardrail system?",
+      "answer": "Midrails, screens, mesh, intermediate vertical members, solid panels, or equivalent intermediate members are installed between the walking-working surface and the top edge of the guardrail system [1910.29(b)(2)]. \n\nIntermediate vertical members (such as balusters) are installed no more than 19 inches (48 cm) apart [1910.29(b)(2)(iii)].\n\nMidrails, screens, mesh, intermediate vertical members, solid panels, or equivalent intermediate members are installed between the walking-working surface and the top edge of the guardrail system when there is not a wall or parapet that is at least 21 inches (53 cm) high [1910.29(b)(2)].\n\nMidrails are installed at a height midway between the top edge of the guardrail system and the walking-working surface [1910.29(b)(2)(i)].",
+      "citations": [
+        "1910.29(b)(2)",
+        "1910.29(b)(2)(iii)",
+        "1910.29(b)(2)(i)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.29(b)(2)",
+          "1910.29(b)(2)(iii)",
+          "1910.29(b)(2)(i)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.29(b)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.29(b)(2)(iv)",
+          "distance": 0.2232346870090196
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(i)",
+          "distance": 0.2234092719378571
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)",
+          "distance": 0.2240443656351
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(iii)",
+          "distance": 0.22914805325420373
+        },
+        {
+          "paragraph_id": "1910.29(b)(5)",
+          "distance": 0.23484001263496546
+        },
+        {
+          "paragraph_id": "1910.29(b)(2)(ii)",
+          "distance": 0.23658417790388986
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.24937763037276794
+        },
+        {
+          "paragraph_id": "1910.29(b)(8)",
+          "distance": 0.2536162502969216
+        },
+        {
+          "paragraph_id": "1910.29(b)(10)",
+          "distance": 0.255948052873854
+        },
+        {
+          "paragraph_id": "1910.29(b)(1)",
+          "distance": 0.2571276307042436
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1081,
+        "completion_tokens": 178,
+        "latency_s": 10.469000000011874,
+        "load_duration_s": 0.3675583
+      }
+    },
+    {
+      "id": "ppe-001",
+      "category": "procedural",
+      "question": "What must an employer do if a workplace hazard assessment finds hazards requiring PPE?",
+      "answer": "The employer shall select and have each affected employee use the types of PPE that will protect the affected employee from the hazards identified in the hazard assessment [1910.132(d)(1)(ii)]. The employer shall also communicate selection decisions to each affected employee [1910.132(d)(1)(ii)].",
+      "citations": [
+        "1910.132(d)(1)(ii)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.132(d)(1)(ii)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.132(d)(1)",
+        "1910.132(d)(1)(i)",
+        "1910.132(d)(1)(ii)",
+        "1910.132(d)(1)(iii)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.132(d)(1)",
+          "distance": 0.15207804348177545
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(i)",
+          "distance": 0.15860235691065172
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(iii)",
+          "distance": 0.16418472955399432
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(ii)",
+          "distance": 0.19944580803278944
+        },
+        {
+          "paragraph_id": "1910.132(d)(2)",
+          "distance": 0.21078734655078002
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)(iii)",
+          "distance": 0.2289420502746985
+        },
+        {
+          "paragraph_id": "1910.22(d)(2)",
+          "distance": 0.2535277470764046
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)",
+          "distance": 0.25497335314114833
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)",
+          "distance": 0.25866349093097085
+        },
+        {
+          "paragraph_id": "1910.136(a)",
+          "distance": 0.2608826030878789
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 941,
+        "completion_tokens": 63,
+        "latency_s": 4.2189999999827705,
+        "load_duration_s": 0.305116
+      }
+    },
+    {
+      "id": "loto-011",
+      "category": "procedural",
+      "question": "What must be ensured before lockout devices are removed and energy is restored to a machine?",
+      "answer": "Procedures shall be followed and actions taken by the authorized employee(s) to ensure the following: [1910.147(e)]\n\nEach lockout or tagout device shall be removed from each energy isolating device by verification that the authorized employee who applied the device is not at the facility; [1910.147(f)(1)] \n\nMaking all reasonable efforts to contact the authorized employee to inform him/her that his/her lockout or tagout device has been removed; [1910.147(e)(3)(ii)]\n\nEnsuring that nonessential items have been removed and to ensure that machine or equipment components are operationally intact; [1910.147(e)(1)] \n\nThe work area shall be inspected to ensure that all employees have been safely positioned or removed; [1910.147(e)(2)(i)]\n\nAnd the authorized employee has this knowledge before he/she resumes work at that facility. [1910.147(e)(3)(iii)]",
+      "citations": [
+        "1910.147(e)",
+        "1910.147(f)(1)",
+        "1910.147(e)(3)(ii)",
+        "1910.147(e)(1)",
+        "1910.147(e)(2)(i)",
+        "1910.147(e)(3)(iii)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(e)",
+          "1910.147(f)(1)",
+          "1910.147(e)(3)(ii)",
+          "1910.147(e)(1)",
+          "1910.147(e)(2)(i)",
+          "1910.147(e)(3)(iii)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(e)",
+        "1910.147(e)(1)",
+        "1910.147(e)(2)(i)",
+        "1910.147(e)(2)(ii)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(e)(2)(ii)",
+          "distance": 0.18712060144429532
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.18726976958138453
+        },
+        {
+          "paragraph_id": "1910.147(e)",
+          "distance": 0.1966366279017273
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(iii)",
+          "distance": 0.19870369384129571
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(ii)",
+          "distance": 0.2052235145175597
+        },
+        {
+          "paragraph_id": "1910.147(c)(2)(iii)",
+          "distance": 0.20894575118998315
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)",
+          "distance": 0.2108510984003451
+        },
+        {
+          "paragraph_id": "1910.147(e)(2)(i)",
+          "distance": 0.21108352210119863
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)",
+          "distance": 0.21352129707881584
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)(i)",
+          "distance": 0.21484673023203793
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 999,
+        "completion_tokens": 194,
+        "latency_s": 11.312000000005355,
+        "load_duration_s": 0.3061405
+      }
+    },
+    {
+      "id": "loto-012",
+      "category": "procedural",
+      "question": "What must the certification of a periodic lockout/tagout inspection identify?",
+      "answer": "The certification shall identify [1910.147(c)(6)(ii)]:\n\n* The machine or equipment on which the energy control procedure was being utilized\n* The date of the inspection\n* The employees included in the inspection\n* The person performing the inspection",
+      "citations": [
+        "1910.147(c)(6)(ii)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(6)(ii)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(6)(ii)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(6)(ii)",
+          "distance": 0.17381896270426067
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)",
+          "distance": 0.20305947120060863
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(C)",
+          "distance": 0.2039102807889388
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(B)",
+          "distance": 0.21073424976084065
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)",
+          "distance": 0.21483660407508876
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(D)",
+          "distance": 0.21671008270027226
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(A)",
+          "distance": 0.21932931061560523
+        },
+        {
+          "paragraph_id": "1910.147(e)(1)",
+          "distance": 0.2640089673984811
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(iv)",
+          "distance": 0.26551961898801624
+        },
+        {
+          "paragraph_id": "1910.147(f)(1)(v)",
+          "distance": 0.26770730844357726
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 920,
+        "completion_tokens": 53,
+        "latency_s": 4.0,
+        "load_duration_s": 0.3243274
+      }
+    },
+    {
+      "id": "ppe-002",
+      "category": "procedural",
+      "question": "What must the written certification of a workplace hazard assessment identify?",
+      "answer": "The written certification of a workplace hazard assessment must identify:\n\n* The workplace evaluated [1910.132(d)(2)]\n* The person certifying that the evaluation has been performed [1910.132(d)(2)]\n* The date(s) of the hazard assessment [1910.132(d)(2)]",
+      "citations": [
+        "1910.132(d)(2)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.132(d)(2)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.132(d)(2)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.132(d)(2)",
+          "distance": 0.12739816365197598
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(i)",
+          "distance": 0.2024873495101419
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(ii)",
+          "distance": 0.2046941748807165
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(iii)",
+          "distance": 0.20804873608952867
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)",
+          "distance": 0.21763673301728048
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)(iii)",
+          "distance": 0.2440240528597527
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)(ii)",
+          "distance": 0.2763190928266218
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(i)",
+          "distance": 0.27913544623927344
+        },
+        {
+          "paragraph_id": "1910.134(d)(1)",
+          "distance": 0.2837098409956281
+        },
+        {
+          "paragraph_id": "1910.22(d)(2)",
+          "distance": 0.28410941295420344
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 877,
+        "completion_tokens": 63,
+        "latency_s": 4.421999999991385,
+        "load_duration_s": 0.307194
+      }
+    },
+    {
+      "id": "loto-013",
+      "category": "numeric_lookup",
+      "question": "How often must an employer conduct a periodic inspection of the energy control procedure?",
+      "answer": "At least annually [1910.147(c)(6)].",
+      "citations": [
+        "1910.147(c)(6)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(6)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(6)(i)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(A)",
+          "distance": 0.14763949342032157
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(B)",
+          "distance": 0.1482832662983935
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)",
+          "distance": 0.15147733328679913
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(C)",
+          "distance": 0.16225307775201359
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(D)",
+          "distance": 0.1677844520384555
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(ii)",
+          "distance": 0.18336203643716076
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)",
+          "distance": 0.2827224012130559
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(iii)(B)",
+          "distance": 0.2969180894834802
+        },
+        {
+          "paragraph_id": "1910.147(c)(1)",
+          "distance": 0.30797584225037156
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(i)",
+          "distance": 0.32676792262153875
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1155,
+        "completion_tokens": 13,
+        "latency_s": 2.0929999999934807,
+        "load_duration_s": 0.340747
+      }
+    },
+    {
+      "id": "train-001",
+      "category": "procedural",
+      "question": "What topics must fall-protection training cover?",
+      "answer": "According to [1910.30(a)(3)], the employer must train each employee in at least the following topics:\n\n* The nature of the fall hazards in the work area and how to recognize them; [1910.30(a)(3)(i)]\n* The procedures to be followed to minimize those hazards; [1910.30(a)(3)(ii)]\n* The correct procedures for installing, inspecting, operating, maintaining, and disassembling the personal fall protection systems that the employee uses; [1910.30(a)(3)(iii)]\n* The correct use of personal fall protection systems and equipment specified in paragraph (a)(1) of this section, including, but not limited to, proper hook-up, anchoring, and tie-off techniques, and methods of equipment inspection and storage, as specified by the manufacturer; [1910.30(a)(3)(iv)]",
+      "citations": [
+        "1910.30(a)(3)",
+        "1910.30(a)(3)(i)",
+        "1910.30(a)(3)(ii)",
+        "1910.30(a)(3)(iii)",
+        "1910.30(a)(3)(iv)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.30(a)(3)",
+          "1910.30(a)(3)(i)",
+          "1910.30(a)(3)(ii)",
+          "1910.30(a)(3)(iii)",
+          "1910.30(a)(3)(iv)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.30(a)(3)",
+        "1910.30(a)(3)(i)",
+        "1910.30(a)(3)(ii)",
+        "1910.30(a)(3)(iii)",
+        "1910.30(a)(3)(iv)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.30(a)(3)(ii)",
+          "distance": 0.2123918026943621
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iii)",
+          "distance": 0.21253240108489435
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(i)",
+          "distance": 0.21257581860728636
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)",
+          "distance": 0.21604312753933175
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iv)",
+          "distance": 0.2248737022054511
+        },
+        {
+          "paragraph_id": "1910.30(a)(1)",
+          "distance": 0.2503298074203495
+        },
+        {
+          "paragraph_id": "1910.29(e)",
+          "distance": 0.2528595773661375
+        },
+        {
+          "paragraph_id": "1910.29(e)(1)",
+          "distance": 0.2540682241672456
+        },
+        {
+          "paragraph_id": "1910.29(e)(2)",
+          "distance": 0.2541674678525079
+        },
+        {
+          "paragraph_id": "1910.28(b)(1)(iii)(C)",
+          "distance": 0.26115386121547923
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 746,
+        "completion_tokens": 181,
+        "latency_s": 10.203000000008615,
+        "load_duration_s": 0.3030746
+      }
+    },
+    {
+      "id": "train-002",
+      "category": "conditional",
+      "question": "When must an employer provide fall-protection training?",
+      "answer": "Before any employee is exposed to a fall hazard, the employer must provide training for each employee who uses personal fall protection systems or who is required to be trained as specified elsewhere in this subpart [1910.30(a)(1)]. Employers must ensure employees are trained in the requirements of this paragraph on or before May 17, 2017 [1910.30(a)(1)].",
+      "citations": [
+        "1910.30(a)(1)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.30(a)(1)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.30(a)(1)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.30(a)(1)",
+          "distance": 0.11751982748025702
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iii)",
+          "distance": 0.13161226164921658
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(iv)",
+          "distance": 0.14232121201485515
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(ii)",
+          "distance": 0.1427939364227261
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)(i)",
+          "distance": 0.1455909349456509
+        },
+        {
+          "paragraph_id": "1910.30(a)(2)",
+          "distance": 0.1522523922692911
+        },
+        {
+          "paragraph_id": "1910.30(a)(3)",
+          "distance": 0.15376915841828298
+        },
+        {
+          "paragraph_id": "1910.28(b)(1)(iii)(C)",
+          "distance": 0.1664219499508981
+        },
+        {
+          "paragraph_id": "1910.29(a)",
+          "distance": 0.17693666127361762
+        },
+        {
+          "paragraph_id": "1910.29(k)(2)",
+          "distance": 0.17848721576344262
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 685,
+        "completion_tokens": 80,
+        "latency_s": 4.937000000005355,
+        "load_duration_s": 0.3024424
+      }
+    },
+    {
+      "id": "loto-014",
+      "category": "procedural",
+      "question": "What must the energy control procedures clearly and specifically outline?",
+      "answer": "The procedures shall clearly and specifically outline the scope, purpose, authorization, rules, and techniques to be utilized for the control of hazardous energy [1910.147(c)(4)(ii)]. \n\nSpecifically, they must include:\n\n* Specific procedural steps for shutting down, isolating, blocking and securing machines or equipment to control hazardous energy [1910.147(c)(4)(ii)(B)];\n* Specific procedural steps for the placement, removal and transfer of lockout devices or tagout devices and the responsibility for them [1910.147(c)(4)(ii)(C)];\n* Specific requirements for testing a machine or equipment to determine and verify the effectiveness of lockout devices, tagout devices, and other energy control measures [1910.147(c)(4)(ii)(D)].\n\nAdditionally, they must outline the means to enforce compliance, including but not limited to these elements [1910.147(c)(4)(ii)].",
+      "citations": [
+        "1910.147(c)(4)(ii)",
+        "1910.147(c)(4)(ii)(B)",
+        "1910.147(c)(4)(ii)(C)",
+        "1910.147(c)(4)(ii)(D)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(4)(ii)",
+          "1910.147(c)(4)(ii)(B)",
+          "1910.147(c)(4)(ii)(C)",
+          "1910.147(c)(4)(ii)(D)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(4)(ii)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(A)",
+          "distance": 0.1864970902349099
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)",
+          "distance": 0.20051727296463429
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(B)",
+          "distance": 0.22156748514562474
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(C)",
+          "distance": 0.22663390079350676
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(ii)(D)",
+          "distance": 0.2273610369778284
+        },
+        {
+          "paragraph_id": "1910.147(d)",
+          "distance": 0.2335219890047867
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)",
+          "distance": 0.23491486367513903
+        },
+        {
+          "paragraph_id": "1910.147(d)(1)",
+          "distance": 0.24217199464189654
+        },
+        {
+          "paragraph_id": "1910.147(c)(4)(i)",
+          "distance": 0.25767691662216363
+        },
+        {
+          "paragraph_id": "1910.147(d)(5)",
+          "distance": 0.25852331417520547
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1055,
+        "completion_tokens": 190,
+        "latency_s": 10.90700000000652,
+        "load_duration_s": 0.3035747
+      }
+    },
+    {
+      "id": "loto-015",
+      "category": "conditional",
+      "question": "Under what conditions may an employer skip documenting the energy control procedure for a particular machine?",
+      "answer": "An employer need not document the required procedure for a particular machine or equipment, when all of the following elements exist:\n\n(1) The machine or equipment has no potential for stored or residual energy or reaccumulation of stored energy after shut down which could endanger employees; (2) the machine or equipment has a single energy source which can be readily identified and isolated; (3) the isolation and locking out of that energy source will completely deenergize and deactivate the machine or equipment; (4) the machine or equipment is isolated from that energy source and locked out during servicing or maintenance; (5) a single lockout device will achieve a locked-out condition; (6) the lockout device is under the exclusive control of the authorized employee performing the servicing or maintenance; (7) the servicing or maintenance does not create hazards for other employees; and (8) the employer, in utilizing this exception, has had no accidents involving the unexpected activation or reenergization of the machine or equipment during servicing or maintenance. [1910.147(c)(4)(i)]",
+      "citations": [
+        "1910.147(c)(4)(i)"
+      ],
+      "citation_report": {
+        "valid": [
+          "1910.147(c)(4)(i)"
+        ],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [
+        "1910.147(c)(4)(i)"
+      ],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.147(c)(4)(i)",
+          "distance": 0.21033194804091948
+        },
+        {
+          "paragraph_id": "1910.147(c)(1)",
+          "distance": 0.25638523926198586
+        },
+        {
+          "paragraph_id": "1910.147(a)(2)(ii)(B)",
+          "distance": 0.2642923661671961
+        },
+        {
+          "paragraph_id": "1910.147(e)(3)",
+          "distance": 0.26539601844419947
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(ii)",
+          "distance": 0.2724170141196963
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(i)(C)",
+          "distance": 0.2774254149019424
+        },
+        {
+          "paragraph_id": "1910.147(f)(2)(ii)",
+          "distance": 0.28421887661802425
+        },
+        {
+          "paragraph_id": "1910.147(c)(9)",
+          "distance": 0.2846000785946551
+        },
+        {
+          "paragraph_id": "1910.147(c)(6)(i)(A)",
+          "distance": 0.28585104436307573
+        },
+        {
+          "paragraph_id": "1910.147(d)(2)",
+          "distance": 0.2880214119020308
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1415,
+        "completion_tokens": 218,
+        "latency_s": 13.46899999998277,
+        "load_duration_s": 0.3214894
+      }
+    },
+    {
+      "id": "neg-004",
+      "category": "negative",
+      "question": "What information must appear on the label of a container of hazardous chemicals?",
+      "answer": "The provided text does not contain this information.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(j)",
+          "distance": 0.33088771473022405
+        },
+        {
+          "paragraph_id": "1910.134(h)(3)(iv)(B)",
+          "distance": 0.3545753533154259
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(A)(3)",
+          "distance": 0.3650512042549978
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(ii)(A)(2)",
+          "distance": 0.3792066800121463
+        },
+        {
+          "paragraph_id": "1910.147(c)(9)",
+          "distance": 0.3838026523590088
+        },
+        {
+          "paragraph_id": "1910.147(c)(7)(ii)(D)",
+          "distance": 0.3848096683053901
+        },
+        {
+          "paragraph_id": "1910.147(c)(5)(iii)",
+          "distance": 0.3871300124293445
+        },
+        {
+          "paragraph_id": "1910.132(d)(2)",
+          "distance": 0.3884212606204297
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(3)",
+          "distance": 0.3899013006333798
+        },
+        {
+          "paragraph_id": "1910.147(f)",
+          "distance": 0.3969733232807998
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 990,
+        "completion_tokens": 10,
+        "latency_s": 1.5,
+        "load_duration_s": 0.3086929
+      }
+    },
+    {
+      "id": "neg-005",
+      "category": "negative",
+      "question": "What must an employer's exposure control plan for bloodborne pathogens contain?",
+      "answer": "The provided text does not contain information about what an employer's exposure control plan for bloodborne pathogens must contain.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.134(d)(1)(iii)",
+          "distance": 0.26442887863079556
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(1)",
+          "distance": 0.26573955637463476
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(2)",
+          "distance": 0.27720605029771317
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)(3)",
+          "distance": 0.27956441397229914
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(B)",
+          "distance": 0.28142112957640897
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iv)",
+          "distance": 0.2875847384030512
+        },
+        {
+          "paragraph_id": "1910.132(d)(1)(i)",
+          "distance": 0.29010796363617386
+        },
+        {
+          "paragraph_id": "1910.133(a)(1)",
+          "distance": 0.2912889024522336
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(i)(A)",
+          "distance": 0.29251356676291573
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iii)",
+          "distance": 0.2949949815884174
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 1155,
+        "completion_tokens": 23,
+        "latency_s": 10.421999999991385,
+        "load_duration_s": 0.3290245
+      }
+    },
+    {
+      "id": "neg-006",
+      "category": "negative",
+      "question": "What is the minimum required width of an exit route?",
+      "answer": "The provided text does not contain this information.",
+      "citations": [],
+      "citation_report": {
+        "valid": [],
+        "not_retrieved": [],
+        "not_in_corpus": []
+      },
+      "ungrounded_numbers": [],
+      "required": [],
+      "retrieved": [
+        {
+          "paragraph_id": "1910.23(b)(4)(i)",
+          "distance": 0.3628007015462643
+        },
+        {
+          "paragraph_id": "1910.25(e)(4)",
+          "distance": 0.36909313570326696
+        },
+        {
+          "paragraph_id": "1910.25(c)(4)",
+          "distance": 0.37171211917100255
+        },
+        {
+          "paragraph_id": "1910.25(d)(1)",
+          "distance": 0.37709138430220346
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(iii)",
+          "distance": 0.379946998367117
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(ii)",
+          "distance": 0.3801020484948632
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)(iv)",
+          "distance": 0.3852034528951923
+        },
+        {
+          "paragraph_id": "1910.24(a)(5)",
+          "distance": 0.38550611613482466
+        },
+        {
+          "paragraph_id": "1910.22(b)",
+          "distance": 0.38807241506596024
+        },
+        {
+          "paragraph_id": "1910.23(b)(4)",
+          "distance": 0.38910374033843764
+        }
+      ],
+      "stats": {
+        "prompt_tokens": 911,
+        "completion_tokens": 10,
+        "latency_s": 1.562000000005355,
+        "load_duration_s": 0.3294868
+      }
+    }
+  ]
+}
