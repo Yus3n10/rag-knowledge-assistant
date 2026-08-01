@@ -1,4 +1,4 @@
-from scripts.rag.retrieve import search
+from scripts.rag.retrieve import search, SEARCH_SQL
 
 
 class StubCursor:
@@ -86,3 +86,44 @@ def test_result_dicts_carry_all_four_keys():
 
     for r in results:
         assert set(r.keys()) == {"chunk_id", "paragraph_id", "text", "distance"}
+
+
+def test_sql_contains_the_permission_predicate():
+    # The filter must live in the query itself, never applied to the Python
+    # result list afterwards -- otherwise "top k" silently stops meaning
+    # "top k among what this caller may see."
+    assert "required_role" in SEARCH_SQL
+    assert "ANY(" in SEARCH_SQL.upper() or "ANY (" in SEARCH_SQL.upper()
+
+
+def test_roles_list_is_passed_through_to_the_query_params():
+    conn = StubConnection(ROWS)
+    embedder = StubEmbedder()
+
+    search("query", conn=conn, embedder=embedder, roles=["safety_officer"])
+
+    _, params = conn.cur.executed[0]
+    assert params["roles"] == ["safety_officer"]
+
+
+def test_roles_none_is_sent_as_an_empty_list_not_dropped():
+    # roles=None must behave as "public content only" -- i.e. the query still
+    # runs with a (empty) roles filter, not with the predicate skipped
+    # entirely (which would return everything, gated or not).
+    conn = StubConnection(ROWS)
+    embedder = StubEmbedder()
+
+    search("query", conn=conn, embedder=embedder, roles=None)
+
+    sql, params = conn.cur.executed[0]
+    assert params["roles"] == []
+    assert "required_role" in sql
+
+
+def test_results_still_ordered_by_ascending_distance_with_roles():
+    conn = StubConnection(ROWS)
+    embedder = StubEmbedder()
+
+    results = search("query", conn=conn, embedder=embedder, roles=["safety_officer"])
+
+    assert [r["distance"] for r in results] == [0.12, 0.34]

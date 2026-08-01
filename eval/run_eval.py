@@ -25,6 +25,12 @@ DEFAULTS = {
 
 K_VALUES = (5, 10)
 OVERFETCH_FACTOR = 4  # retrieve k*4 chunks before dedup, per eval/metrics.py's contract
+
+# The eval measures retrieval quality over the whole corpus, so it must run
+# with full access -- otherwise the synthetic safety_officer gate on 1910.147
+# (the most-cited section in the eval set) would collapse recall/completeness
+# for reasons that have nothing to do with retrieval quality.
+EVAL_ROLES = ["safety_officer"]
 RESP001_QID = "resp-001"
 RESP001_TARGET = "50"
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
@@ -80,7 +86,8 @@ def retrieve_all(questions, *, conn, embedder, k_values=K_VALUES, overfetch_fact
     raw_chunks_by_qid = {}
     retrieved_by_qid = {}
     for q in questions:
-        chunks = search(q["question"], k=max_k * overfetch_factor, conn=conn, embedder=embedder)
+        chunks = search(q["question"], k=max_k * overfetch_factor, conn=conn, embedder=embedder,
+                         roles=EVAL_ROLES)
         raw_chunks_by_qid[q["id"]] = chunks
         retrieved_by_qid[q["id"]] = dedupe_paragraphs(chunks, max_k)
     return raw_chunks_by_qid, retrieved_by_qid

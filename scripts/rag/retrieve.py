@@ -8,7 +8,7 @@
 SEARCH_SQL = """
 SELECT chunk_id, paragraph_id, text, embedding <=> %(embedding)s::vector AS distance
 FROM chunks
-WHERE TRUE
+WHERE required_role IS NULL OR required_role = ANY(%(roles)s)
 ORDER BY distance
 LIMIT %(k)s
 """
@@ -18,16 +18,22 @@ def _vector_literal(vector):
     return "[" + ",".join(repr(float(x)) for x in vector) + "]"
 
 
-def search(query, *, k=5, conn, embedder):
-    """Return the k chunks nearest to query, ascending by cosine distance.
+def search(query, *, k=5, conn, embedder, roles=None):
+    """Return the k chunks nearest to query, ascending by cosine distance,
+    restricted to chunks this caller may see.
 
     embedder(texts: list[str]) -> list[vector]; called once with [query].
     conn is a psycopg-style connection exposing cursor() as a context manager.
+
+    roles=None behaves as "public content only" (equivalent to []), not as
+    "everything" -- it is sent to the query as an empty list so the
+    permission predicate below still runs.
     """
     [vector] = embedder([query])
+    role_list = list(roles) if roles else []
 
     with conn.cursor() as cur:
-        cur.execute(SEARCH_SQL, {"embedding": _vector_literal(vector), "k": k})
+        cur.execute(SEARCH_SQL, {"embedding": _vector_literal(vector), "k": k, "roles": role_list})
         rows = cur.fetchall()
 
     return [
