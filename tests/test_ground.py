@@ -21,6 +21,23 @@ def test_no_citations_returns_empty_list():
     assert extract_citations(answer) == []
 
 
+def test_ignores_bracketed_text_that_is_not_a_paragraph_id():
+    answer = "The table caption reads TABLE I. - ASSIGNED PROTECTION FACTORS [RESERVED] per [1910.134(d)(3)(i)(A)]."
+
+    assert extract_citations(answer) == ["1910.134(d)(3)(i)(A)"]
+
+
+def test_ignores_a_bracketed_federal_register_citation():
+    answer = "See [59 FR 16362, April 6, 1994; 61 FR 9227, March 7, 1996] and [1910.147(e)(3)]."
+
+    assert extract_citations(answer) == ["1910.147(e)(3)"]
+
+
+def test_still_extracts_a_fabricated_but_id_shaped_citation():
+    # fabrication detection must survive the filter - this id does not exist in the corpus
+    assert extract_citations("As stated in [1910.999(z)].") == ["1910.999(z)"]
+
+
 # --- validate_citations ---------------------------------------------------
 
 def test_retrieved_citation_is_valid():

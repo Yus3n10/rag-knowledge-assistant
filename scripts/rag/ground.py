@@ -12,12 +12,20 @@ from eval.validate_eval import numbers_in
 # character class excludes only the brackets themselves, not parens/digits/letters.
 CITATION_PATTERN = re.compile(r"\[([^\[\]]+)\]")
 
+# OSHA citation ID shape: 4 digits, dot, digits, then zero or more parenthesised groups.
+# Filters out literal brackets like [RESERVED] or [59 FR 16362, April 6, 1994].
+CITATION_ID = re.compile(r"^\d{4}\.\d+(?:\([^)]+\))*$")
+
 
 def extract_citations(answer):
-    """Bracketed paragraph ids in answer, deduplicated, first-appearance order."""
+    """Bracketed paragraph ids in answer, deduplicated, first-appearance order.
+
+    Only returns brackets containing text that matches the OSHA paragraph ID shape,
+    ignoring literal brackets in the corpus (e.g. [RESERVED], [59 FR ...]).
+    """
     seen = []
     for citation in CITATION_PATTERN.findall(answer):
-        if citation not in seen:
+        if CITATION_ID.match(citation) and citation not in seen:
             seen.append(citation)
     return seen
 
