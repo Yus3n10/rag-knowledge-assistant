@@ -12,7 +12,7 @@
     "gold_citation_rate": 0.9210526315789473,
     "ungrounded_number_rate": 0.0,
     "fabricated_citation_count": 0,
-    "refusal_accuracy": null
+    "refusal_accuracy": 1.0
   },
   "resp001_detail": {
     "answer_contains_50": true,
@@ -3102,5 +3102,12 @@
         "load_duration_s": 0.3170477
       }
     }
-  ]
+  ],
+  "refusal_review": {
+    "method": "hand review, all 7 read directly, not sampled",
+    "reviewer": "Ptheusen Geagoni",
+    "date": "2026-08-01",
+    "result": "7/7 clean refusals, zero citations emitted",
+    "note": "neg-004 retrieved the respirator-label distractor 1910.134(j) and still declined rather than answering about hazardous-chemical labels."
+  }
 }
