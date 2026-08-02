@@ -1,0 +1,61 @@
+# Production stack: pgvector + API, for the Oracle Cloud ARM64 host.
+#
+# Embedding provider decision: Ollama, for embeddings ONLY (never generation).
+# nomic-embed-text is a 137M model, CPU-viable on Ampere A1 -- unlike the 8B
+# generator this is NOT banned from the ARM host. Using it also means the
+# query-time embedder matches the model that built the committed index
+# exactly, which retrieval correctness depends on: mixing embedding models
+# between index and query silently degrades retrieval, since nearest-neighbor
+# distances are only meaningful within one model's vector space. A hosted
+# embedding endpoint was considered and rejected for this reason -- it would
+# require a full re-index of all 965 chunks for no benefit, since the small
+# model is already cheap enough to self-host.
+#
+# Generation goes to Groq (LLM_PROVIDER=groq), never Ollama -- see
+# DEPLOY.md and docs/superpowers/plans/2026-08-03-deploy-and-ci.md.
+#
+# Every secret below is required from the environment with no default. If
+# JWT_SECRET, GROQ_API_KEY, or POSTGRES_PASSWORD is unset, compose fails
+# immediately rather than silently falling back to a dev value.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+      POSTGRES_DB: rag
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: unless-stopped
+
+  # Embeddings only (see decision above). Never used for generation -- do not
+  # point LLM_PROVIDER/GEN_MODEL at this service.
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_models:/root/.ollama
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - ollama
+    environment:
+      DATABASE_URL: postgresql://rag:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@db:5432/rag
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+      LLM_PROVIDER: groq
+      GEN_MODEL: ${GEN_MODEL:-llama-3.1-8b-instant}
+      GROQ_API_KEY: ${GROQ_API_KEY:?GROQ_API_KEY must be set}
+      EMBED_MODEL: nomic-embed-text
+      OLLAMA_URL: http://ollama:11434
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+volumes:
+  pgdata_prod:
+  ollama_models:

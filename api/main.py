@@ -15,6 +15,7 @@ import psycopg
 import requests
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from api.auth import create_token, decode_token, verify_password
@@ -145,3 +146,15 @@ def ask(
         "retrieved": result["retrieved"],
         "stats": result["stats"],
     }
+
+
+# --- static frontend --------------------------------------------------------
+# Serves web/dist (the built Vite app) if present, e.g. in the production
+# image. Mounted last and at "/" so it never shadows the routes above --
+# Starlette tries routes in registration order, and exact-path routes always
+# win over a mount before the mount's prefix match is even considered.
+# Absent in the test/dev environment (web/dist isn't committed), so this is
+# skipped there and /health, /auth/login, /ask are unaffected.
+_dist = os.path.join(os.path.dirname(__file__), "..", "web", "dist")
+if os.path.isdir(_dist):
+    app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")
