@@ -1,0 +1,82 @@
+{
+  "answer": "[1910.134(d)(3)(iv)(C)] states that \"For contaminants consisting primarily of particles with mass median aerodynamic diameters (MMAD) of at least 2 micrometers, an air-purifying respirator equipped with any filter certified for particulates by NIOSH...\". However, to answer the question directly, we must refer to Table I - Assigned Protection Factors. According to [Table 1 - Assigned Protection Factors 5], a full facepiece air-purifying respirator has an assigned protection factor of 50.",
+  "citations": [
+    "1910.134(d)(3)(iv)(C)"
+  ],
+  "citation_report": {
+    "valid": [
+      "1910.134(d)(3)(iv)(C)"
+    ],
+    "not_retrieved": [],
+    "not_in_corpus": []
+  },
+  "ungrounded_numbers": [],
+  "retrieved": [
+    {
+      "paragraph_id": "1910.134(d)(3)(i)(A)",
+      "distance": 0.22719288682725491,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > The employer shall provide a respirator that is adequate to protect the health of the employee and ensure compliance wit",
+      "text": "Assigned Protection Factors (APFs). Employers must use the assigned protection factors listed in Table 1 to select a respirator that meets or exceeds the required level of employee protection. When using a combination respirator (e.g., airline respirators with an air-purifying filter), employers must ensure that the assigned protection factor is appropriate to the mode of operation in which the respirator is being used. Notes: 1 Employers may select respirators assigned for use in higher workplace concentrations of a hazardous substance for use at lower concentrations of that substance, or when required respirator use is independent of concentration. 2 The assigned protection factors in Table 1 are only effective when the employer implements a continuing, effective respirator program as required by this section (29 CFR 1910.134), including training, fit testing, maintenance, and use requirements. 3 This APF category includes filtering facepieces, and half masks with elastomeric facepieces. 4 The employer must have evidence provided by the respirator manufacturer that testing of these respirators demonstrates performance at a level of protection of 1,000 or greater to receive an APF of 1,000. This level of performance can best be demonstrated by performing a WPF or SWPF study or equivalent testing. Absent such testing, all other PAPRs and SARs with helmets/hoods are to be treated as loose-fitting facepiece respirators, and receive an APF of 25. 5 These APFs do not apply to respirators used solely for escape.\n\n**Table 1 - Assigned Protection Factors 5**\n\n| Type of respirator 1 2 | Quarter mask | Half mask | Full facepiece | Helmet/hood | Loose-fitting facepiece |\n| --- | --- | --- | --- | --- | --- |\n| 1. Air-Purifying Respirator | 5 | 3 10 | 50 |  |  |\n| 2. Powered Air-Purifying Respirator (PAPR) |  | 50 | 1,000 | 4 25/1,000 | 25 |\n| 3. Supplied-Air Respirator (SAR) or Airline Respirator |  |  |  |  |  |\n| \u2022 Demand mode |  | 10 | 50 |  |  |\n| \u2022 Continuous flow mode |  | 50 | 1,000 | 4 25/1,000 | 25 |\n| \u2022 Pressure-demand or other positive-pressure mode |  | 50 | 1,000 |  |  |\n| 4. Self-Contained Breathing Apparatus (SCBA) |  |  |  |  |  |\n| \u2022 Demand mode |  | 10 | 50 | 50 |  |\n| \u2022 Pressure-demand or other positive-pressure mode (e.g., open/closed circuit) |  |  | 10,000 | 10,000 |  |\n\nFor escape respirators used in association with specific substances covered by 29 CFR 1910 subpart Z, employers must refer to the appropriate substance-specific standards in that subpart. Escape respirators for other IDLH atmospheres are specified by 29 CFR 1910.134 (d)(2)(ii)."
+    },
+    {
+      "paragraph_id": "1910.134(b)",
+      "distance": 0.23380707418554436,
+      "heading_trail": "1910.134 Respiratory protection.",
+      "text": "Filter or air purifying element means a component used in respirators to remove solid or liquid aerosols from the inspired air. Filtering facepiece (dust mask) means a negative pressure particulate respirator with a filter as an integral part of the facepiece or with the entire facepiece composed of the filtering medium. Fit factor means a quantitative estimate of the fit of a particular respirator to a specific individual, and typically estimates the ratio of the concentration of a substance in ambient air to its concentration inside the respirator when worn. Fit test means the use of a protocol to qualitatively or quantitatively evaluate the fit of a respirator on an individual. (See also Qualitative fit test QLFT and Quantitative fit test QNFT.) Helmet means a rigid respiratory inlet covering that also provides head protection against impact and penetration. High efficiency particulate air (HEPA) filter means a filter that is at least 99.97% efficient in removing monodisperse particles of 0.3 micrometers in diameter. The equivalent NIOSH 42 CFR 84 particulate filters are the N100, R100, and P100 filters. Hood means a respiratory inlet covering that completely covers the head and neck and may also cover portions of the shoulders and torso. Immediately dangerous to life or health (IDLH) means an atmosphere that poses an immediate threat to life, would cause irreversible adverse health effects, or would impair an individual's ability to escape from a dangerous atmosphere. Interior structural firefighting means the physical activity of fire suppression, rescue or both, inside of buildings or enclosed structures which are involved in a fire situation beyond the incipient stage. (See 29 CFR 1910.155) Loose-fitting facepiece means a respiratory inlet covering that is designed to form a partial seal with the face.\n\nMaximum use concentration (MUC) means the maximum atmospheric concentration of a hazardous substance from which an employee can be expected to be protected when wearing a respirator, and is determined by the assigned protection factor of the respirator or class of respirators and the exposure limit of the hazardous substance. The MUC can be determined mathematically by multiplying the assigned protection factor specified for a respirator by the required OSHA permissible exposure limit, short-term exposure limit, or ceiling limit. When no OSHA exposure limit is available for a hazardous substance, an employer must determine an MUC on the basis of relevant available information and informed professional judgment. Negative pressure respirator (tight fitting) means a respirator in which the air pressure inside the facepiece is negative during inhalation with respect to the ambient air pressure outside the respirator. Oxygen deficient atmosphere means an atmosphere with an oxygen content below 19.5% by volume. Physician or other licensed health care professional (PLHCP) means an individual whose legally permitted scope of practice (i.e., license, registration, or certification) allows him or her to independently provide, or be delegated the responsibility to provide, some or all of the health care services required by paragraph (e) of this section. Positive pressure respirator means a respirator in which the pressure inside the respiratory inlet covering exceeds the ambient air pressure outside the respirator. Powered air-purifying respirator (PAPR) means an air-purifying respirator that uses a blower to force the ambient air through air-purifying elements to the inlet covering. Pressure demand respirator means a positive pressure atmosphere-supplying respirator that admits breathing air to the facepiece when the positive pressure is reduced inside the facepiece by inhalation.\n\nDefinitions. The following definitions are important terms used in the respiratory protection standard in this section. Air-purifying respirator means a respirator with an air-purifying filter, cartridge, or canister that removes specific air contaminants by passing ambient air through the air-purifying element. Assigned protection factor (APF) means the workplace level of respiratory protection that a respirator or class of respirators is expected to provide to employees when the employer implements a continuing, effective respiratory protection program as specified by this section. Atmosphere-supplying respirator means a respirator that supplies the respirator user with breathing air from a source independent of the ambient atmosphere, and includes supplied-air respirators (SARs) and self-contained breathing apparatus (SCBA) units. Canister or cartridge means a container with a filter, sorbent, or catalyst, or combination of these items, which removes specific contaminants from the air passed through the container. Demand respirator means an atmosphere-supplying respirator that admits breathing air to the facepiece only when a negative pressure is created inside the facepiece by inhalation. Emergency situation means any occurrence such as, but not limited to, equipment failure, rupture of containers, or failure of control equipment that may or does result in an uncontrolled significant release of an airborne contaminant. Employee exposure means exposure to a concentration of an airborne contaminant that would occur if the employee were not using respiratory protection. End-of-service-life indicator (ESLI) means a system that warns the respirator user of the approach of the end of adequate respiratory protection, for example, that the sorbent is approaching saturation or is no longer effective. Escape-only respirator means a respirator intended to be used only for emergency exit.\n\nQualitative fit test (QLFT) means a pass/fail fit test to assess the adequacy of respirator fit that relies on the individual's response to the test agent. Quantitative fit test (QNFT) means an assessment of the adequacy of respirator fit by numerically measuring the amount of leakage into the respirator. Respiratory inlet covering means that portion of a respirator that forms the protective barrier between the user's respiratory tract and an air-purifying device or breathing air source, or both. It may be a facepiece, helmet, hood, suit, or a mouthpiece respirator with nose clamp. Self-contained breathing apparatus (SCBA) means an atmosphere-supplying respirator for which the breathing air source is designed to be carried by the user. Service life means the period of time that a respirator, filter or sorbent, or other respiratory equipment provides adequate protection to the wearer. Supplied-air respirator (SAR) or airline respirator means an atmosphere-supplying respirator for which the source of breathing air is not designed to be carried by the user. This section means this respiratory protection standard. Tight-fitting facepiece means a respiratory inlet covering that forms a complete seal with the face. User seal check means an action conducted by the respirator user to determine if the respirator is properly seated to the face."
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(iv)(C)",
+      "distance": 0.2391687579959615,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > For protection against particulates, the employer shall provide:",
+      "text": "For contaminants consisting primarily of particles with mass median aerodynamic diameters (MMAD) of at least 2 micrometers, an air-purifying respirator equipped with any filter certified for particulates by NIOSH. TABLE I. - ASSIGNED PROTECTION FACTORS [RESERVED] 1 Above 8,000 feet the exception does not apply. Oxygen-enriched breathing air must be supplied above 14,000 feet.\n\n**Table II**\n\n| Altitude (ft.) | Oxygen deficient Atmospheres (% 0 2 ) for which the employer may rely on atmosphere-supplying respirators |\n| --- | --- |\n| Less than 3,001 | 16.0-19.5 |\n| 3,001-4,000 | 16.4-19.5 |\n| 4,001-5,000 | 17.1-19.5 |\n| 5,001-6,000 | 17.8-19.5 |\n| 6,001-7,000 | 18.5-19.5 |\n| 7,001-8,000 1 | 19.3-19.5. |"
+    },
+    {
+      "paragraph_id": "1910.134(d)",
+      "distance": 0.2421314264613904,
+      "heading_trail": "1910.134 Respiratory protection.",
+      "text": "Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, identify relevant workplace and user factors, and base respirator selection on these factors. The paragraph also specifies appropriately protective respirators for use in IDLH atmospheres, and limits the selection and use of air-purifying respirators."
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(iv)(B)",
+      "distance": 0.24652688060332184,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > For protection against particulates, the employer shall provide:",
+      "text": "An air-purifying respirator equipped with a filter certified by NIOSH under 30 CFR part 11 as a high efficiency particulate air (HEPA) filter, or an air-purifying respirator equipped with a filter certified for particulates by NIOSH under 42 CFR part 84; or"
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(iii)(B)",
+      "distance": 0.24771791642138818,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > For protection against gases and vapors, the employer shall provide:",
+      "text": "An air-purifying respirator, provided that:"
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(i)(B)",
+      "distance": 0.25380014752750435,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > The employer shall provide a respirator that is adequate to protect the health of the employee and ensure compliance wit",
+      "text": "Maximum Use Concentration (MUC)."
+    },
+    {
+      "paragraph_id": "1910.134(d)(1)(i)",
+      "distance": 0.255574868126178,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > General requirements.",
+      "text": "The employer shall select and provide an appropriate respirator based on the respiratory hazard(s) to which the worker is exposed and workplace and user factors that affect respirator performance and reliability."
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(iv)",
+      "distance": 0.2599025523604155,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH.",
+      "text": "For protection against particulates, the employer shall provide:"
+    },
+    {
+      "paragraph_id": "1910.134(d)(3)(iii)(B)(1)",
+      "distance": 0.2606584545540779,
+      "heading_trail": "1910.134 Respiratory protection. > Selection of respirators. This paragraph requires the employer to evaluate respiratory hazard(s) in the workplace, ident > Respirators for atmospheres that are not IDLH. > For protection against gases and vapors, the employer shall provide: > An air-purifying respirator, provided that:",
+      "text": "The respirator is equipped with an end-of-service-life indicator (ESLI) certified by NIOSH for the contaminant; or"
+    }
+  ],
+  "stats": {
+    "prompt_tokens": 3496,
+    "completion_tokens": 115,
+    "latency_s": 10.78100000001723,
+    "load_duration_s": 0.3334332
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "answer": "According to [1910.147(e)(3)], each lockout or tagout device shall be removed from each energy isolating device by the employee who applied the device. However, if the authorized employee who applied the lockout or tagout device is not available, it may be removed under the direction of the employer, provided that specific procedures and training for such removal have been developed, documented and incorporated into the employer's energy control program. [1910.147(e)(3)]",
+  "citations": [
+    "1910.147(e)(3)"
+  ],
+  "citation_report": {
+    "valid": [
+      "1910.147(e)(3)"
+    ],
+    "not_retrieved": [],
+    "not_in_corpus": []
+  },
+  "ungrounded_numbers": [],
+  "retrieved": [
+    {
+      "paragraph_id": "1910.147(e)(3)(ii)",
+      "distance": 0.1608071348164255,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e > Lockout or tagout devices removal . Each lockout or tagout device shall be removed from each energy isolating device by ",
+      "text": "Making all reasonable efforts to contact the authorized employee to inform him/her that his/her lockout or tagout device has been removed; and"
+    },
+    {
+      "paragraph_id": "1910.147(e)(3)(i)",
+      "distance": 0.16432321239241665,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e > Lockout or tagout devices removal . Each lockout or tagout device shall be removed from each energy isolating device by ",
+      "text": "Verfication by the employer that the authorized employee who applied the device is not at the facility;"
+    },
+    {
+      "paragraph_id": "1910.147(e)(3)",
+      "distance": 0.16689036279181846,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e",
+      "text": "Lockout or tagout devices removal . Each lockout or tagout device shall be removed from each energy isolating device by the employee who applied the device. Exception to paragraph (e)(3): When the authorized employee who applied the lockout or tagout device is not available to remove it, that device may be removed under the direction of the employer, provided that specific procedures and training for such removal have been developed, documented and incorporated into the employer's energy control program. The employer shall demonstrate that the specific procedure provides equivalent safety to the removal of the device by the authorized employee who applied it. The specific procedure shall include at least the following elements:"
+    },
+    {
+      "paragraph_id": "1910.147(e)(3)(iii)",
+      "distance": 0.17017701649817019,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e > Lockout or tagout devices removal . Each lockout or tagout device shall be removed from each energy isolating device by ",
+      "text": "Ensuring that the authorized employee has this knowledge before he/she resumes work at that facility."
+    },
+    {
+      "paragraph_id": "1910.147(c)(2)(iii)",
+      "distance": 0.1814788473995823,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > General - > Lockout/tagout .",
+      "text": "After January 2, 1990, whenever replacement or major repair, renovation or modification of a machine or equipment is performed, and whenever new machines or equipment are installed, energy isolating devices for such machine or equipment shall be designed to accept a lockout device."
+    },
+    {
+      "paragraph_id": "1910.147(e)(2)(ii)",
+      "distance": 0.18163374346075423,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e > Employees .",
+      "text": "After lockout or tagout devices have been removed and before a machine or equipment is started, affected employees shall be notified that the lockout or tagout device(s) have been removed."
+    },
+    {
+      "paragraph_id": "1910.147(e)",
+      "distance": 0.18870990680096678,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout).",
+      "text": "Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or equipment, procedures shall be followed and actions taken by the authorized employee(s) to ensure the following:"
+    },
+    {
+      "paragraph_id": "1910.147(c)(5)(ii)(C)(1)",
+      "distance": 0.19464991315901325,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > General - > Protective materials and hardware . > Lockout devices and tagout devices shall be singularly identified; shall be the only devices(s) used for controlling ene > Substantial -",
+      "text": "Lockout devices . Lockout devices shall be substantial enough to prevent removal without the use of excessive force or unusual techniques, such as with the use of bolt cutters or other metal cutting tools."
+    },
+    {
+      "paragraph_id": "1910.147(e)(1)",
+      "distance": 0.19633293370429084,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e",
+      "text": "The machine or equipment . The work area shall be inspected to ensure that nonessential items have been removed and to ensure that machine or equipment components are operationally intact."
+    },
+    {
+      "paragraph_id": "1910.147(e)(2)(i)",
+      "distance": 0.19766416661061548,
+      "heading_trail": "1910.147 The control of hazardous energy (lockout/tagout). > Release from lockout or tagout . Before lockout or tagout devices are removed and energy is restored to the machine or e > Employees .",
+      "text": "The work area shall be checked to ensure that all employees have been safely positioned or removed."
+    }
+  ],
+  "stats": {
+    "prompt_tokens": 1148,
+    "completion_tokens": 99,
+    "latency_s": 9.063000000023749,
+    "load_duration_s": 0.3743469
+  }
+}
