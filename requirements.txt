@@ -8,3 +8,6 @@ passlib[bcrypt]==1.7.4
 # (removed bcrypt.__about__), raising "password cannot be longer than 72 bytes"
 # on every hash/verify call regardless of password length.
 bcrypt==4.0.1
+fastapi==0.141.1
+uvicorn[standard]==0.52.1
+httpx==0.28.1

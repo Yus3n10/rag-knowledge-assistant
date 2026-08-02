@@ -37,18 +37,23 @@ def _dedupe_chunks_by_paragraph(chunks, k):
     return kept
 
 
-def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragraph_ids=None):
+def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragraph_ids=None, roles=None):
     """Run one question through the full pipeline.
 
     generator(messages) -> (answer_text, stats), matching
     scripts.rag.generate.generate once model/url/session are bound by the caller.
+
+    roles is forwarded to scripts.rag.retrieve.search unchanged (None means
+    public content only -- see that module's docstring). This is the only
+    place the API layer can reach the permission filter, since it lives in
+    retrieval's SQL, not applied after the fact.
 
     Returns answer, citations, citation_report, ungrounded_numbers,
     retrieved (paragraph ids with distances), retrieved_text (concatenated
     chunk text, exposed for callers that need the raw context -- e.g. the
     resp-001 canary check in eval/run_answers.py), and stats.
     """
-    raw_chunks = search(question, k=k * OVERFETCH_FACTOR, conn=conn, embedder=embedder)
+    raw_chunks = search(question, k=k * OVERFETCH_FACTOR, conn=conn, embedder=embedder, roles=roles)
     chunks = _dedupe_chunks_by_paragraph(raw_chunks, k)
 
     # Paragraph dedup above only decides WHICH k paragraphs are in scope (for

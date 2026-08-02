@@ -1,0 +1,144 @@
+"""FastAPI wrapper over the RAG answer pipeline.
+
+See docs/superpowers/plans/2026-08-02-api-and-access-control.md (Task 4).
+
+Auth: POST /auth/login exchanges username+password for a JWT (api/auth.py).
+POST /ask requires a bearer token. The caller's roles come from the token's
+claims ONLY -- the request body must never be allowed to specify roles, or
+any caller could grant themselves access to gated content.
+"""
+
+import os
+
+import jwt
+import psycopg
+import requests
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel
+
+from api.auth import create_token, decode_token, verify_password
+from scripts.rag.answer import answer_question
+from scripts.rag.embed import embed_texts
+from scripts.rag.generate import generate
+
+DEFAULTS = {
+    "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
+    "OLLAMA_URL": "http://localhost:11434",
+    "EMBED_MODEL": "nomic-embed-text",
+    "GEN_MODEL": "llama3.1:8b",
+}
+
+K = 10  # measured knee, see docs/RETRIEVAL_FINDINGS.md -- do not raise to chase a score
+
+app = FastAPI(title="OSHA RAG API")
+security = HTTPBearer()
+
+
+# --- dependencies (real connections/clients; tests override all three via
+# app.dependency_overrides so no test ever touches Postgres or Ollama) -------
+
+def get_conn():
+    conn = psycopg.connect(os.environ.get("DATABASE_URL", DEFAULTS["DATABASE_URL"]))
+    try:
+        yield conn
+    finally:
+        conn.close()
+
+
+def get_embedder():
+    session = requests.Session()
+    model = os.environ.get("EMBED_MODEL", DEFAULTS["EMBED_MODEL"])
+    url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
+
+    def embedder(texts):
+        vectors, _tokens = embed_texts(texts, model=model, url=url, session=session)
+        return vectors
+
+    return embedder
+
+
+def get_generator():
+    session = requests.Session()
+    model = os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
+
+    def generator(messages):
+        return generate(messages, model=model, url=url, session=session)
+
+    return generator
+
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    try:
+        return decode_token(credentials.credentials)
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="invalid or expired token")
+
+
+# --- request bodies ------------------------------------------------------------
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+class AskRequest(BaseModel):
+    question: str
+    # Deliberately no "roles" field: FastAPI/Pydantic ignores unknown JSON
+    # keys by default, so a client that sends one anyway (see
+    # tests/test_api.py::test_ask_ignores_roles_claimed_in_the_request_body)
+    # has it silently dropped rather than accepted.
+
+
+# --- endpoints ------------------------------------------------------------------
+
+@app.get("/health")
+def health(conn=Depends(get_conn)):
+    with conn.cursor() as cur:
+        cur.execute("SELECT count(*) FROM chunks")
+        [chunk_count] = cur.fetchone()
+    return {"status": "ok", "chunk_count": chunk_count}
+
+
+@app.post("/auth/login")
+def login(body: LoginRequest, conn=Depends(get_conn)):
+    with conn.cursor() as cur:
+        cur.execute(
+            "SELECT password_hash, roles FROM users WHERE username = %s",
+            (body.username,),
+        )
+        row = cur.fetchone()
+
+    if row is None or not verify_password(body.password, row[0]):
+        raise HTTPException(status_code=401, detail="invalid username or password")
+
+    password_hash, roles = row
+    token = create_token(body.username, roles)
+    return {"access_token": token, "token_type": "bearer"}
+
+
+@app.post("/ask")
+def ask(
+    body: AskRequest,
+    user=Depends(get_current_user),
+    conn=Depends(get_conn),
+    embedder=Depends(get_embedder),
+    generator=Depends(get_generator),
+):
+    result = answer_question(
+        body.question,
+        k=K,
+        conn=conn,
+        embedder=embedder,
+        generator=generator,
+        roles=user["roles"],  # from the verified token only, never the body
+    )
+    return {
+        "answer": result["answer"],
+        "citations": result["citations"],
+        "citation_report": result["citation_report"],
+        "ungrounded_numbers": result["ungrounded_numbers"],
+        "retrieved": result["retrieved"],
+        "stats": result["stats"],
+    }
