@@ -85,7 +85,7 @@ and a caller's roles come only from their signed JWT -- the `/ask` request
 body cannot claim roles for itself. This is not a real content-sensitivity
 classification.
 
-## Live verification (Phase 4a, Task 5)
+## Live verification: the same question, two users
 
 Both demo users were logged in and asked the identical question whose
 answer lives only in gated `1910.147` content:
@@ -113,7 +113,10 @@ answered correctly, with a valid citation:
 > employer's energy control program."
 
 Both requests returned `200` -- the ungated user got a graceful refusal, not
-an error. Authenticated `/ask` latency: officer's request (warm model) took
+an error. Note the viewer received a *full* set of ten results drawn from
+permitted content, not a truncated list. That is the point of filtering
+inside the query rather than afterwards: post-filtering would have returned
+fewer results with no signal that anything had been withheld. Authenticated `/ask` latency: officer's request (warm model) took
 11.4s wall / 8.2s generation; viewer's request included a 9.7s Ollama model
 load, giving 21.0s wall / 13.7s generation. Full request/response bodies are
 recorded in `.superpowers/sdd/p4a-task-345-report.md`.
@@ -127,29 +130,3 @@ python -m pytest
 All tests are hermetic -- `tests/test_auth.py` and `tests/test_api.py` stub
 the DB connection, embedder, and generator, so the suite never touches
 Postgres or Ollama.
-
-## Live verification (Phase 4b, Task 4)
-
-Same question, both demo users, against the running stack:
-
-**`officer`** (role `safety_officer`) -- 10.0s
-
-> According to [1910.147(e)(3)], each lockout or tagout device shall be
-> removed from each energy isolating device by the employee who applied the
-> device. However, if the authorized employee who applied it is unavailable...
-
-Citations: `["1910.147(e)(3)"]`. All 10 retrieved paragraphs from `1910.147`.
-
-**`viewer`** (no roles) -- 6.4s
-
-> The provided text does not contain information about who is allowed to
-> remove a lockout device from an energy isolating device.
-
-Citations: `[]`. Zero retrieved paragraphs from `1910.147` -- retrieval drew
-a full 10 results from `1910.137` instead.
-
-The viewer receiving a *full* result set from permitted content, rather than
-a truncated one, is the point: the permission predicate lives inside the
-retrieval SQL (`WHERE required_role IS NULL OR required_role = ANY(...)`),
-above `ORDER BY` and `LIMIT`. Filtering after the query would have returned
-fewer results with no signal that anything was withheld.
