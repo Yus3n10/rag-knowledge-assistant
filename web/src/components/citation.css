@@ -1,0 +1,71 @@
+.answer-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.citation-toggle {
+  font: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: 3px;
+  padding: 0 3px;
+  cursor: pointer;
+}
+
+.citation-cited .citation-toggle {
+  color: #0a5c2b;
+  background: #d7f5e0;
+}
+
+.citation-uncited .citation-toggle {
+  color: #555;
+  background: #eee;
+}
+
+.citation-source {
+  display: block;
+  margin: 6px 0 10px;
+  padding: 10px 12px;
+  border-left: 3px solid #999;
+  background: #f7f7f7;
+  font-size: 0.95em;
+}
+
+.citation-heading {
+  display: block;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.citation-text {
+  display: block;
+  white-space: pre-wrap;
+}
+
+.citation-unresolvable {
+  color: #8a3b00;
+  font-style: italic;
+}
+
+.ungrounded-warning {
+  margin: 16px 0;
+  padding: 10px 14px;
+  border: 1px solid #c0392b;
+  border-radius: 4px;
+  background: #fdecea;
+  color: #7b241c;
+  font-weight: 600;
+}
+
+.retrieved-uncited {
+  margin-top: 20px;
+}
+
+.retrieved-uncited ul {
+  list-style: none;
+  padding: 0;
+}
+
+.retrieved-uncited li {
+  margin-bottom: 4px;
+}
