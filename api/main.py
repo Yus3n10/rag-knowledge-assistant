@@ -60,11 +60,14 @@ def get_embedder():
 
 def get_generator():
     session = requests.Session()
-    model = os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    provider = os.environ.get("LLM_PROVIDER", "ollama")
+    model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
     url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
+    api_key = os.environ.get("GROQ_API_KEY")
 
     def generator(messages):
-        return generate(messages, model=model, url=url, session=session)
+        return generate(messages, provider=provider, model=model, url=url,
+                         api_key=api_key, session=session)
 
     return generator
 
