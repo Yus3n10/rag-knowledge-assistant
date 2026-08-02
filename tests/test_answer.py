@@ -110,11 +110,46 @@ def test_dedup_by_paragraph_happens_before_truncation_to_k():
 
     # 3 distinct paragraphs, not 3 raw rows -- P1's second chunk must not
     # consume a k-slot, and P1's nearest occurrence (0.10) must be the one kept.
-    assert result["retrieved"] == [
+    # (subset check: paragraph_id/distance only -- heading_trail/text are
+    # covered by the dedicated tests below.)
+    assert [{"paragraph_id": e["paragraph_id"], "distance": e["distance"]} for e in result["retrieved"]] == [
         {"paragraph_id": "P1", "distance": 0.10},
         {"paragraph_id": "P2", "distance": 0.20},
         {"paragraph_id": "P3", "distance": 0.25},
     ]
+
+
+def test_retrieved_entries_include_heading_trail_and_text():
+    rows = [("c1", "P1", "1910.147 > (e) Release\n\nProse body text.", 0.10)]
+    conn = StubConnection(rows)
+
+    result = answer_question("q", k=1, conn=conn, embedder=StubEmbedder(), generator=StubGenerator())
+
+    [entry] = result["retrieved"]
+    assert entry["paragraph_id"] == "P1"
+    assert entry["distance"] == 0.10
+    assert entry["heading_trail"] == "1910.147 > (e) Release"
+    assert entry["text"] == "Prose body text."
+
+
+def test_retrieved_text_joins_every_chunk_of_a_multi_chunk_paragraph():
+    # Regression guard: 1910.134(d)(3)(i)(A) produces a prose chunk and a table
+    # chunk for the same paragraph. If retrieved["text"] were built from the
+    # deduped `chunks` list (one chunk per paragraph) instead of ALL of that
+    # paragraph's context_chunks, the table chunk -- which is where the
+    # planted resp-001 answer (APF 50) lives -- would be silently dropped,
+    # reproducing the Phase 3 bug fixed in commit f0ccff1.
+    rows = [
+        ("c1", "P1", "TRAIL\n\nProse chunk ALPHA-MARKER.", 0.10),
+        ("c2", "P1", "TRAIL\n\nTable chunk BETA-MARKER.", 0.15),
+    ]
+    conn = StubConnection(rows)
+
+    result = answer_question("q", k=1, conn=conn, embedder=StubEmbedder(), generator=StubGenerator())
+
+    [entry] = result["retrieved"]
+    assert "ALPHA-MARKER" in entry["text"]
+    assert "BETA-MARKER" in entry["text"]
 
 
 def test_search_is_called_with_an_overfetched_k_so_dedup_has_material():

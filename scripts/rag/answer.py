@@ -37,6 +37,36 @@ def _dedupe_chunks_by_paragraph(chunks, k):
     return kept
 
 
+def _retrieved_entry(chunk, context_chunks):
+    """One retrieved entry for chunk's paragraph. distance/paragraph_id come
+    from the deduped chunk, but heading_trail/text are built from EVERY
+    context_chunks chunk sharing that paragraph_id -- not just chunk itself.
+
+    A paragraph split into prose + table chunks (e.g. 1910.134(d)(3)(i)(A))
+    must show all of it: building this from the deduped `chunks` list would
+    show only the first-seen chunk and silently omit the table, reproducing
+    the Phase 3 bug fixed in commit f0ccff1 (this time in the UI instead of
+    the prompt context).
+
+    Chunk text is stored as "heading_trail\\n\\n<body>" (see
+    chunk.chunk_records); text without that separator (e.g. stub data) is
+    used as-is with an empty heading_trail.
+    """
+    siblings = [c for c in context_chunks if c["paragraph_id"] == chunk["paragraph_id"]]
+    heading_trail, bodies = None, []
+    for sibling in siblings:
+        head, sep, body = sibling["text"].partition("\n\n")
+        if heading_trail is None:
+            heading_trail = head if sep else ""
+        bodies.append(body if sep else head)
+    return {
+        "paragraph_id": chunk["paragraph_id"],
+        "distance": chunk["distance"],
+        "heading_trail": heading_trail,
+        "text": "\n\n".join(bodies),
+    }
+
+
 def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragraph_ids=None, roles=None):
     """Run one question through the full pipeline.
 
@@ -49,7 +79,9 @@ def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragra
     retrieval's SQL, not applied after the fact.
 
     Returns answer, citations, citation_report, ungrounded_numbers,
-    retrieved (paragraph ids with distances), retrieved_text (concatenated
+    retrieved (one entry per paragraph: paragraph_id, distance, heading_trail,
+    and text joined from all of that paragraph's chunks -- so a client can
+    show the source text behind a citation), retrieved_text (concatenated
     chunk text, exposed for callers that need the raw context -- e.g. the
     resp-001 canary check in eval/run_answers.py), and stats.
     """
@@ -83,10 +115,7 @@ def answer_question(question, *, k=10, conn, embedder, generator, corpus_paragra
         "citations": citations,
         "citation_report": citation_report,
         "ungrounded_numbers": ungrounded_numbers(answer, retrieved_text),
-        "retrieved": [
-            {"paragraph_id": chunk["paragraph_id"], "distance": chunk["distance"]}
-            for chunk in chunks
-        ],
+        "retrieved": [_retrieved_entry(chunk, context_chunks) for chunk in chunks],
         "retrieved_text": retrieved_text,
         "stats": stats,
     }

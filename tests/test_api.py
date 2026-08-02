@@ -173,7 +173,19 @@ def test_ask_with_a_valid_token_returns_a_well_formed_body():
         "answer", "citations", "citation_report", "ungrounded_numbers",
         "retrieved", "stats",
     }
-    assert body["retrieved"] == [{"paragraph_id": "1910.147(e)(3)", "distance": 0.12}]
+    assert body["retrieved"][0]["paragraph_id"] == "1910.147(e)(3)"
+    assert body["retrieved"][0]["distance"] == 0.12
+
+
+def test_ask_retrieved_entries_include_heading_trail_and_text():
+    rows = [("c1", "1910.147(e)(3)", "TRAIL HERE\n\nOnly the employee who applied the device may remove it.", 0.12)]
+    client, _, _, _ = make_client(rows=rows)
+
+    response = client.post("/ask", json={"question": "q"}, headers=auth_header())
+
+    [entry] = response.json()["retrieved"]
+    assert entry["heading_trail"] == "TRAIL HERE"
+    assert entry["text"] == "Only the employee who applied the device may remove it."
 
 
 def test_ask_threads_the_tokens_roles_into_retrieval():
