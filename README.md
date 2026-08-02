@@ -26,12 +26,38 @@ Endpoints:
 - `GET  /health` -- liveness plus chunk count
 - `POST /auth/login` -- `{"username", "password"}` -> `{"access_token", "token_type"}`
 - `POST /ask` -- requires `Authorization: Bearer <token>`; `{"question"}` ->
-  answer, citations, citation report, ungrounded numbers, retrieved
-  paragraph ids with distances, and generation stats
+  answer, citations, citation report, ungrounded numbers, generation stats,
+  and `retrieved`: for each paragraph its id, distance, heading trail, and
+  **source text**
+
+Each `retrieved` entry's `text` joins *every* chunk of that paragraph, not
+just the highest-ranked one. That matters: a paragraph can split into prose
+and table chunks, and the answer sometimes lives only in the table. Showing
+the first chunk alone would silently omit it.
 
 An authenticated `/ask` takes roughly 8-12s warm (mostly `llama3.1:8b`
 generation time); this is a known, accepted characteristic of the
 synchronous design for this phase -- see the plan's "Measured inputs".
+
+## Running the web interface
+
+With the API already running on port 8000:
+
+```bash
+cd web
+npm install
+npm run dev          # http://localhost:5173, proxies /api to :8000
+npm test -- --run    # component tests
+```
+
+Log in with either demo user, ask a question, and click any citation to
+expand the exact regulation text that produced the claim. Paragraphs the
+model cited are shown distinctly from paragraphs that were retrieved into
+context but never cited -- the latter matters, because when the model
+mis-attributes a claim, the correct source is often sitting in that list.
+
+If the system detects numbers in an answer that do not appear in the
+retrieved text, it says so in a warning banner rather than hiding it.
 
 ## Demo users
 
@@ -101,3 +127,29 @@ python -m pytest
 All tests are hermetic -- `tests/test_auth.py` and `tests/test_api.py` stub
 the DB connection, embedder, and generator, so the suite never touches
 Postgres or Ollama.
+
+## Live verification (Phase 4b, Task 4)
+
+Same question, both demo users, against the running stack:
+
+**`officer`** (role `safety_officer`) -- 10.0s
+
+> According to [1910.147(e)(3)], each lockout or tagout device shall be
+> removed from each energy isolating device by the employee who applied the
+> device. However, if the authorized employee who applied it is unavailable...
+
+Citations: `["1910.147(e)(3)"]`. All 10 retrieved paragraphs from `1910.147`.
+
+**`viewer`** (no roles) -- 6.4s
+
+> The provided text does not contain information about who is allowed to
+> remove a lockout device from an energy isolating device.
+
+Citations: `[]`. Zero retrieved paragraphs from `1910.147` -- retrieval drew
+a full 10 results from `1910.137` instead.
+
+The viewer receiving a *full* result set from permitted content, rather than
+a truncated one, is the point: the permission predicate lives inside the
+retrieval SQL (`WHERE required_role IS NULL OR required_role = ANY(...)`),
+above `ORDER BY` and `LIMIT`. Filtering after the query would have returned
+fewer results with no signal that anything was withheld.
