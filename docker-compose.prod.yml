@@ -53,7 +53,9 @@ services:
       EMBED_MODEL: nomic-embed-text
       OLLAMA_URL: http://ollama:11434
     ports:
-      - "8000:8000"
+      # Host port 80 so the public URL needs no :8000 suffix and is not
+      # blocked by networks that only allow standard HTTP ports.
+      - "80:8000"
     restart: unless-stopped
 
 volumes:
