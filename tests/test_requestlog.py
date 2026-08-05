@@ -47,6 +47,7 @@ FIELDS = dict(
     ungrounded_number_count=0,
     refused=False,
     k=10,
+    cost_usd=0.0,
 )
 
 
@@ -69,7 +70,18 @@ def test_record_request_inserts_the_right_values():
     assert params["ungrounded_number_count"] == FIELDS["ungrounded_number_count"]
     assert params["refused"] == FIELDS["refused"]
     assert params["k"] == FIELDS["k"]
+    assert params["cost_usd"] == FIELDS["cost_usd"]
     assert conn.committed
+
+
+def test_record_request_stores_none_cost_for_an_unpriced_model():
+    conn = StubConnection()
+    fields = dict(FIELDS, provider="groq", model="unknown-model", cost_usd=None)
+
+    record_request(conn, **fields)
+
+    [(_, params)] = conn.cur.executed
+    assert params["cost_usd"] is None
 
 
 def test_record_request_swallows_an_execute_error():

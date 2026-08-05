@@ -236,6 +236,20 @@ def test_ask_records_one_request_log_row():
     assert params["ungrounded_number_count"] == 0
     assert params["refused"] is False
     assert params["k"] == 10
+    assert params["cost_usd"] == 0.0  # ollama/llama3.1:8b is free
+
+
+def test_ask_records_none_cost_for_an_unpriced_model(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "groq")
+    monkeypatch.setenv("LLM_MODEL", "some-model-not-in-the-rate-table")
+    client, stub_conn, _, _ = make_client()
+
+    client.post("/ask", json={"question": "q"}, headers=auth_header())
+
+    _, params = [
+        (sql, p) for sql, p in stub_conn.cur.executed if "INSERT INTO request_log" in sql
+    ][0]
+    assert params["cost_usd"] is None
 
 
 def _refused_flag_for(answer_text):

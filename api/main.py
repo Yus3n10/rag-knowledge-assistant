@@ -22,6 +22,7 @@ from pydantic import BaseModel
 
 from api.auth import create_token, decode_token, verify_password
 from scripts.rag.answer import answer_question
+from scripts.rag.cost import cost_usd
 from scripts.rag.embed import embed_texts
 from scripts.rag.generate import generate
 from scripts.rag.prompt import SYSTEM_PROMPT
@@ -183,6 +184,11 @@ def ask(
             ungrounded_number_count=len(result["ungrounded_numbers"]),
             refused=refused,
             k=K,
+            cost_usd=cost_usd(
+                provider, model,
+                result["stats"]["prompt_tokens"],
+                result["stats"]["completion_tokens"],
+            ),
         )
     except Exception:
         # record_request already swallows its own errors; this is a second

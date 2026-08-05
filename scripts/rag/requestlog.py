@@ -13,11 +13,11 @@ INSERT_SQL = """
 INSERT INTO request_log (
     question, username, roles, provider, model,
     prompt_tokens, completion_tokens, latency_s,
-    citation_count, ungrounded_number_count, refused, k
+    citation_count, ungrounded_number_count, refused, k, cost_usd
 ) VALUES (
     %(question)s, %(username)s, %(roles)s, %(provider)s, %(model)s,
     %(prompt_tokens)s, %(completion_tokens)s, %(latency_s)s,
-    %(citation_count)s, %(ungrounded_number_count)s, %(refused)s, %(k)s
+    %(citation_count)s, %(ungrounded_number_count)s, %(refused)s, %(k)s, %(cost_usd)s
 )
 """
 
