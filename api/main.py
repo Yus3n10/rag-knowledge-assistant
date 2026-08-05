@@ -41,7 +41,14 @@ K = 10  # measured knee, see docs/RETRIEVAL_FINDINGS.md -- do not raise to chase
 # Pulled from SYSTEM_PROMPT's own refusal example rather than copied by hand,
 # so a wording change there can never silently drift out of sync with what
 # /ask treats as a refusal.
-REFUSAL_PHRASE = re.search(r'for example: "([^"]+)"', SYSTEM_PROMPT).group(1)
+#
+# Match only the stable HEAD of that sentence. llama3.1:8b keeps the head and
+# paraphrases the tail ("...does not contain information about X"), so matching
+# the full example sentence scored genuine refusals as answers and undercounted
+# the refusal rate. See tests/test_api.py::test_ask_records_refused_when_the_
+# model_paraphrases_the_refusal for the real output that exposed this.
+_REFUSAL_EXAMPLE = re.search(r'for example: "([^"]+)"', SYSTEM_PROMPT).group(1)
+REFUSAL_PREFIX = _REFUSAL_EXAMPLE.split(" this information")[0].lower()
 
 
 def _provider_and_model():
@@ -160,7 +167,7 @@ def ask(
     )
 
     provider, model = _provider_and_model()
-    refused = not result["citations"] and REFUSAL_PHRASE in result["answer"]
+    refused = not result["citations"] and REFUSAL_PREFIX in result["answer"].lower()
     try:
         record_request(
             conn,

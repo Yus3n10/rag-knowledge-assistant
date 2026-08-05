@@ -238,23 +238,44 @@ def test_ask_records_one_request_log_row():
     assert params["k"] == 10
 
 
-def test_ask_records_refused_when_the_model_declines_with_no_citations():
+def _refused_flag_for(answer_text):
+    """Run one /ask whose model returns answer_text, return the recorded refused flag."""
     client, stub_conn, _, _ = make_client()
-    from api.main import app, get_generator, REFUSAL_PHRASE
+    from api.main import app, get_generator
 
     app.dependency_overrides[get_generator] = lambda: (
-        lambda messages: (REFUSAL_PHRASE, {
+        lambda messages: (answer_text, {
             "prompt_tokens": 50, "completion_tokens": 10,
             "latency_s": 1.0, "load_duration_s": 0.0,
         })
     )
-
     client.post("/ask", json={"question": "q"}, headers=auth_header())
-
     _, params = [
         (sql, p) for sql, p in stub_conn.cur.executed if "INSERT INTO request_log" in sql
     ][0]
-    assert params["refused"] is True
+    return params["refused"]
+
+
+def test_ask_records_refused_when_the_model_declines_with_no_citations():
+    from api.main import _REFUSAL_EXAMPLE
+
+    assert _refused_flag_for(_REFUSAL_EXAMPLE) is True
+
+
+def test_ask_records_refused_when_the_model_paraphrases_the_refusal():
+    # Real llama3.1:8b output. The model keeps the head of the prompt's example
+    # sentence and paraphrases the tail, so matching the full example sentence
+    # scored genuine refusals as answers and undercounted the refusal rate.
+    paraphrased = (
+        "The provided text does not contain information about Personal "
+        "Protective Equipment (PPE) requirements for hazard communication."
+    )
+    assert _refused_flag_for(paraphrased) is True
+
+
+def test_ask_does_not_record_refused_for_a_real_answer():
+    answered = "According to [1910.147(e)(3)], the employee who applied it removes it."
+    assert _refused_flag_for(answered) is False
 
 
 def test_ask_still_returns_200_when_the_recorder_raises(monkeypatch):
