@@ -2,13 +2,35 @@ services:
   db:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: rag
-      POSTGRES_PASSWORD: ragdev
+      POSTGRES_USER: ${POSTGRES_USER:-rag}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ragdev}
       POSTGRES_DB: rag
     ports:
       - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    depends_on:
+      - db
+    environment:
+      # Same dev-default credentials as the db service above, passed through
+      # so grafana/provisioning/datasources/postgres.yml can read the
+      # password via $__env{} without a secret ever living in the repo.
+      POSTGRES_USER: ${POSTGRES_USER:-rag}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ragdev}
+      GF_SECURITY_ADMIN_USER: ${GF_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_ADMIN_PASSWORD:-admin}
+    ports:
+      # localhost only -- the API is meant to be public, this dashboard is not.
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana-data:/var/lib/grafana
+
 volumes:
   pgdata:
+  grafana-data:

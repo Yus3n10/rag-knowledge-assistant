@@ -1,0 +1,22 @@
+apiVersion: 1
+
+# Postgres datasource for the request_log dashboard. The password is never
+# written here -- it's read from the container's own environment at
+# provisioning time via the $__env{} macro. See docker-compose.yml, which
+# passes the grafana service the same POSTGRES_USER/POSTGRES_PASSWORD (dev
+# defaults rag/ragdev) already used by the db service.
+datasources:
+  - name: RAG request_log
+    uid: rag-postgres
+    type: postgres
+    access: proxy
+    url: db:5432
+    database: rag
+    user: rag
+    isDefault: true
+    editable: false
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1600
+    secureJsonData:
+      password: $__env{POSTGRES_PASSWORD}

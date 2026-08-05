@@ -1,0 +1,283 @@
+{
+  "id": null,
+  "uid": "rag-cost-latency",
+  "title": "RAG cost and latency",
+  "tags": [
+    "rag",
+    "request_log"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Requests over time",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  provider || '/' || model AS metric,\n  count(*)::float AS value\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1, provider, model\nORDER BY 1",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Latency p50 / p95",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  percentile_cont(0.5) WITHIN GROUP (ORDER BY latency_s) AS p50_latency_s,\n  percentile_cont(0.95) WITHIN GROUP (ORDER BY latency_s) AS p95_latency_s\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1\nORDER BY 1",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tokens per request (prompt vs completion)",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  provider || '/' || model || ' prompt' AS metric,\n  avg(prompt_tokens) AS value\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1, provider, model\nUNION ALL\nSELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  provider || '/' || model || ' completion' AS metric,\n  avg(completion_tokens) AS value\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1, provider, model\nORDER BY 1",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Refusal rate and ungrounded-number rate",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  provider || '/' || model || ' refusal_rate' AS metric,\n  avg(CASE WHEN refused THEN 1.0 ELSE 0.0 END) AS value\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1, provider, model\nUNION ALL\nSELECT\n  $__timeGroup(asked_at, '$__interval') AS time,\n  provider || '/' || model || ' ungrounded_rate' AS metric,\n  avg(CASE WHEN ungrounded_number_count > 0 THEN 1.0 ELSE 0.0 END) AS value\nFROM request_log\nWHERE $__timeFilter(asked_at)\nGROUP BY 1, provider, model\nORDER BY 1",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cumulative cost (priced requests only)",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 16,
+        "h": 8
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "time_series",
+          "rawSql": "SELECT\n  asked_at AS time,\n  SUM(cost_usd) OVER (ORDER BY asked_at) AS cumulative_cost_usd\nFROM request_log\nWHERE $__timeFilter(asked_at) AND cost_usd IS NOT NULL\nORDER BY asked_at",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Total cost (USD)",
+      "type": "stat",
+      "gridPos": {
+        "x": 16,
+        "y": 16,
+        "w": 8,
+        "h": 4
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT COALESCE(SUM(cost_usd), 0) AS total_cost_usd\nFROM request_log\nWHERE $__timeFilter(asked_at)",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Unpriced requests (NULL cost)",
+      "type": "stat",
+      "gridPos": {
+        "x": 16,
+        "y": 20,
+        "w": 8,
+        "h": 4
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT count(*) AS unpriced_requests\nFROM request_log\nWHERE cost_usd IS NULL AND $__timeFilter(asked_at)",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Recent requests",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 24,
+        "h": 10
+      },
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "rag-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "format": "table",
+          "rawSql": "SELECT\n  asked_at AS \"Time\",\n  question AS \"Question\",\n  provider AS \"Provider\",\n  model AS \"Model\",\n  latency_s AS \"Latency (s)\",\n  prompt_tokens AS \"Prompt tokens\",\n  completion_tokens AS \"Completion tokens\",\n  cost_usd AS \"Cost (USD)\",\n  refused AS \"Refused\"\nFROM request_log\nORDER BY asked_at DESC\nLIMIT 50",
+          "rawQuery": true,
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "rag-postgres"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -121,6 +121,42 @@ fewer results with no signal that anything had been withheld. Authenticated `/as
 load, giving 21.0s wall / 13.7s generation. Full request/response bodies are
 recorded in `.superpowers/sdd/p4a-task-345-report.md`.
 
+## Cost and latency dashboard
+
+Every `/ask` writes one row to `request_log` (tokens, latency, citation and
+refusal counts, and a computed `cost_usd`). A Grafana dashboard reads that
+table directly -- no Prometheus, since Postgres is already running and the
+interesting questions are per-request, not aggregate scrape rates.
+
+```bash
+docker compose up -d          # Postgres + Grafana
+python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+```
+
+Open `http://localhost:3000` (admin/admin by default -- change it or skip
+the prompt). The dashboard "RAG cost and latency" is provisioned from
+`grafana/dashboards/rag.json` at container start, so it survives a volume
+wipe; it is not something clicked together in the UI. Grafana binds to
+`127.0.0.1:3000` only -- the API is meant to be public, this dashboard is
+not.
+
+Panels: requests over time, latency p50/p95, tokens per request (prompt vs
+completion), cumulative cost with a companion count of unpriced (NULL-cost)
+requests, refusal rate and ungrounded-number rate, and a table of recent
+requests. All group by provider/model where relevant, so a provider switch
+shows up as a step in the chart rather than a discontinuity.
+
+![Dashboard with live traffic](docs/dashboard.png)
+
+**Measured, not manufactured:** the screenshot above was taken after 7 real
+`/ask` calls as `officer` (5 in this verification pass, plus 2 from earlier
+testing), all served by local Ollama (`llama3.1:8b`). `SUM(cost_usd)` is
+`$0` -- local inference has no marginal token cost -- and 2 of the 7 rows
+show `cost_usd = NULL` (they predate the `cost_usd` column and were never
+priced). The rate table in `scripts/rag/cost.py` already has Groq pricing
+wired in; the first paid-provider request will show up as a nonzero step in
+the cumulative-cost panel without any dashboard change.
+
 ## Testing
 
 ```bash
