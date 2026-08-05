@@ -209,6 +209,71 @@ def test_ask_with_no_roles_in_token_searches_public_only():
     assert params["roles"] == []
 
 
+# --- request_log recording ------------------------------------------------
+
+def test_ask_records_one_request_log_row():
+    client, stub_conn, _, _ = make_client()
+
+    client.post(
+        "/ask", json={"question": "who may remove a lockout device?"},
+        headers=auth_header(username="officer", roles=["safety_officer"]),
+    )
+
+    insert_calls = [
+        (sql, params) for sql, params in stub_conn.cur.executed
+        if "INSERT INTO request_log" in sql
+    ]
+    assert len(insert_calls) == 1
+    _, params = insert_calls[0]
+    assert params["question"] == "who may remove a lockout device?"
+    assert params["username"] == "officer"
+    assert params["roles"] == ["safety_officer"]
+    assert params["provider"] == "ollama"
+    assert params["prompt_tokens"] == 100
+    assert params["completion_tokens"] == 20
+    assert params["latency_s"] == 4.5
+    assert params["citation_count"] == 1
+    assert params["ungrounded_number_count"] == 0
+    assert params["refused"] is False
+    assert params["k"] == 10
+
+
+def test_ask_records_refused_when_the_model_declines_with_no_citations():
+    client, stub_conn, _, _ = make_client()
+    from api.main import app, get_generator, REFUSAL_PHRASE
+
+    app.dependency_overrides[get_generator] = lambda: (
+        lambda messages: (REFUSAL_PHRASE, {
+            "prompt_tokens": 50, "completion_tokens": 10,
+            "latency_s": 1.0, "load_duration_s": 0.0,
+        })
+    )
+
+    client.post("/ask", json={"question": "q"}, headers=auth_header())
+
+    _, params = [
+        (sql, p) for sql, p in stub_conn.cur.executed if "INSERT INTO request_log" in sql
+    ][0]
+    assert params["refused"] is True
+
+
+def test_ask_still_returns_200_when_the_recorder_raises(monkeypatch):
+    import api.main as main
+
+    def boom(conn, **fields):
+        raise RuntimeError("db is down")
+
+    monkeypatch.setattr(main, "record_request", boom)
+    client, _, _, _ = make_client()
+
+    response = client.post("/ask", json={"question": "q"}, headers=auth_header())
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["answer"]
+    assert body["citations"]
+
+
 def test_ask_ignores_roles_claimed_in_the_request_body():
     # The point of this whole phase: a caller cannot grant themselves access
     # by putting roles in the JSON body. Only the token's roles may reach

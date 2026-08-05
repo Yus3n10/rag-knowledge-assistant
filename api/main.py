@@ -8,7 +8,9 @@ claims ONLY -- the request body must never be allowed to specify roles, or
 any caller could grant themselves access to gated content.
 """
 
+import logging
 import os
+import re
 
 import jwt
 import psycopg
@@ -22,6 +24,10 @@ from api.auth import create_token, decode_token, verify_password
 from scripts.rag.answer import answer_question
 from scripts.rag.embed import embed_texts
 from scripts.rag.generate import generate
+from scripts.rag.prompt import SYSTEM_PROMPT
+from scripts.rag.requestlog import record_request
+
+logger = logging.getLogger(__name__)
 
 DEFAULTS = {
     "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
@@ -31,6 +37,21 @@ DEFAULTS = {
 }
 
 K = 10  # measured knee, see docs/RETRIEVAL_FINDINGS.md -- do not raise to chase a score
+
+# Pulled from SYSTEM_PROMPT's own refusal example rather than copied by hand,
+# so a wording change there can never silently drift out of sync with what
+# /ask treats as a refusal.
+REFUSAL_PHRASE = re.search(r'for example: "([^"]+)"', SYSTEM_PROMPT).group(1)
+
+
+def _provider_and_model():
+    """The same provider/model resolution get_generator() uses, exposed
+    separately so /ask can log what was actually asked for without having
+    to unpack it out of the generator closure."""
+    provider = os.environ.get("LLM_PROVIDER", "ollama")
+    model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    return provider, model
+
 
 app = FastAPI(title="OSHA RAG API")
 security = HTTPBearer()
@@ -61,8 +82,7 @@ def get_embedder():
 
 def get_generator():
     session = requests.Session()
-    provider = os.environ.get("LLM_PROVIDER", "ollama")
-    model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    provider, model = _provider_and_model()
     url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
     api_key = os.environ.get("GROQ_API_KEY")
 
@@ -138,6 +158,31 @@ def ask(
         generator=generator,
         roles=user["roles"],  # from the verified token only, never the body
     )
+
+    provider, model = _provider_and_model()
+    refused = not result["citations"] and REFUSAL_PHRASE in result["answer"]
+    try:
+        record_request(
+            conn,
+            question=body.question,
+            username=user["username"],
+            roles=user["roles"],
+            provider=provider,
+            model=model,
+            prompt_tokens=result["stats"]["prompt_tokens"],
+            completion_tokens=result["stats"]["completion_tokens"],
+            latency_s=result["stats"]["latency_s"],
+            citation_count=len(result["citations"]),
+            ungrounded_number_count=len(result["ungrounded_numbers"]),
+            refused=refused,
+            k=K,
+        )
+    except Exception:
+        # record_request already swallows its own errors; this is a second
+        # line of defense so a logging problem can never surface as an /ask
+        # failure, no matter how record_request is wired up.
+        logger.exception("failed to record request_log row")
+
     return {
         "answer": result["answer"],
         "citations": result["citations"],
