@@ -233,3 +233,101 @@
   color: var(--ink);
 }
 .demo-keys dd { margin: 0; font-size: 0.8rem; }
+
+/* --- motion tokens ------------------------------------------------------
+   One rhythm for the whole interface: 180ms for micro-interactions,
+   ease-out on entrance. index.css already disables all of this under
+   prefers-reduced-motion. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.answer-section { animation: rise 260ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* --- suggestion chips --------------------------------------------------- */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.suggestions-label {
+  font: 500 0.68rem/1 var(--id);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-right: 0.15rem;
+}
+
+.chip {
+  font: 400 0.82rem/1.3 var(--ui);
+  color: var(--ink-soft);
+  background: var(--paper-sunk);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+  animation: rise 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.chip:hover {
+  color: var(--notice);
+  background: var(--notice-wash);
+  border-color: var(--notice);
+}
+.chip:active { transform: scale(0.97); }
+
+/* --- loading skeleton ---------------------------------------------------
+   Reserves the answer's space so its arrival does not shift the page. */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+
+.skeleton-line {
+  height: 0.85rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--paper-sunk) 25%, #e8e5de 37%, var(--paper-sunk) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+.skeleton-line:nth-child(2) { width: 92%; }
+.skeleton-line:nth-child(3) { width: 68%; }
+
+@keyframes shimmer {
+  from { background-position: 100% 50%; }
+  to   { background-position: 0 50%; }
+}
+
+/* --- out-of-scope (a refusal, which is a correct outcome) ---------------- */
+.outofscope-body {
+  margin: 0 0 1.25rem;
+  font: 400 1rem/1.7 var(--ui);
+  color: var(--ink);
+  max-width: 38rem;
+}
+.outofscope-body code {
+  font: 400 0.85em/1 var(--id);
+  color: var(--notice);
+}
+
+.outofscope-note {
+  margin: 0 0 0.7rem;
+  font: 400 0.82rem/1.5 var(--ui);
+  color: var(--ink-faint);
+}
+
+.retrieved-uncited-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.retrieved-uncited-list li {
+  margin-bottom: 0.5rem;
+  animation: rise 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}

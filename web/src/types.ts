@@ -16,6 +16,10 @@ export interface AskResponse {
     not_in_corpus: string[]
   }
   ungrounded_numbers: string[]
+  /** True when the model declined because the corpus does not cover the
+   * question. Computed server-side so the check cannot drift from the one
+   * the request log uses. */
+  refused?: boolean
   retrieved: RetrievedEntry[]
   stats: {
     prompt_tokens: number

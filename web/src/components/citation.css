@@ -51,10 +51,29 @@
   margin: 0.7rem 0 0.9rem;
   padding: 0.15rem 0 0.15rem 1.1rem;
   border-left: 1px solid var(--notice);
+  /* Unfolds rather than snapping. The rule draws itself down the left as the
+     text fades in, so the source reads as opening out of the citation. */
+  animation: unfold 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: top left;
 }
 
+@keyframes unfold {
+  from { opacity: 0; transform: translateY(-4px); border-left-color: transparent; }
+  to   { opacity: 1; transform: none; border-left-color: var(--notice); }
+}
+
+.citation-toggle {
+  transition: color 180ms ease, text-decoration-color 180ms ease;
+}
+
+/* Heading trails inherit the parent paragraph's opening text, which for a
+   deeply nested id runs to several lines and cuts off mid-word. Two lines is
+   enough to locate the paragraph in the code; the full text is right below. */
 .citation-heading {
-  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font: 400 0.72rem/1.5 var(--id);
   color: var(--ink-faint);
   margin-bottom: 0.4rem;

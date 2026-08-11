@@ -246,6 +246,11 @@ def ask(
         "ungrounded_numbers": result["ungrounded_numbers"],
         "retrieved": result["retrieved"],
         "stats": result["stats"],
+        # Returned so the UI can present a refusal as "outside the indexed
+        # corpus" rather than as a failed answer. Computed here from the same
+        # REFUSAL_PREFIX the request log uses -- reimplementing the check in
+        # the frontend would let the two drift apart silently.
+        "refused": refused,
     }
 
 

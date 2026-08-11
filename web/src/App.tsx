@@ -5,6 +5,14 @@ import type { AskResponse } from './types'
 import Answer from './components/Answer'
 import './App.css'
 
+// Drawn from the three indexed areas so each one demonstrably has an answer.
+const SUGGESTIONS = [
+  'Who may remove a lockout device?',
+  'What training must an employer provide for PPE?',
+  'When is fall protection required on a walking-working surface?',
+  'How must portable ladders be maintained?',
+]
+
 // Token lives in React state only -- not localStorage, not a cookie. It
 // disappears on refresh, which is the right tradeoff for a demo: nothing
 // persists that a second person opening the same browser could reuse.
@@ -136,15 +144,42 @@ function App() {
             Indexed: Subparts D and I, and <code>1910.147</code> lockout/tagout. 965 paragraphs.
             Questions outside that scope are declined rather than guessed at.
           </p>
+
+          {/* The corpus is three subparts, not all of OSHA. Without concrete
+              examples people ask general workplace questions, get a refusal,
+              and read it as the tool being broken. */}
+          <div className="suggestions">
+            <span className="suggestions-label">Try</span>
+            {SUGGESTIONS.map((s, i) => (
+              <button
+                key={s}
+                type="button"
+                className="chip"
+                style={{ animationDelay: `${i * 40}ms` }}
+                onClick={() => setQuestion(s)}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </form>
 
+        {/* Generation runs 8-15s, and a hosted cold start adds a minute on top.
+            A skeleton reserves the answer's space so nothing jumps when it
+            lands, and names the stage so the wait reads as work, not a hang. */}
         {askPending && (
-          <p className="pending" role="status">
-            <span className="pending-pulse" aria-hidden="true" />
-            Retrieving and generating -- this takes a few seconds. The first
-            request after a quiet period also has to wake the server, which
-            adds about a minute.
-          </p>
+          <div className="answer-section" aria-busy="true">
+            <p className="pending" role="status">
+              <span className="pending-pulse" aria-hidden="true" />
+              Searching 965 paragraphs, then writing the answer. A first request
+              after an idle period also has to wake the server.
+            </p>
+            <div className="skeleton" aria-hidden="true">
+              <span className="skeleton-line" />
+              <span className="skeleton-line" />
+              <span className="skeleton-line" />
+            </div>
+          </div>
         )}
         {askError && <div className="failure" role="alert">{askError}</div>}
 
@@ -162,6 +197,7 @@ function App() {
             citations={result.citations}
             retrieved={result.retrieved}
             ungroundedNumbers={result.ungrounded_numbers}
+            refused={result.refused}
           />
         )}
       </main>

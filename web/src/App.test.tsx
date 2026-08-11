@@ -97,10 +97,10 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText(/ask about/i), { target: { value: 'Who may remove a lockout device?' } })
     fireEvent.click(screen.getByRole('button', { name: /ask/i }))
 
-    expect(await screen.findByText(/retrieving and generating/i)).toBeInTheDocument()
+    expect(await screen.findByText(/searching 965 paragraphs/i)).toBeInTheDocument()
 
     resolveAsk(jsonResponse(200, askResponse))
-    await waitFor(() => expect(screen.queryByText(/retrieving and generating/i)).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText(/searching 965 paragraphs/i)).not.toBeInTheDocument())
   })
 
   it('a 401 on ask returns to login', async () => {
