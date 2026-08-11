@@ -4,11 +4,35 @@ Retrieval-augmented Q&A over OSHA general industry regulations, with
 citation validation, hallucination checks, and role-based access control,
 exposed over HTTP.
 
+**Live:** https://rag-knowledge-assistant-z3hw.onrender.com
+
+Sign in as `viewer` / `viewer-pass` or `officer` / `officer-pass`. Ask both
+"Who may remove a lockout device?" -- the viewer is refused, the safety
+officer is answered with a citation. That difference is enforced in the
+retrieval SQL, so it holds against the API directly, not just in the UI.
+
+Hosted on free tiers, so the first request after an idle period takes about
+a minute to wake the server.
+
 ## Stack
 
-- Postgres 16 + pgvector (Docker), 965 chunks embedded with `nomic-embed-text`
-- Generation via `llama3.1:8b` (Ollama)
-- FastAPI + Uvicorn, JWT auth (PyJWT), password hashing (Passlib/bcrypt)
+Runs in two configurations. The same code serves both; provider and model
+come from the environment.
+
+| | Local development | Deployed demo |
+|---|---|---|
+| Postgres + pgvector | Docker | Neon |
+| Embeddings (768-dim) | `nomic-embed-text` (Ollama) | `bge-base-en-v1.5` (Cloudflare Workers AI) |
+| Generation | `llama3.1:8b` (Ollama) | `llama-3.1-8b-instant` (Groq) |
+| Host | localhost | Render |
+
+FastAPI + Uvicorn throughout, JWT auth (PyJWT), password hashing
+(Passlib/bcrypt). The API serves the built frontend at `/`, so there is no
+separate web server.
+
+The deployed split exists because no free tier would host an embedding
+model: generation and embeddings both moved to hosted APIs, and the
+measured cost of that is in the two tables below.
 
 ## Running the API
 
@@ -181,10 +205,43 @@ Both backends fail on the same questions, nearly all in `1910.147`. That
 points at chunking and intra-section competition rather than at either
 embedding model -- see `docs/RETRIEVAL_FINDINGS.md`.
 
-Answer-level metrics (citation validity 60/60, gold citation 35/38,
-ungrounded numbers 0, refusal 7/7 hand-reviewed) were measured on
-`nomic-embed-text` and have **not** yet been re-run against the hosted
-backend.
+### Answer quality, both stacks
+
+Local is `nomic-embed-text` + `llama3.1:8b` on Ollama. Hosted is
+`bge-base-en-v1.5` on Cloudflare Workers AI + `llama-3.1-8b-instant` on Groq,
+which is what the deployed demo runs.
+
+| Metric | Local | Hosted |
+|---|---|---|
+| Citation validity | 1.00 | 1.00 |
+| Fabricated citations | 0 | 0 |
+| Gold citation rate | 35/38 | 37/38 |
+| Ungrounded numbers (15 numeric lookups) | 0 | 0 |
+| Refusal accuracy | 7/7 | 7/7 |
+| `resp-001` cited the expected paragraph | no | **yes** |
+| Mean generation latency | 4.94s | 0.41s |
+
+Every citation emitted resolved to a real corpus paragraph on both stacks,
+and neither invented one. The hosted stack scores slightly *better* on gold
+citation despite slightly worse retrieval -- 37/38 against 35/38 is two
+questions on n=38, so read it as "no worse", not as an improvement.
+
+`resp-001` is a planted regression: the answer needs an assigned protection
+factor of 50 that appears only inside a table chunk, never in prose. The
+local stack retrieved it but cited the wrong paragraph; the hosted stack
+cites the right one.
+
+Refusals are read individually, never auto-scored. All 7 negatives declined
+and emitted zero citations. `neg-005` is the interesting one -- it
+paraphrases rather than using the stock refusal sentence, which is the case
+that previously broke refusal detection (see the `REFUSAL_PREFIX` comment in
+`api/main.py`).
+
+Both eval runners query as `safety_officer`. Without that role the synthetic
+gate on `1910.147` hides the most-cited section in the eval set, and every
+`loto-*` question fails for a reason unrelated to answer quality -- which is
+exactly what happened on the first hosted run, scoring 0.63 before the cause
+was found.
 
 ### The swap is silent when it goes wrong
 
