@@ -16,7 +16,7 @@ import psycopg
 import requests
 
 from eval.metrics import required_paragraphs
-from eval.run_eval import make_embedder
+from eval.run_eval import EVAL_ROLES, make_embedder
 from eval.validate_eval import load_corpus_index, load_questions
 from scripts.rag.answer import answer_question
 from scripts.rag.generate import generate
@@ -238,6 +238,11 @@ def main():
             result = answer_question(
                 q["question"], k=K, conn=conn, embedder=embedder, generator=generator,
                 corpus_paragraph_ids=corpus_paragraph_ids,
+                # Same reason run_eval passes these: without safety_officer the
+                # synthetic gate on 1910.147 hides the most-cited section in the
+                # eval set, and every loto-* question scores "no gold citation"
+                # for a reason that has nothing to do with answer quality.
+                roles=EVAL_ROLES,
             )
             elapsed = time.monotonic() - start
             print(f"[{i}/{len(questions)}] {q['id']} ({q['category']}) - {elapsed:.1f}s")
