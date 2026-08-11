@@ -34,6 +34,7 @@ DEFAULTS = {
     "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
     "OLLAMA_URL": "http://localhost:11434",
     "EMBED_MODEL": "nomic-embed-text",
+    "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",  # 768-dim, matches vector(768)
     "GEN_MODEL": "llama3.1:8b",
 }
 
@@ -78,11 +79,22 @@ def get_conn():
 
 def get_embedder():
     session = requests.Session()
-    model = os.environ.get("EMBED_MODEL", DEFAULTS["EMBED_MODEL"])
+    provider = os.environ.get("EMBED_PROVIDER", "ollama")
+    # The default model differs per provider: an EMBED_MODEL left over from a
+    # local Ollama run would be a meaningless name to Cloudflare, and the
+    # resulting 404 is a much worse failure than picking the right default.
+    default_model = (DEFAULTS["CF_EMBED_MODEL"] if provider == "cloudflare"
+                     else DEFAULTS["EMBED_MODEL"])
+    model = os.environ.get("EMBED_MODEL", default_model)
     url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
+    account_id = os.environ.get("CF_ACCOUNT_ID")
+    api_token = os.environ.get("CF_API_TOKEN")
 
     def embedder(texts):
-        vectors, _tokens = embed_texts(texts, model=model, url=url, session=session)
+        vectors, _tokens = embed_texts(
+            texts, model=model, url=url, session=session, provider=provider,
+            account_id=account_id, api_token=api_token,
+        )
         return vectors
 
     return embedder

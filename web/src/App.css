@@ -1,0 +1,235 @@
+/* Layout is a document reader, not a chat transcript: a fixed institutional
+   masthead, one column measured for reading, and the answer presented as an
+   annotated passage. */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.masthead-mark {
+  font: 500 0.8rem/1 var(--id);
+  letter-spacing: 0.06em;
+  color: var(--notice);
+}
+
+.masthead-title {
+  margin: 0;
+  font: 600 0.95rem/1 var(--ui);
+  letter-spacing: -0.01em;
+}
+
+.masthead-spacer { flex: 1; }
+
+.masthead-role {
+  font: 500 0.72rem/1 var(--id);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 0.3rem 0.5rem;
+  background: var(--paper-sunk);
+  border-radius: 2px;
+}
+
+.signout {
+  font: 500 0.78rem/1 var(--ui);
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  padding: 0.3rem 0.2rem;
+  cursor: pointer;
+}
+.signout:hover { color: var(--ink); text-decoration: underline; }
+
+.shell {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem) 5rem;
+}
+
+/* --- section eyebrows: small mono labels that name what follows --------- */
+.eyebrow {
+  font: 500 0.7rem/1 var(--id);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.6rem;
+}
+
+/* --- ask form ----------------------------------------------------------- */
+.ask-label {
+  display: block;
+  font: 600 1.4rem/1.25 var(--ui);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.9rem;
+}
+
+.ask-row { display: flex; gap: 0.6rem; align-items: stretch; }
+
+.ask-input {
+  flex: 1;
+  min-width: 0;
+  font: 400 1rem/1.5 var(--ui);
+  color: var(--ink);
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+.ask-input:focus { border-color: var(--notice); }
+.ask-input::placeholder { color: var(--ink-faint); }
+
+.ask-submit {
+  font: 600 0.95rem/1 var(--ui);
+  color: #fff;
+  background: var(--notice);
+  border: 1px solid var(--notice);
+  border-radius: 3px;
+  padding: 0 1.4rem;
+  cursor: pointer;
+  transition: background 120ms ease;
+  white-space: nowrap;
+}
+.ask-submit:hover:not(:disabled) { background: #003f7d; }
+.ask-submit:disabled { opacity: 0.55; cursor: default; }
+
+/* Honest scope note: says what is indexed, so a question outside it reads as
+   out of scope rather than as the tool failing. */
+.scope {
+  margin: 0.75rem 0 0;
+  font: 400 0.8rem/1.5 var(--ui);
+  color: var(--ink-faint);
+}
+.scope code {
+  font: 400 0.78rem/1 var(--id);
+  color: var(--ink-soft);
+}
+
+/* --- transient states --------------------------------------------------- */
+.pending {
+  margin: 2rem 0 0;
+  font: 400 0.9rem/1.5 var(--ui);
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pending-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--notice);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+/* Set like a note in a printed code: a hairline rule above and a small
+   caps label, rather than a coloured slab. */
+.failure {
+  margin: 2rem 0 0;
+  padding: 0.85rem 0 0;
+  font: 400 0.9rem/1.55 var(--ui);
+  color: var(--caution);
+  border-top: 1px solid var(--caution);
+}
+
+.failure::before {
+  content: 'Caution';
+  display: block;
+  font: 500 0.68rem/1 var(--id);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.empty {
+  margin: 2.5rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  font: 400 0.95rem/1.65 var(--ui);
+  color: var(--ink-soft);
+  max-width: 34rem;
+}
+
+/* --- login -------------------------------------------------------------- */
+.gate {
+  max-width: 23rem;
+  margin: clamp(3rem, 12vh, 7rem) auto;
+  padding: 0 1.25rem;
+}
+
+.gate-title {
+  margin: 0 0 0.4rem;
+  font: 600 1.5rem/1.2 var(--ui);
+  letter-spacing: -0.02em;
+}
+
+.gate-sub {
+  margin: 0 0 1.75rem;
+  font: 400 0.9rem/1.6 var(--ui);
+  color: var(--ink-soft);
+}
+
+.field { margin-bottom: 0.9rem; }
+
+.field label {
+  display: block;
+  font: 500 0.78rem/1 var(--ui);
+  color: var(--ink-soft);
+  margin-bottom: 0.35rem;
+}
+
+.field input {
+  width: 100%;
+  font: 400 0.95rem/1.5 var(--ui);
+  color: var(--ink);
+  padding: 0.6rem 0.75rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+.field input:focus { border-color: var(--notice); }
+
+.gate-submit {
+  width: 100%;
+  margin-top: 0.35rem;
+  font: 600 0.95rem/1 var(--ui);
+  color: #fff;
+  background: var(--notice);
+  border: 1px solid var(--notice);
+  border-radius: 3px;
+  padding: 0.72rem 1rem;
+  cursor: pointer;
+}
+.gate-submit:hover:not(:disabled) { background: #003f7d; }
+.gate-submit:disabled { opacity: 0.55; cursor: default; }
+
+/* Demo credentials are shown deliberately: the two-role difference is the
+   thing being demonstrated, and a visitor cannot compare roles they cannot
+   sign in to. These are seeded demo accounts over public regulation text. */
+.demo-keys {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font: 400 0.82rem/1.6 var(--ui);
+  color: var(--ink-soft);
+}
+.demo-keys dl {
+  margin: 0.6rem 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.75rem;
+}
+.demo-keys dt {
+  font: 400 0.78rem/1.6 var(--id);
+  color: var(--ink);
+}
+.demo-keys dd { margin: 0; font-size: 0.8rem; }

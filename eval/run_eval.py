@@ -21,6 +21,7 @@ DEFAULTS = {
     "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
     "OLLAMA_URL": "http://localhost:11434",
     "EMBED_MODEL": "nomic-embed-text",
+    "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",
 }
 
 K_VALUES = (5, 10)
@@ -70,9 +71,13 @@ def find_first_chunk_with_number(chunks, number):
     return None
 
 
-def make_embedder(model, url):
+def make_embedder(model, url, *, provider="ollama", account_id=None, api_token=None):
+    """Queries MUST be embedded with the model that built the index. A
+    mismatch does not error -- it returns near-orthogonal vectors and scores
+    every metric at 0.00, which is how this call site was caught."""
     def embedder(texts):
-        vectors, _ = embed_texts(texts, model=model, url=url)
+        vectors, _ = embed_texts(texts, model=model, url=url, provider=provider,
+                                 account_id=account_id, api_token=api_token)
         return vectors
     return embedder
 
@@ -215,10 +220,16 @@ def print_report(report):
 def main():
     database_url = os.environ.get("DATABASE_URL", DEFAULTS["DATABASE_URL"])
     ollama_url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
-    embed_model = os.environ.get("EMBED_MODEL", DEFAULTS["EMBED_MODEL"])
+    provider = os.environ.get("EMBED_PROVIDER", "ollama")
+    default_model = (DEFAULTS["CF_EMBED_MODEL"] if provider == "cloudflare"
+                     else DEFAULTS["EMBED_MODEL"])
+    embed_model = os.environ.get("EMBED_MODEL", default_model)
+    print(f"embedding queries with provider={provider} model={embed_model}")
 
     questions = load_questions(Path(__file__).resolve().parent / "questions.jsonl")
-    embedder = make_embedder(embed_model, ollama_url)
+    embedder = make_embedder(embed_model, ollama_url, provider=provider,
+                             account_id=os.environ.get("CF_ACCOUNT_ID"),
+                             api_token=os.environ.get("CF_API_TOKEN"))
 
     with psycopg.connect(database_url) as conn:
         raw_chunks_by_qid, retrieved_by_qid = retrieve_all(questions, conn=conn, embedder=embedder)

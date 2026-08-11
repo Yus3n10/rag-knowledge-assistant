@@ -116,3 +116,71 @@ def test_raises_on_dimension_mismatch_between_batches():
         assert False, "expected a ValueError for mismatched embedding dimensions"
     except ValueError:
         pass
+
+
+# --- Cloudflare Workers AI provider ---------------------------------------
+#
+# Same contract as the Ollama path: (vectors, total_tokens), input order
+# preserved, dimension mismatch still fatal. Cloudflare bills in "neurons"
+# and returns no token count, so total_tokens is 0 there -- reporting a
+# fabricated number would be worse than reporting none.
+
+class CloudflareStubResponse:
+    def __init__(self, vectors):
+        self._vectors = vectors
+
+    def raise_for_status(self):
+        return None
+
+    def json(self):
+        return {"result": {"data": self._vectors, "shape": [len(self._vectors), 3]},
+                "success": True, "errors": [], "messages": []}
+
+
+class CloudflareStubSession:
+    def __init__(self):
+        self.calls = []
+
+    def post(self, url, json=None, headers=None, timeout=None):
+        self.calls.append((url, json, headers))
+        return CloudflareStubResponse([[float(len(t))] * 3 for t in json["text"]])
+
+
+def test_cloudflare_returns_vectors_and_zero_tokens():
+    session = CloudflareStubSession()
+    vectors, tokens = embed_texts(
+        ["ab", "cdef"], model="@cf/baai/bge-base-en-v1.5", provider="cloudflare",
+        account_id="acct", api_token="tok", session=session,
+    )
+    assert vectors == [[2.0, 2.0, 2.0], [4.0, 4.0, 4.0]]
+    assert tokens == 0
+
+
+def test_cloudflare_posts_to_the_account_scoped_model_url_with_bearer_auth():
+    session = CloudflareStubSession()
+    embed_texts(["x"], model="@cf/baai/bge-base-en-v1.5", provider="cloudflare",
+                account_id="acct123", api_token="secret", session=session)
+    url, body, headers = session.calls[0]
+    assert url == ("https://api.cloudflare.com/client/v4/accounts/acct123"
+                   "/ai/run/@cf/baai/bge-base-en-v1.5")
+    assert headers["Authorization"] == "Bearer secret"
+    assert body == {"text": ["x"]}
+
+
+def test_cloudflare_requires_credentials():
+    for kwargs in ({"account_id": "a"}, {"api_token": "t"}, {}):
+        try:
+            embed_texts(["x"], model="m", provider="cloudflare",
+                        session=CloudflareStubSession(), **kwargs)
+        except ValueError:
+            continue
+        raise AssertionError(f"expected ValueError for {kwargs}")
+
+
+def test_rejects_an_unknown_provider():
+    try:
+        embed_texts(["x"], model="m", provider="nope", session=StubSession())
+    except ValueError as err:
+        assert "nope" in str(err)
+        return
+    raise AssertionError("expected ValueError")

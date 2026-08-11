@@ -1,0 +1,846 @@
+{
+  "timestamp": "2026-08-11T20:11:08.109647+00:00",
+  "k": 5,
+  "embedding_model": "nomic-embed-text",
+  "overfetch_factor": 4,
+  "answerable_count": 38,
+  "multi_paragraph_count": 6,
+  "negative_count": 7,
+  "metrics": {
+    "k5": {
+      "per_paragraph_recall": 0.0,
+      "strict_completeness": 0.0
+    },
+    "k10": {
+      "per_paragraph_recall": 0.0,
+      "strict_completeness": 0.0
+    }
+  },
+  "refusal_accuracy": null,
+  "per_question_recall": {
+    "k5": {
+      "loto-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(e)(3)"
+        ]
+      },
+      "loto-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(5)(ii)(C)(2)"
+        ]
+      },
+      "ladder-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(2)"
+        ]
+      },
+      "ladder-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(4)"
+        ]
+      },
+      "ladder-003": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(3)"
+        ]
+      },
+      "fall-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(4)"
+        ]
+      },
+      "ladder-004": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(2)(i)"
+        ]
+      },
+      "fall-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(8)"
+        ]
+      },
+      "fall-003": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(7)"
+        ]
+      },
+      "fall-004": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(9)"
+        ]
+      },
+      "fall-005": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(5)"
+        ]
+      },
+      "loto-004": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(d)"
+        ]
+      },
+      "loto-005": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(9)"
+        ]
+      },
+      "loto-006": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(d)(2)"
+        ]
+      },
+      "fall-006": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(22)"
+        ]
+      },
+      "loto-007": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(f)(1)"
+        ]
+      },
+      "loto-008": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(a)(2)(ii)",
+          "1910.147(a)(2)(ii)(A)",
+          "1910.147(a)(2)(ii)(B)"
+        ]
+      },
+      "loto-009": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(a)(2)(iii)",
+          "1910.147(a)(2)(iii)(A)"
+        ]
+      },
+      "loto-010": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(f)(1)(i)",
+          "1910.147(f)(1)(ii)",
+          "1910.147(f)(1)(iii)",
+          "1910.147(f)(1)(iv)",
+          "1910.147(f)(1)(v)"
+        ]
+      },
+      "resp-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(d)(3)(i)(A)"
+        ]
+      },
+      "resp-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(i)(3)"
+        ]
+      },
+      "resp-003": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(e)(1)"
+        ]
+      },
+      "resp-004": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(f)(2)"
+        ]
+      },
+      "resp-005": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(c)(2)(i)"
+        ]
+      },
+      "guard-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(1)"
+        ]
+      },
+      "guard-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(3)"
+        ]
+      },
+      "guard-003": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(5)"
+        ]
+      },
+      "edge-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.28(b)(1)(i)"
+        ]
+      },
+      "guard-004": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(2)"
+        ]
+      },
+      "ppe-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.132(d)(1)",
+          "1910.132(d)(1)(i)",
+          "1910.132(d)(1)(ii)",
+          "1910.132(d)(1)(iii)"
+        ]
+      },
+      "loto-011": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(e)",
+          "1910.147(e)(1)",
+          "1910.147(e)(2)(i)",
+          "1910.147(e)(2)(ii)"
+        ]
+      },
+      "loto-012": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(6)(ii)"
+        ]
+      },
+      "ppe-002": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.132(d)(2)"
+        ]
+      },
+      "loto-013": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(6)(i)"
+        ]
+      },
+      "train-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.30(a)(3)",
+          "1910.30(a)(3)(i)",
+          "1910.30(a)(3)(ii)",
+          "1910.30(a)(3)(iii)",
+          "1910.30(a)(3)(iv)"
+        ]
+      },
+      "train-002": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.30(a)(1)"
+        ]
+      },
+      "loto-014": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(4)(ii)"
+        ]
+      },
+      "loto-015": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(4)(i)"
+        ]
+      }
+    },
+    "k10": {
+      "loto-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(e)(3)"
+        ]
+      },
+      "loto-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(5)(ii)(C)(2)"
+        ]
+      },
+      "ladder-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(2)"
+        ]
+      },
+      "ladder-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(4)"
+        ]
+      },
+      "ladder-003": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(3)"
+        ]
+      },
+      "fall-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(4)"
+        ]
+      },
+      "ladder-004": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.23(b)(2)(i)"
+        ]
+      },
+      "fall-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(8)"
+        ]
+      },
+      "fall-003": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(7)"
+        ]
+      },
+      "fall-004": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(9)"
+        ]
+      },
+      "fall-005": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(5)"
+        ]
+      },
+      "loto-004": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(d)"
+        ]
+      },
+      "loto-005": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(9)"
+        ]
+      },
+      "loto-006": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(d)(2)"
+        ]
+      },
+      "fall-006": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.140(c)(22)"
+        ]
+      },
+      "loto-007": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(f)(1)"
+        ]
+      },
+      "loto-008": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(a)(2)(ii)",
+          "1910.147(a)(2)(ii)(A)",
+          "1910.147(a)(2)(ii)(B)"
+        ]
+      },
+      "loto-009": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(a)(2)(iii)",
+          "1910.147(a)(2)(iii)(A)"
+        ]
+      },
+      "loto-010": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(f)(1)(i)",
+          "1910.147(f)(1)(ii)",
+          "1910.147(f)(1)(iii)",
+          "1910.147(f)(1)(iv)",
+          "1910.147(f)(1)(v)"
+        ]
+      },
+      "resp-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(d)(3)(i)(A)"
+        ]
+      },
+      "resp-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(i)(3)"
+        ]
+      },
+      "resp-003": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(e)(1)"
+        ]
+      },
+      "resp-004": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(f)(2)"
+        ]
+      },
+      "resp-005": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.134(c)(2)(i)"
+        ]
+      },
+      "guard-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(1)"
+        ]
+      },
+      "guard-002": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(3)"
+        ]
+      },
+      "guard-003": {
+        "category": "near_miss",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(5)"
+        ]
+      },
+      "edge-001": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.28(b)(1)(i)"
+        ]
+      },
+      "guard-004": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.29(b)(2)"
+        ]
+      },
+      "ppe-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.132(d)(1)",
+          "1910.132(d)(1)(i)",
+          "1910.132(d)(1)(ii)",
+          "1910.132(d)(1)(iii)"
+        ]
+      },
+      "loto-011": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(e)",
+          "1910.147(e)(1)",
+          "1910.147(e)(2)(i)",
+          "1910.147(e)(2)(ii)"
+        ]
+      },
+      "loto-012": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(6)(ii)"
+        ]
+      },
+      "ppe-002": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.132(d)(2)"
+        ]
+      },
+      "loto-013": {
+        "category": "numeric_lookup",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(6)(i)"
+        ]
+      },
+      "train-001": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.30(a)(3)",
+          "1910.30(a)(3)(i)",
+          "1910.30(a)(3)(ii)",
+          "1910.30(a)(3)(iii)",
+          "1910.30(a)(3)(iv)"
+        ]
+      },
+      "train-002": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.30(a)(1)"
+        ]
+      },
+      "loto-014": {
+        "category": "procedural",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(4)(ii)"
+        ]
+      },
+      "loto-015": {
+        "category": "conditional",
+        "recall": 0.0,
+        "missed": [
+          "1910.147(c)(4)(i)"
+        ]
+      }
+    }
+  },
+  "resp001_canary": {
+    "question_id": "resp-001",
+    "target_number": "50",
+    "rank_of_first_chunk_with_target": null,
+    "retrieved_chunks": [
+      {
+        "rank": 1,
+        "paragraph_id": "1910.28(b)(14)(ii)(C)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9016842105258575
+      },
+      {
+        "rank": 2,
+        "paragraph_id": "1910.28(b)(14)(ii)(B)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9059954627094778
+      },
+      {
+        "rank": 3,
+        "paragraph_id": "1910.28(b)(14)(ii)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9061014198008448
+      },
+      {
+        "rank": 4,
+        "paragraph_id": "1910.140(e)(1)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9076988301289562
+      },
+      {
+        "rank": 5,
+        "paragraph_id": "1910.28(b)(14)(ii)(A)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9101054555179133
+      },
+      {
+        "rank": 6,
+        "paragraph_id": "1910.140(e)(1)(iv)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9123451784800445
+      },
+      {
+        "rank": 7,
+        "paragraph_id": "1910.140(e)(1)(ii)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9140030309427288
+      },
+      {
+        "rank": 8,
+        "paragraph_id": "1910.28(b)(14)(i)(A)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9142201470646992
+      },
+      {
+        "rank": 9,
+        "paragraph_id": "1910.140(e)(2)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9155664563327313
+      },
+      {
+        "rank": 10,
+        "paragraph_id": "1910.137(c)(2)(x)(B)",
+        "is_table": false,
+        "contains_target": false,
+        "distance": 0.9176011321447363
+      }
+    ]
+  },
+  "negatives": {
+    "loto-003": {
+      "question": "What training must a powered industrial truck (forklift) operator complete before operating the equipment?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(5)(ii)",
+          "distance": 0.9058805843894527
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)",
+          "distance": 0.9084532418356628
+        },
+        {
+          "paragraph_id": "1910.134(d)(3)(iv)(B)",
+          "distance": 0.9138283299817561
+        },
+        {
+          "paragraph_id": "1910.23(d)(7)",
+          "distance": 0.9165408524767554
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.9181685713028709
+        }
+      ]
+    },
+    "neg-001": {
+      "question": "What must an entry permit for a permit-required confined space contain?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(C)",
+          "distance": 0.9264912842177958
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(i)(A)",
+          "distance": 0.9289782710963179
+        },
+        {
+          "paragraph_id": "1910.29(c)",
+          "distance": 0.9294377190066643
+        },
+        {
+          "paragraph_id": "1910.23(d)(9)",
+          "distance": 0.9322835896723703
+        },
+        {
+          "paragraph_id": "1910.28(b)(6)(ii)(B)",
+          "distance": 0.9339099067274294
+        }
+      ]
+    },
+    "neg-002": {
+      "question": "What is the maximum travel distance an employee should have to walk to reach a fire extinguisher?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(1)(iii)",
+          "distance": 0.9103371308518534
+        },
+        {
+          "paragraph_id": "1910.28(b)(5)(ii)",
+          "distance": 0.9142781060869508
+        },
+        {
+          "paragraph_id": "1910.137(c)(2)(iii)(A)",
+          "distance": 0.9155537401136323
+        },
+        {
+          "paragraph_id": "1910.137(c)(2)(x)(B)",
+          "distance": 0.9155791067338614
+        },
+        {
+          "paragraph_id": "1910.137(a)(3)",
+          "distance": 0.9172057971932916
+        }
+      ]
+    },
+    "neg-003": {
+      "question": "At what noise exposure level must an employer implement a hearing conservation program?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(a)(2)(vi)",
+          "distance": 0.9344634311410381
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(C)",
+          "distance": 0.9364856037462403
+        },
+        {
+          "paragraph_id": "1910.28(a)(2)",
+          "distance": 0.9398028045683031
+        },
+        {
+          "paragraph_id": "1910.28(a)(2)(vii)",
+          "distance": 0.9432611577106256
+        },
+        {
+          "paragraph_id": "1910.28(b)(3)",
+          "distance": 0.9435551985284013
+        }
+      ]
+    },
+    "neg-004": {
+      "question": "What information must appear on the label of a container of hazardous chemicals?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(B)",
+          "distance": 0.9043867312927658
+        },
+        {
+          "paragraph_id": "1910.29(b)(9)",
+          "distance": 0.9048746521131625
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(C)",
+          "distance": 0.9051555754387749
+        },
+        {
+          "paragraph_id": "1910.29(f)(5)",
+          "distance": 0.9071503071518351
+        },
+        {
+          "paragraph_id": "1910.29(b)(14)",
+          "distance": 0.9082673778358259
+        }
+      ]
+    },
+    "neg-005": {
+      "question": "What must an employer's exposure control plan for bloodborne pathogens contain?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(A)",
+          "distance": 0.8897406414554639
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(C)",
+          "distance": 0.8957028619400704
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)(B)",
+          "distance": 0.8958715884993731
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)",
+          "distance": 0.9052504267283663
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(i)(A)",
+          "distance": 0.9085421793359147
+        }
+      ]
+    },
+    "neg-006": {
+      "question": "What is the minimum required width of an exit route?",
+      "top_chunks": [
+        {
+          "paragraph_id": "1910.28(b)(3)",
+          "distance": 0.9052082428770027
+        },
+        {
+          "paragraph_id": "1910.28(b)(5)(ii)",
+          "distance": 0.9095728457081496
+        },
+        {
+          "paragraph_id": "1910.29(e)(1)",
+          "distance": 0.9112009814912045
+        },
+        {
+          "paragraph_id": "1910.28(b)(14)(ii)",
+          "distance": 0.9121475404466687
+        },
+        {
+          "paragraph_id": "1910.28(b)(6)",
+          "distance": 0.9122426230206102
+        }
+      ]
+    }
+  }
+}

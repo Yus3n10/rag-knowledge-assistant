@@ -157,6 +157,44 @@ priced). The rate table in `scripts/rag/cost.py` already has Groq pricing
 wired in; the first paid-provider request will show up as a nonzero step in
 the cumulative-cost panel without any dashboard change.
 
+## Retrieval quality, measured on two embedding backends
+
+45 hand-verified questions (38 answerable, 7 negatives), every citation
+machine-checked against the corpus. `nomic-embed-text` runs locally on
+Ollama; `bge-base-en-v1.5` runs on Cloudflare Workers AI and is what the
+deployed demo uses -- hosting a model was the one thing the free tier could
+not do. Both are 768-dim, so the schema is unchanged between them.
+
+| Metric | nomic-embed-text (local) | bge-base-en-v1.5 (hosted) |
+|---|---|---|
+| Per-paragraph recall@5 | 0.92 | 0.88 |
+| Per-paragraph recall@10 | 0.99 | 0.97 |
+| Strict completeness@5 | 3/6 | 2/6 |
+| Strict completeness@10 | 5/6 | 4/6 |
+
+Reported as fractions where the denominator is 6, because one question
+flipping is worth 17 points there -- that difference is noise, not a result.
+The recall gap is real but small: the hosted model costs about four points at
+k=5 and two at k=10.
+
+Both backends fail on the same questions, nearly all in `1910.147`. That
+points at chunking and intra-section competition rather than at either
+embedding model -- see `docs/RETRIEVAL_FINDINGS.md`.
+
+Answer-level metrics (citation validity 60/60, gold citation 35/38,
+ungrounded numbers 0, refusal 7/7 hand-reviewed) were measured on
+`nomic-embed-text` and have **not** yet been re-run against the hosted
+backend.
+
+### The swap is silent when it goes wrong
+
+Queries must be embedded with the model that built the index. A mismatch
+does not raise -- both models return valid 768-dim vectors, so retrieval
+degrades quietly. When the eval was first run against a Cloudflare-built
+index while still embedding queries through Ollama, every metric scored
+0.00 and distances flattened to ~0.9, i.e. near-orthogonal. Nothing errored.
+The eval harness is what caught it, which is the argument for having one.
+
 ## Testing
 
 ```bash

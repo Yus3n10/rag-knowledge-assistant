@@ -26,6 +26,7 @@ DEFAULTS = {
     "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
     "OLLAMA_URL": "http://localhost:11434",
     "EMBED_MODEL": "nomic-embed-text",
+    "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",
     "GEN_MODEL": "llama3.1:8b",
 }
 
@@ -205,13 +206,19 @@ def print_report(report, records):
 def main():
     database_url = os.environ.get("DATABASE_URL", DEFAULTS["DATABASE_URL"])
     ollama_url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
-    embed_model = os.environ.get("EMBED_MODEL", DEFAULTS["EMBED_MODEL"])
+    provider = os.environ.get("EMBED_PROVIDER", "ollama")
+    default_model = (DEFAULTS["CF_EMBED_MODEL"] if provider == "cloudflare"
+                     else DEFAULTS["EMBED_MODEL"])
+    embed_model = os.environ.get("EMBED_MODEL", default_model)
+    print(f"embedding queries with provider={provider} model={embed_model}")
     gen_model = os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
 
     questions = load_questions(QUESTIONS_PATH)
     corpus_paragraph_ids = set(load_corpus_index(CORPUS_DIR).keys())
 
-    embedder = make_embedder(embed_model, ollama_url)
+    embedder = make_embedder(embed_model, ollama_url, provider=provider,
+                             account_id=os.environ.get("CF_ACCOUNT_ID"),
+                             api_token=os.environ.get("CF_API_TOKEN"))
     generator = make_generator(gen_model, ollama_url)
 
     records = []

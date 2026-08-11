@@ -72,7 +72,7 @@ describe('App', () => {
     login()
     await screen.findByRole('button', { name: /ask/i })
 
-    fireEvent.change(screen.getByLabelText(/question/i), { target: { value: 'Who may remove a lockout device?' } })
+    fireEvent.change(screen.getByLabelText(/ask about/i), { target: { value: 'Who may remove a lockout device?' } })
     fireEvent.click(screen.getByRole('button', { name: /ask/i }))
 
     expect(await screen.findByText(/See/)).toBeInTheDocument()
@@ -94,7 +94,7 @@ describe('App', () => {
     login()
     await screen.findByRole('button', { name: /ask/i })
 
-    fireEvent.change(screen.getByLabelText(/question/i), { target: { value: 'Who may remove a lockout device?' } })
+    fireEvent.change(screen.getByLabelText(/ask about/i), { target: { value: 'Who may remove a lockout device?' } })
     fireEvent.click(screen.getByRole('button', { name: /ask/i }))
 
     expect(await screen.findByText(/retrieving and generating/i)).toBeInTheDocument()
@@ -114,7 +114,7 @@ describe('App', () => {
     login()
     await screen.findByRole('button', { name: /ask/i })
 
-    fireEvent.change(screen.getByLabelText(/question/i), { target: { value: 'Who may remove a lockout device?' } })
+    fireEvent.change(screen.getByLabelText(/ask about/i), { target: { value: 'Who may remove a lockout device?' } })
     fireEvent.click(screen.getByRole('button', { name: /ask/i }))
 
     expect(await screen.findByLabelText(/username/i)).toBeInTheDocument()
@@ -131,7 +131,7 @@ describe('App', () => {
     login()
     await screen.findByRole('button', { name: /ask/i })
 
-    fireEvent.change(screen.getByLabelText(/question/i), { target: { value: 'Who may remove a lockout device?' } })
+    fireEvent.change(screen.getByLabelText(/ask about/i), { target: { value: 'Who may remove a lockout device?' } })
     fireEvent.click(screen.getByRole('button', { name: /ask/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(/failed to fetch|network/i)

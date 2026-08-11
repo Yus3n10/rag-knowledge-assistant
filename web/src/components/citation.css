@@ -1,71 +1,108 @@
+/* The citation is the product, not the answer. A paragraph id is an
+   identifier you could look up in the printed code, so it is set in mono and
+   underlined like a reference; expanding it unfolds the statute in place,
+   the way a footnote opens in a code book. */
+
 .answer-text {
+  margin: 0;
+  font: 400 1.05rem/1.75 var(--ui);
+  color: var(--ink);
   white-space: pre-wrap;
-  line-height: 1.6;
 }
+
+.answer-meta {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  font: 400 0.72rem/1 var(--id);
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.citation { display: inline; }
 
 .citation-toggle {
-  font: inherit;
-  font-weight: 600;
-  border: none;
-  border-radius: 3px;
-  padding: 0 3px;
+  font: 500 0.85em/1 var(--id);
+  color: var(--notice);
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  white-space: nowrap;
 }
+.citation-toggle:hover { text-decoration-style: solid; }
 
-.citation-cited .citation-toggle {
-  color: #0a5c2b;
-  background: #d7f5e0;
-}
+/* Cited and merely-retrieved ids must not look alike: a claim the model
+   actually attributed is a different kind of thing from a paragraph that was
+   only in context. Green is the ANSI "safety" hue, used here for backed. */
+.citation-cited > .citation-toggle { color: var(--verified); }
+.citation-uncited > .citation-toggle { color: var(--ink-faint); }
 
-.citation-uncited .citation-toggle {
-  color: #555;
-  background: #eee;
-}
-
+/* The unfolded source. A single hairline marks the quoted passage -- the
+   printed convention for a quotation, kept to 1px so it reads as a rule
+   rather than a tab. */
 .citation-source {
   display: block;
-  margin: 6px 0 10px;
-  padding: 10px 12px;
-  border-left: 3px solid #999;
-  background: #f7f7f7;
-  font-size: 0.95em;
+  margin: 0.7rem 0 0.9rem;
+  padding: 0.15rem 0 0.15rem 1.1rem;
+  border-left: 1px solid var(--notice);
 }
 
 .citation-heading {
   display: block;
-  color: #666;
-  margin-bottom: 4px;
+  font: 400 0.72rem/1.5 var(--id);
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
 }
 
+/* The regulation itself is the only serif on the page. */
 .citation-text {
   display: block;
-  white-space: pre-wrap;
+  font: 400 1rem/1.7 var(--law);
+  color: var(--ink);
 }
 
 .citation-unresolvable {
-  color: #8a3b00;
-  font-style: italic;
+  display: block;
+  font: 400 0.85rem/1.6 var(--ui);
+  color: var(--caution);
 }
 
-.ungrounded-warning {
-  margin: 16px 0;
-  padding: 10px 14px;
-  border: 1px solid #c0392b;
-  border-radius: 4px;
-  background: #fdecea;
-  color: #7b241c;
-  font-weight: 600;
-}
-
+/* --- retrieved but not cited ------------------------------------------- */
 .retrieved-uncited {
-  margin-top: 20px;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.retrieved-uncited h3 {
+  margin: 0 0 0.3rem;
+  font: 500 0.7rem/1 var(--id);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Why this list is worth showing at all -- when the model attributes a claim
+   to the wrong paragraph, the right one is usually sitting in here. */
+.retrieved-uncited p {
+  margin: 0 0 0.9rem;
+  font: 400 0.82rem/1.55 var(--ui);
+  color: var(--ink-faint);
+  max-width: 34rem;
 }
 
 .retrieved-uncited ul {
-  list-style: none;
+  margin: 0;
   padding: 0;
+  list-style: none;
 }
 
-.retrieved-uncited li {
-  margin-bottom: 4px;
-}
+.retrieved-uncited li { margin-bottom: 0.5rem; }
+
+.answer-section { margin-top: 2.75rem; }

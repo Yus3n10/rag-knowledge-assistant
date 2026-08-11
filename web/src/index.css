@@ -1,8 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap');
+
+/* Palette is ANSI Z535 safety colours -- the signage vocabulary of the
+   industrial sites these regulations govern. Blue is "notice/information",
+   amber "caution", green "safety". They carry the same meanings here:
+   blue marks structure and sources, amber marks an unverifiable number,
+   green marks a claim backed by cited source text. Both non-black hues are
+   darkened from the signage originals to clear WCAG AA on paper. */
 :root {
-  color-scheme: light dark;
-  font: 16px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
+  --ink: #14181f;
+  --ink-soft: #55606f;
+  --ink-faint: #7d8796;
+  --paper: #fbfaf7;
+  --paper-sunk: #f2f0ea;
+  --rule: #dcd9d2;
+  --notice: #00509e;
+  --notice-wash: #eaf1f9;
+  --caution: #8a4204;
+  --caution-wash: #fdf3e7;
+  --verified: #005c36;
+  --verified-wash: #eaf3ee;
+
+  /* Type carries meaning: sans is the interface talking, serif is the
+     regulation itself, mono is an identifier you could look up. */
+  --ui: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+  --law: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+  --id: 'IBM Plex Mono', 'Cascadia Code', Consolas, ui-monospace, monospace;
+
+  color-scheme: light;
+  font: 400 16px/1.6 var(--ui);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
+  background: var(--paper);
+}
+
+/* Keyboard focus must stay visible everywhere -- several controls below
+   restyle their borders, which is exactly where outlines get lost. */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--notice);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

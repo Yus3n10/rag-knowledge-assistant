@@ -14,6 +14,7 @@ DEFAULTS = {
     "DATABASE_URL": "postgresql://rag:ragdev@localhost:5433/rag",
     "OLLAMA_URL": "http://localhost:11434",
     "EMBED_MODEL": "nomic-embed-text",
+    "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",
 }
 
 COLUMNS = ("chunk_id", "paragraph_id", "section_id", "subpart",
@@ -57,7 +58,15 @@ def _vector_literal(vector):
 def main():
     database_url = os.environ.get("DATABASE_URL", DEFAULTS["DATABASE_URL"])
     ollama_url = os.environ.get("OLLAMA_URL", DEFAULTS["OLLAMA_URL"])
-    embed_model = os.environ.get("EMBED_MODEL", DEFAULTS["EMBED_MODEL"])
+    provider = os.environ.get("EMBED_PROVIDER", "ollama")
+    default_model = (DEFAULTS["CF_EMBED_MODEL"] if provider == "cloudflare"
+                     else DEFAULTS["EMBED_MODEL"])
+    embed_model = os.environ.get("EMBED_MODEL", default_model)
+    account_id = os.environ.get("CF_ACCOUNT_ID")
+    api_token = os.environ.get("CF_API_TOKEN")
+    # The index and the query path must agree on the model; print it so a
+    # mismatched rebuild is visible in the log rather than only in eval scores.
+    print(f"embedding with provider={provider} model={embed_model}")
 
     corpus_dir = Path(__file__).resolve().parent.parent / "data" / "corpus"
     corpus_files = sorted(corpus_dir.glob("*.json"))
@@ -65,7 +74,9 @@ def main():
         raise SystemExit(f"no corpus files found in {corpus_dir}")
 
     def embed(texts):
-        return embed_texts(texts, model=embed_model, url=ollama_url)
+        return embed_texts(texts, model=embed_model, url=ollama_url,
+                            provider=provider, account_id=account_id,
+                            api_token=api_token)
 
     start = time.time()
     all_rows = []
