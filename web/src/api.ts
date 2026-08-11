@@ -1,6 +1,6 @@
 // Thin fetch wrapper over api/main.py's /auth/login and /ask.
 
-import type { AskResponse } from './types'
+import type { AskResponse, CorpusResponse } from './types'
 
 // Dev goes through Vite's proxy, which rewrites /api/* to the API's /* (see
 // vite.config.ts). In a build there is no proxy: FastAPI serves this bundle
@@ -55,6 +55,14 @@ export async function ask(token: string, question: string): Promise<AskResponse>
     },
     body: JSON.stringify({ question }),
   })
+  if (!res.ok) throw new ApiError(res.status, await errorMessage(res))
+  return res.json()
+}
+
+/** Paragraph ids and section structure for the corpus map. Unauthenticated:
+ * it returns identifiers only, never regulation text. */
+export async function fetchCorpus(): Promise<CorpusResponse> {
+  const res = await fetch(`${BASE}/corpus`)
   if (!res.ok) throw new ApiError(res.status, await errorMessage(res))
   return res.json()
 }

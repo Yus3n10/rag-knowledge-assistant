@@ -1,0 +1,101 @@
+/* The corpus as a physical object: three bands of dense cells, one per
+   indexed paragraph, in document order. Asking a question lights ten of
+   them. The scale is the point -- it should read as "a lot of regulation,
+   and the system found these ten", not as an abstract graphic. */
+
+.corpusmap {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.corpusmap-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.85rem;
+  flex-wrap: wrap;
+}
+.corpusmap-head .eyebrow { margin: 0; }
+
+.corpusmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: 400 0.68rem/1 var(--id);
+  color: var(--ink-faint);
+}
+.corpusmap-legend .key {
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  margin-left: 0.55rem;
+}
+.corpusmap-legend .key:first-child { margin-left: 0; }
+.key-cited { background: var(--verified); }
+.key-retrieved { background: var(--notice); }
+.key-idle { background: var(--rule); }
+
+.corpusmap-bands {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.band {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.band-label {
+  flex: 0 0 1.1rem;
+  padding-top: 0;
+  font: 500 0.78rem/1 var(--id);
+  color: var(--ink-faint);
+  text-align: right;
+}
+
+/* auto-fill keeps the cell size fixed and lets the column count reflow, so
+   the grid stays a true density map at any width instead of stretching. */
+.band-cells {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 7px);
+  gap: 3px;
+}
+
+.cell {
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--rule);
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+/* Retrieved and cited cells rise out of the field. The stagger is done with
+   a shared animation rather than per-cell delays -- 937 inline delays would
+   be a lot of style recalculation for a decorative beat. */
+.cell-retrieved {
+  background: var(--notice);
+  animation: light 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.cell-cited {
+  background: var(--verified);
+  animation: light 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  box-shadow: 0 0 0 2px var(--verified-wash);
+}
+
+@keyframes light {
+  0%   { transform: scale(1); }
+  55%  { transform: scale(2.1); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 34rem) {
+  .band { gap: 0.5rem; }
+  .band-label { flex-basis: 1rem; }
+  .band-cells { grid-template-columns: repeat(auto-fill, 6px); gap: 2.5px; }
+  .cell { width: 6px; height: 6px; }
+}

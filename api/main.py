@@ -176,6 +176,32 @@ def health(conn=Depends(get_conn)):
     }
 
 
+@app.get("/corpus")
+def corpus(conn=Depends(get_conn)):
+    """Every indexed paragraph id, in document order, grouped by subpart.
+
+    Unauthenticated on purpose, and safe: this returns identifiers and
+    section structure, never regulation text. The role gate protects the
+    *text* of 1910.147, and paragraph numbering is public CFR structure
+    already visible in any table of contents. Nothing here lets a viewer
+    read what the gate withholds.
+    """
+    with conn.cursor() as cur:
+        cur.execute("""
+            SELECT DISTINCT ON (paragraph_id) paragraph_id, section_id, subpart
+            FROM chunks
+            ORDER BY paragraph_id, chunk_id
+        """)
+        rows = cur.fetchall()
+
+    return {
+        "total": len(rows),
+        "paragraphs": [
+            {"id": pid, "section": sid, "subpart": sub} for pid, sid, sub in rows
+        ],
+    }
+
+
 @app.post("/auth/login")
 def login(body: LoginRequest, conn=Depends(get_conn)):
     with conn.cursor() as cur:

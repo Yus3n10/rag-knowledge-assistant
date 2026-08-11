@@ -27,6 +27,23 @@ function jsonResponse(status: number, body: unknown): Response {
   } as Response
 }
 
+
+/** Routes by URL instead of call order. A sequence-based mock silently
+ * mis-assigns responses the moment a component adds a request -- which is how
+ * the corpus fetch broke every ask test at once. */
+function routedFetch(routes: { login?: Response | Promise<Response> | Error; ask?: Response | Promise<Response> | Error }) {
+  return vi.fn((url: string) => {
+    if (String(url).includes('/corpus')) {
+      return Promise.resolve(jsonResponse(200, { total: 0, paragraphs: [] }))
+    }
+    const hit = String(url).includes('/auth/login') ? routes.login : routes.ask
+    if (hit instanceof Error) return Promise.reject(hit)
+    return Promise.resolve(hit)
+  })
+}
+
+const okLogin = () => jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' })
+
 function login(username = 'officer', password = 'officer-pass') {
   fireEvent.change(screen.getByLabelText(/username/i), { target: { value: username } })
   fireEvent.change(screen.getByLabelText(/password/i), { target: { value: password } })
@@ -39,10 +56,7 @@ afterEach(() => {
 
 describe('App', () => {
   it('successful login stores the token and shows the ask view', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' })),
-    )
+    vi.stubGlobal('fetch', routedFetch({ login: okLogin() }))
     render(<App />)
 
     login()
@@ -52,7 +66,7 @@ describe('App', () => {
   })
 
   it('bad credentials show an error and stay on login', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse(401, { detail: 'invalid username or password' })))
+    vi.stubGlobal('fetch', routedFetch({ login: jsonResponse(401, { detail: 'invalid username or password' }) }))
     render(<App />)
 
     login('viewer', 'wrong-pass')
@@ -62,11 +76,7 @@ describe('App', () => {
   })
 
   it('a successful ask renders the answer', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' }))
-      .mockResolvedValueOnce(jsonResponse(200, askResponse))
-    vi.stubGlobal('fetch', fetchMock)
+    vi.stubGlobal('fetch', routedFetch({ login: okLogin(), ask: jsonResponse(200, askResponse) }))
     render(<App />)
 
     login()
@@ -84,11 +94,7 @@ describe('App', () => {
     const askPromise = new Promise<Response>((resolve) => {
       resolveAsk = resolve
     })
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' }))
-      .mockReturnValueOnce(askPromise)
-    vi.stubGlobal('fetch', fetchMock)
+    vi.stubGlobal('fetch', routedFetch({ login: okLogin(), ask: askPromise }))
     render(<App />)
 
     login()
@@ -104,11 +110,7 @@ describe('App', () => {
   })
 
   it('a 401 on ask returns to login', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' }))
-      .mockResolvedValueOnce(jsonResponse(401, { detail: 'invalid or expired token' }))
-    vi.stubGlobal('fetch', fetchMock)
+    vi.stubGlobal('fetch', routedFetch({ login: okLogin(), ask: jsonResponse(401, { detail: 'invalid or expired token' }) }))
     render(<App />)
 
     login()
@@ -121,11 +123,7 @@ describe('App', () => {
   })
 
   it('a network error on ask shows a visible message, not a silent no-op', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(jsonResponse(200, { access_token: 'tok123', token_type: 'bearer' }))
-      .mockRejectedValueOnce(new TypeError('Failed to fetch'))
-    vi.stubGlobal('fetch', fetchMock)
+    vi.stubGlobal('fetch', routedFetch({ login: okLogin(), ask: new TypeError('Failed to fetch') }))
     render(<App />)
 
     login()

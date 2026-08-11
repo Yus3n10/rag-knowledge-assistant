@@ -28,3 +28,14 @@ export interface AskResponse {
     load_duration_s?: number
   }
 }
+
+export interface CorpusParagraph {
+  id: string
+  section: string
+  subpart: string
+}
+
+export interface CorpusResponse {
+  total: number
+  paragraphs: CorpusParagraph[]
+}

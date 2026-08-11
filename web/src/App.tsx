@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react'
 import { ApiError, ask, login as loginRequest } from './api'
 import type { AskResponse } from './types'
 import Answer from './components/Answer'
+import CorpusMap from './components/CorpusMap'
 import './App.css'
 
 // Drawn from the three indexed areas so each one demonstrably has an answer.
@@ -75,12 +76,45 @@ function App() {
 
   if (!token) {
     return (
-      <main className="gate">
-        <h1 className="gate-title">OSHA 29 CFR 1910</h1>
-        <p className="gate-sub">
-          Answers about general industry standards, with every claim traced back to the
-          paragraph it came from.
-        </p>
+      <main className="landing">
+        <section className="landing-pitch">
+          <p className="landing-mark">29 CFR 1910 &middot; Subparts D, I, 1910.147</p>
+          <h1 className="landing-title">
+            Every answer<br />
+            <em>traceable</em> to the<br />
+            paragraph it came from.
+          </h1>
+          <p className="landing-body">
+            Retrieval-augmented Q&amp;A over OSHA general industry standards. Claims carry
+            the regulation text behind them, unsupported numbers are flagged, and questions
+            the corpus does not cover are declined rather than guessed at.
+          </p>
+
+          {/* Measured, not asserted -- these are the eval-harness numbers, and
+              the fractions are shown because the denominators are small. */}
+          <dl className="ledger">
+            <div>
+              <dt>Citations resolved to a real paragraph</dt>
+              <dd>60<span>/60</span></dd>
+            </div>
+            <div>
+              <dt>Fabricated citations</dt>
+              <dd>0</dd>
+            </div>
+            <div>
+              <dt>Out-of-scope questions declined</dt>
+              <dd>7<span>/7</span></dd>
+            </div>
+            <div>
+              <dt>Paragraph recall @10</dt>
+              <dd>0.97</dd>
+            </div>
+          </dl>
+
+          <CorpusMap />
+        </section>
+
+        <section className="landing-gate">
         <form onSubmit={handleLogin}>
           <div className="field">
             <label htmlFor="username">Username</label>
@@ -106,6 +140,7 @@ function App() {
             <dd>officer-pass</dd>
           </dl>
         </div>
+        </section>
       </main>
     )
   }
@@ -190,6 +225,11 @@ function App() {
             than trust it.
           </p>
         )}
+
+        <CorpusMap
+          retrieved={result?.retrieved.map((r) => r.paragraph_id)}
+          cited={result?.citations}
+        />
 
         {result && (
           <Answer

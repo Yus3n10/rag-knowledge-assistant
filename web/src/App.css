@@ -331,3 +331,93 @@
   margin-bottom: 0.5rem;
   animation: rise 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+/* --- landing -------------------------------------------------------------
+   Two columns on desktop: the argument on the left, the way in on the right.
+   The pitch column carries the weight; the form stays deliberately quiet so
+   it does not compete with it. */
+.landing {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 9vh, 6rem) clamp(1.25rem, 5vw, 3rem) 4rem;
+}
+
+.landing-mark {
+  margin: 0 0 1.25rem;
+  font: 500 0.7rem/1 var(--id);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--notice);
+}
+
+/* The one place the page raises its voice. Tight leading and a negative
+   tracking make the statement read as set type rather than a heading. */
+.landing-title {
+  margin: 0 0 1.5rem;
+  font: 600 clamp(2.1rem, 5.2vw, 3.4rem)/1.06 var(--ui);
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.landing-title em {
+  font-family: var(--law);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--notice);
+}
+
+.landing-body {
+  margin: 0 0 2.25rem;
+  max-width: 34rem;
+  font: 400 1rem/1.7 var(--ui);
+  color: var(--ink-soft);
+}
+
+/* A ledger, not stat cards: label left, figure right, hairline between.
+   Reads as a record of measurements, which is what these are. */
+.ledger { margin: 0; }
+.ledger > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.ledger > div:first-child { border-top: 1px solid var(--rule); }
+.ledger dt {
+  font: 400 0.85rem/1.4 var(--ui);
+  color: var(--ink-soft);
+}
+.ledger dd {
+  margin: 0;
+  font: 500 1.15rem/1 var(--id);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ledger dd span {
+  font-size: 0.72em;
+  color: var(--ink-faint);
+}
+
+.landing-gate {
+  position: sticky;
+  top: clamp(2.5rem, 9vh, 6rem);
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+@media (max-width: 56rem) {
+  .landing {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .landing-gate { position: static; }
+}
