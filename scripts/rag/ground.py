@@ -6,7 +6,13 @@ docs/superpowers/plans/2026-08-01-generation-and-grounding.md (Tasks 3-4).
 
 import re
 
-from eval.validate_eval import numbers_in
+NUMBER_PATTERN = re.compile(r"\d+(?:\.\d+)?")
+
+
+def numbers_in(text):
+    """Numeric tokens in text, comma separators removed so 1,000 reads as 1000."""
+    return set(NUMBER_PATTERN.findall(text.replace(",", "")))
+
 
 # IDs contain parens inside the brackets (e.g. [1910.134(d)(3)(i)(A)]), so the
 # character class excludes only the brackets themselves, not parens/digits/letters.

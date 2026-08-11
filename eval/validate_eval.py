@@ -72,12 +72,10 @@ TARGET_COMPOSITION = {
 }
 COMPOSITION_TOLERANCE = 0.05
 
-NUMBER_PATTERN = re.compile(r"\d+(?:\.\d+)?")
-
-
-def numbers_in(text):
-    """Numeric tokens in text, comma separators removed so 1,000 reads as 1000."""
-    return set(NUMBER_PATTERN.findall(text.replace(",", "")))
+# Lives in scripts/rag/ground.py: it is production grounding logic, and the
+# deployed image ships scripts/ but not eval/. Re-exported here so the eval
+# harness keeps its existing import.
+from scripts.rag.ground import NUMBER_PATTERN, numbers_in  # noqa: F401
 
 
 def load_corpus_index(corpus_dir):
