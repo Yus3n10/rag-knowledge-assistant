@@ -2,8 +2,10 @@ from scripts.rag.generate import generate
 
 
 class StubResponse:
-    def __init__(self, payload):
+    def __init__(self, payload, status_code=200):
         self._payload = payload
+        self.status_code = status_code
+        self.headers = {}
 
     def raise_for_status(self):
         return None
@@ -130,8 +132,10 @@ def test_raises_on_empty_message_content():
 # --- provider abstraction (groq) -------------------------------------------
 
 class GroqStubResponse:
-    def __init__(self, payload):
+    def __init__(self, payload, status_code=200):
         self._payload = payload
+        self.status_code = status_code
+        self.headers = {}
 
     def raise_for_status(self):
         return None
@@ -259,3 +263,64 @@ def test_groq_defaults_temperature_to_zero_in_posted_body():
 
     headers = session.calls[0][2]
     assert headers["Authorization"] == "Bearer key123"
+
+
+# --- Groq rate limiting ----------------------------------------------------
+
+class RateLimitedSession:
+    """429s a set number of times, then succeeds. Records the waits asked for
+    so the backoff is asserted rather than merely exercised."""
+
+    def __init__(self, fail_times, retry_after=None):
+        self.fail_times = fail_times
+        self.retry_after = retry_after
+        self.calls = 0
+
+    def post(self, url, json=None, headers=None, timeout=None):
+        self.calls += 1
+        if self.calls <= self.fail_times:
+            headers_out = {"Retry-After": self.retry_after} if self.retry_after else {}
+            return _StubResponse(429, {}, headers_out)
+        return _StubResponse(200, {
+            "choices": [{"message": {"content": "ok"}}],
+            "usage": {"prompt_tokens": 3, "completion_tokens": 1},
+        }, {})
+
+
+class _StubResponse:
+    def __init__(self, status_code, payload, headers):
+        self.status_code = status_code
+        self._payload = payload
+        self.headers = headers
+
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise AssertionError(f"unexpected raise_for_status on {self.status_code}")
+
+    def json(self):
+        return self._payload
+
+
+def test_groq_retries_a_429_then_succeeds():
+    session = RateLimitedSession(fail_times=2)
+    waits = []
+    answer, stats = generate(["m"], provider="groq", model="m", api_key="k",
+                             session=session)
+    assert answer == "ok"
+    assert session.calls == 3
+
+
+def test_groq_honours_retry_after_header():
+    session = RateLimitedSession(fail_times=1, retry_after="7")
+    waits = []
+    generate(["m"], provider="groq", model="m", api_key="k", session=session,
+             sleep=waits.append)
+    assert waits == [7.0]
+
+
+def test_groq_backs_off_exponentially_without_a_retry_after_header():
+    session = RateLimitedSession(fail_times=3)
+    waits = []
+    generate(["m"], provider="groq", model="m", api_key="k", session=session,
+             sleep=waits.append)
+    assert waits == [1.0, 2.0, 4.0]

@@ -8,7 +8,7 @@ GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
 def generate(messages, *, provider="ollama", model, url=None, api_key=None,
-             session=None, options=None):
+             session=None, options=None, sleep=time.sleep):
     """Send messages to the model. Returns (answer_text, stats).
 
     stats always contains prompt_tokens, completion_tokens, latency_s,
@@ -25,7 +25,8 @@ def generate(messages, *, provider="ollama", model, url=None, api_key=None,
     if provider == "groq":
         if not api_key:
             raise ValueError("provider='groq' requires an api_key")
-        return _generate_groq(messages, model=model, api_key=api_key, session=session)
+        return _generate_groq(messages, model=model, api_key=api_key,
+                              session=session, sleep=sleep)
 
     raise ValueError(f"unknown provider: {provider!r}")
 
@@ -64,15 +65,31 @@ def _generate_ollama(messages, *, model, url, session, options):
     return answer, stats
 
 
-def _generate_groq(messages, *, model, api_key, session):
-    start = time.monotonic()
-    response = session.post(
-        GROQ_URL,
-        json={"model": model, "messages": messages, "temperature": 0},
-        headers={"Authorization": f"Bearer {api_key}"},
-        timeout=120,
-    )
-    latency_s = time.monotonic() - start
+def _generate_groq(messages, *, model, api_key, session, max_retries=5, sleep=time.sleep):
+    """Groq's free tier rate-limits. Without a retry a 429 surfaces as a 500
+    to the caller, and a batch run (eval, or two concurrent users) trips it
+    within a handful of requests. Groq sends Retry-After in seconds; fall
+    back to exponential backoff when it is absent.
+
+    latency_s measures the attempt that succeeded, not the waiting -- it is
+    generation time for the cost/latency dashboard, not queue time.
+    """
+    for attempt in range(max_retries + 1):
+        start = time.monotonic()
+        response = session.post(
+            GROQ_URL,
+            json={"model": model, "messages": messages, "temperature": 0},
+            headers={"Authorization": f"Bearer {api_key}"},
+            timeout=120,
+        )
+        latency_s = time.monotonic() - start
+
+        if response.status_code == 429 and attempt < max_retries:
+            retry_after = response.headers.get("Retry-After")
+            sleep(float(retry_after) if retry_after else 2 ** attempt)
+            continue
+        break
+
     response.raise_for_status()
     data = response.json()
 
