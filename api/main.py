@@ -145,10 +145,35 @@ class AskRequest(BaseModel):
 
 @app.get("/health")
 def health(conn=Depends(get_conn)):
+    """Liveness plus the configuration /ask depends on.
+
+    A database-only check reported "ok" through a deploy where every /ask
+    failed, because the generation model name was wrong for the provider.
+    Reporting the resolved provider and model makes that class of
+    misconfiguration visible without having to make a real request -- which
+    on a hosted free tier costs real quota.
+    """
     with conn.cursor() as cur:
         cur.execute("SELECT count(*) FROM chunks")
         [chunk_count] = cur.fetchone()
-    return {"status": "ok", "chunk_count": chunk_count}
+
+    llm_provider, llm_model = _provider_and_model()
+    embed_provider = os.environ.get("EMBED_PROVIDER", "ollama")
+
+    # Credentials are reported present/absent, never echoed.
+    missing = [name for name, value in (
+        ("GROQ_API_KEY", os.environ.get("GROQ_API_KEY") if llm_provider == "groq" else "-"),
+        ("CF_ACCOUNT_ID", os.environ.get("CF_ACCOUNT_ID") if embed_provider == "cloudflare" else "-"),
+        ("CF_API_TOKEN", os.environ.get("CF_API_TOKEN") if embed_provider == "cloudflare" else "-"),
+    ) if not value]
+
+    return {
+        "status": "ok" if not missing else "misconfigured",
+        "chunk_count": chunk_count,
+        "llm": f"{llm_provider}/{llm_model}",
+        "embeddings": embed_provider,
+        "missing_env": missing,
+    }
 
 
 @app.post("/auth/login")

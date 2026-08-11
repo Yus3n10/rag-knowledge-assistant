@@ -28,6 +28,7 @@ DEFAULTS = {
     "EMBED_MODEL": "nomic-embed-text",
     "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",
     "GEN_MODEL": "llama3.1:8b",
+    "GROQ_GEN_MODEL": "llama-3.1-8b-instant",
 }
 
 K = 10  # measured knee, see docs/RETRIEVAL_FINDINGS.md -- do not raise to chase a score
@@ -39,11 +40,15 @@ QUESTIONS_PATH = Path(__file__).resolve().parent / "questions.jsonl"
 CORPUS_DIR = Path(__file__).resolve().parent.parent / "data" / "corpus"
 
 
-def make_generator(model, url):
+def make_generator(model, url, *, provider="ollama", api_key=None):
+    """Mirrors api/main.py's get_generator so an eval run can measure the
+    same provider the deployment actually uses. Model names are
+    provider-specific -- Groq does not serve Ollama's "llama3.1:8b" tag."""
     session = requests.Session()
 
     def generator(messages):
-        return generate(messages, model=model, url=url, session=session)
+        return generate(messages, provider=provider, model=model, url=url,
+                        api_key=api_key, session=session)
 
     return generator
 
@@ -211,7 +216,11 @@ def main():
                      else DEFAULTS["EMBED_MODEL"])
     embed_model = os.environ.get("EMBED_MODEL", default_model)
     print(f"embedding queries with provider={provider} model={embed_model}")
-    gen_model = os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    gen_provider = os.environ.get("LLM_PROVIDER", "ollama")
+    default_gen = (DEFAULTS["GROQ_GEN_MODEL"] if gen_provider == "groq"
+                   else DEFAULTS["GEN_MODEL"])
+    gen_model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", default_gen)
+    print(f"generating with provider={gen_provider} model={gen_model}")
 
     questions = load_questions(QUESTIONS_PATH)
     corpus_paragraph_ids = set(load_corpus_index(CORPUS_DIR).keys())
@@ -219,7 +228,8 @@ def main():
     embedder = make_embedder(embed_model, ollama_url, provider=provider,
                              account_id=os.environ.get("CF_ACCOUNT_ID"),
                              api_token=os.environ.get("CF_API_TOKEN"))
-    generator = make_generator(gen_model, ollama_url)
+    generator = make_generator(gen_model, ollama_url, provider=gen_provider,
+                               api_key=os.environ.get("GROQ_API_KEY"))
 
     records = []
     with psycopg.connect(database_url) as conn:

@@ -141,7 +141,9 @@ function App() {
         {askPending && (
           <p className="pending" role="status">
             <span className="pending-pulse" aria-hidden="true" />
-            Retrieving and generating -- this takes a few seconds.
+            Retrieving and generating -- this takes a few seconds. The first
+            request after a quiet period also has to wake the server, which
+            adds about a minute.
           </p>
         )}
         {askError && <div className="failure" role="alert">{askError}</div>}
