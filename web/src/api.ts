@@ -2,7 +2,13 @@
 
 import type { AskResponse } from './types'
 
-const BASE = '/api'
+// Dev goes through Vite's proxy, which rewrites /api/* to the API's /* (see
+// vite.config.ts). In a build there is no proxy: FastAPI serves this bundle
+// itself, so the endpoints are same-origin at /auth/login and /ask. Leaving
+// the /api prefix in a build posts to a path no route matches, falls through
+// to the StaticFiles mount, and returns 405 Method Not Allowed -- which is
+// what shipped, because the dev proxy hides it and the tests stub fetch.
+const BASE = import.meta.env.DEV ? '/api' : ''
 
 /** Thrown for any non-2xx HTTP response; `status` lets callers distinguish
  * 401 (bad credentials / expired token) from other failures. A rejected
