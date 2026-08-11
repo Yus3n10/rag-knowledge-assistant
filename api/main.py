@@ -36,6 +36,7 @@ DEFAULTS = {
     "EMBED_MODEL": "nomic-embed-text",
     "CF_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",  # 768-dim, matches vector(768)
     "GEN_MODEL": "llama3.1:8b",
+    "GROQ_GEN_MODEL": "llama-3.1-8b-instant",
 }
 
 K = 10  # measured knee, see docs/RETRIEVAL_FINDINGS.md -- do not raise to chase a score
@@ -58,7 +59,12 @@ def _provider_and_model():
     separately so /ask can log what was actually asked for without having
     to unpack it out of the generator closure."""
     provider = os.environ.get("LLM_PROVIDER", "ollama")
-    model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", DEFAULTS["GEN_MODEL"])
+    # Model names are provider-specific: Groq does not serve "llama3.1:8b"
+    # (an Ollama tag), so defaulting to it under LLM_PROVIDER=groq fails every
+    # request. Same failure shape as the embedding default -- see get_embedder.
+    default_model = (DEFAULTS["GROQ_GEN_MODEL"] if provider == "groq"
+                     else DEFAULTS["GEN_MODEL"])
+    model = os.environ.get("LLM_MODEL") or os.environ.get("GEN_MODEL", default_model)
     return provider, model
 
 
