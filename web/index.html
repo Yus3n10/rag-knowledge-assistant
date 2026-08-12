@@ -2,9 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OSHA RAG Assistant</title>
+
+    <title>OSHA 29 CFR 1910 - Compliance Reference</title>
+    <meta
+      name="description"
+      content="Retrieval-augmented Q&amp;A over OSHA general industry standards. Every claim is traceable to the paragraph it came from, unsupported numbers are flagged, and questions outside the corpus are declined rather than guessed at."
+    />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / Twitter need absolute URLs: crawlers do not resolve
+         relative paths against the page they scraped. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OSHA 29 CFR 1910 Compliance Reference" />
+    <meta property="og:title" content="OSHA 29 CFR 1910 - Compliance Reference" />
+    <meta
+      property="og:description"
+      content="Grounded Q&amp;A over OSHA general industry standards, with measured retrieval instead of assumed retrieval. Every answer traceable to its source paragraph."
+    />
+    <meta property="og:url" content="https://rag-knowledge-assistant-z3hw.onrender.com/" />
+    <meta property="og:image" content="https://rag-knowledge-assistant-z3hw.onrender.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="OSHA 29 CFR 1910 Q&amp;A - traceable answers from the regulation." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OSHA 29 CFR 1910 - Compliance Reference" />
+    <meta
+      name="twitter:description"
+      content="Grounded Q&amp;A over OSHA general industry standards, with measured retrieval instead of assumed retrieval."
+    />
+    <meta name="twitter:image" content="https://rag-knowledge-assistant-z3hw.onrender.com/og-image.jpg" />
+
+    <meta name="theme-color" content="#00509e" />
   </head>
   <body>
     <div id="root"></div>

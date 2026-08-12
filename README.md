@@ -1,8 +1,15 @@
 # RAG Knowledge Assistant (OSHA 29 CFR 1910)
 
+![OSHA 29 CFR 1910 Q&A — traceable answers from the regulation](docs/media/social-preview.png)
+
 Retrieval-augmented Q&A over OSHA general industry regulations, with
 citation validation, hallucination checks, and role-based access control,
 exposed over HTTP.
+
+| | |
+|---|---|
+| ![Landing](docs/media/screenshot-landing.png) | ![Answer with expanded citation](docs/media/screenshot-answer.png) |
+| The corpus map: every indexed paragraph as a cell | A question lights the ten it retrieved, cited ones in green |
 
 **Live:** https://rag-knowledge-assistant-z3hw.onrender.com
 
